@@ -36,6 +36,7 @@ class Day:
     @property
     def modified(self) -> tuple[str, str]:
         overrides = {
+            26: ('minutes[1]', 'minutes[2]'),
             62: ('["B"]["prev"]', '["A"]["next"]'),
             65: ('key = 10', 'key = 9'),
             47: ('10\\n20\\n', '10\\n20\\n30\\n'),

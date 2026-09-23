@@ -75,7 +75,7 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: 예시를 직접 타이핑한 뒤 'print(sorted(seen))'을 'print(len(seen))'로 바꿔 보세요. 출력도 먼저 예측하세요.
+    prompt: 예시를 직접 타이핑한 뒤 'print(sorted(seen))'을 'print(len(seen))'로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
     starter:
       "from collections import deque\ngraph = {\"A\": [\"B\", \"C\"], \"B\": [], \"C\": []}\nq = deque([\"\
       A\"]); seen = {\"A\"}\nwhile q:\n    node = q.popleft()\n    for next_node in graph[node]:\n        if next_node\
@@ -86,8 +86,8 @@ exercises:
       \ not in seen: seen.add(next_node); q.append(next_node)\nprint(len(seen))"
     hint: "'print(sorted(seen))'을 'print(len(seen))'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요."
     explanation:
-      예시 답안에서는 'print(sorted(seen))'을 'print(len(seen))'로 바꿨습니다. 원본 출력은 "['A', 'B', 'C']"입니다. 바뀐 코드의 결과는
-      실행해 확인하세요.
+      예시 답안에서는 'print(sorted(seen))'을 'print(len(seen))'로 바꿨습니다. 원래 출력은 "['A', 'B', 'C']"입니다. 바꾼 줄에서 시작해
+      중간 값과 마지막 출력을 다시 추적하세요. 출력이 같더라도 입력·조건·중간 상태가 달라졌는지 확인해야 합니다.
     commonMistakes:
       - 방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -239,11 +239,15 @@ print(sorted(seen))
 
 마지막 상태에서 화면에 표시되는 결과는 `['A', 'B', 'C']`입니다. 직접 타이핑할 때는 위의 순서와 실제 출력을 비교하세요.
 
+## 다른 예제로 다시 이해하기
+
+A가 B,C를 이웃으로 갖고 B가 D를 이웃으로 갖는다면 큐는 `[A] → [B,C] → [C,D] → [D]`로 변합니다(방문 표시를 넣을 때 한다고 가정). 그래서 A에서 한 단계 거리인 B,C를 먼저, 두 단계인 D를 다음에 처리합니다. 큐를 스택으로 바꾸면 이 층별 순서가 사라집니다.
+
 ## 결과 예측과 작은 변경
 
 1. 코드를 가리고 결과를 먼저 적으세요.
 2. 그 결과를 만든 핵심 줄을 찾아 밑줄을 그으세요.
-3. 'print(sorted(seen))'을 'print(len(seen))'로 바꾼 뒤 어느 단계부터 결과가 달라질지 예측하세요.
+3. 'print(sorted(seen))'을 'print(len(seen))'로 바꾼 뒤 결과가 바뀌는지 예측하고, 같다면 왜 같은지 설명하세요.
 4. 실행할 수 있는 환경에서 확인하고 틀린 예측의 이유를 한 문장으로 적으세요.
 
 ## 자주 틀리는 지점

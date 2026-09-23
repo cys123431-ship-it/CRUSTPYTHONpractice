@@ -46,6 +46,20 @@ for (const file of files) {
   try {
     const id = scalar(frontmatter, "id");
     const dayNumber = Number(scalar(frontmatter, "dayNumber"));
+    if (source.includes("\0"))
+      failures.push(`${file}: unexpected NUL byte in lesson`);
+    if (scalar(frontmatter, "sample") === "false") {
+      for (const [heading, minimum] of [
+        ["천천히 풀어보기", 200],
+        ["다른 예제로 다시 이해하기", 140],
+      ] as const) {
+        const section = source.split(`## ${heading}\n\n`)[1]?.split("\n## ")[0];
+        if (!section || section.trim().length < minimum)
+          failures.push(
+            `${file}: '${heading}' needs a worked beginner explanation`,
+          );
+      }
+    }
     const expectedDate = new Date(Date.UTC(2026, 9, dayNumber))
       .toISOString()
       .slice(0, 10);
