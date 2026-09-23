@@ -1,0 +1,195 @@
+---
+import { getCollection } from "astro:content";
+import AppLayout from "../layouts/AppLayout.astro";
+import { glossary } from "../data/glossary";
+
+const days = await getCollection("days");
+const lessons = new Map(days.map((day) => [day.data.dayNumber, day.data.id]));
+const terms = [...glossary].sort((a, b) => a.term.localeCompare(b.term, "ko"));
+---
+
+<AppLayout
+  title="쉬운 용어 사전"
+  current="glossary"
+  description="C·Python·Rust와 자료구조·알고리즘의 낯선 말을 쉬운 예로 찾아보세요"
+>
+  <div class="glossary-shell">
+    <header>
+      <span class="eyebrow">처음 보는 말이 나와도 괜찮아요</span>
+      <h1>쉬운 용어 사전</h1>
+      <p>
+        모르는 단어를 검색하면 뜻, 짧은 예, 처음 배우는 Day를 함께 볼 수 있어요.
+        영어 이름이나 비슷한 말로도 찾아보세요.
+      </p>
+    </header>
+    <form role="search" class="term-search" method="get" action="/glossary">
+      <label for="term-query">어떤 말이 궁금한가요?</label>
+      <div class="search-row">
+        <input
+          id="term-query"
+          name="q"
+          type="search"
+          placeholder="예: 기본 바인딩, 포인터, BFS"
+          autocomplete="off"
+        />
+        <button type="submit">찾기</button>
+      </div>
+    </form>
+    <p id="search-count" aria-live="polite">{terms.length}개의 용어</p>
+    <p id="search-empty" hidden>
+      찾은 단어가 없어요. 영어 이름이나 더 짧은 단어로 다시 검색해 보세요.
+    </p>
+    <div class="term-list" id="term-list">
+      {
+        terms.map((item) => (
+          <article
+            class="term-card"
+            data-search={`${item.term} ${item.aliases ?? ""} ${item.meaning} ${item.example}`.toLocaleLowerCase()}
+          >
+            <h2>{item.term}</h2>
+            {item.aliases && (
+              <p class="aliases">함께 찾을 말: {item.aliases}</p>
+            )}
+            <p>{item.meaning}</p>
+            <p class="example">
+              <strong>예를 들면</strong> {item.example}
+            </p>
+            <a href={`/learn/${lessons.get(item.day)}`}>
+              Day {String(item.day).padStart(2, "0")}에서 더 배우기 →
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</AppLayout>
+
+<script>
+  const input = document.querySelector<HTMLInputElement>("#term-query");
+  const cards = [...document.querySelectorAll<HTMLElement>(".term-card")];
+  const count = document.querySelector<HTMLElement>("#search-count");
+  const empty = document.querySelector<HTMLElement>("#search-empty");
+  const update = () => {
+    const query = input?.value.trim().toLocaleLowerCase() ?? "";
+    let matches = 0;
+    for (const card of cards) {
+      card.hidden = !card.dataset.search?.includes(query);
+      if (!card.hidden) matches++;
+    }
+    if (count)
+      count.textContent = query
+        ? `검색 결과 ${matches}개`
+        : `${matches}개의 용어`;
+    if (empty) empty.hidden = matches > 0;
+    const url = new URL(location.href);
+    if (query) url.searchParams.set("q", input?.value.trim() ?? "");
+    else url.searchParams.delete("q");
+    history.replaceState(null, "", url);
+  };
+  if (input) {
+    input.value = new URLSearchParams(location.search).get("q") ?? "";
+    input.addEventListener("input", update);
+    update();
+  }
+</script>
+
+<style>
+  .glossary-shell {
+    max-width: 78rem;
+    margin: 0 auto;
+    padding: 3rem clamp(1rem, 4vw, 3rem) 6rem;
+  }
+  header {
+    max-width: 45rem;
+  }
+  header h1 {
+    margin: 0.3rem 0;
+  }
+  header p {
+    color: var(--color-text-muted);
+  }
+  .term-search {
+    max-width: 42rem;
+    margin: 2rem 0 1rem;
+  }
+  label {
+    display: block;
+    font-weight: 750;
+    margin-bottom: 0.5rem;
+  }
+  .search-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+  input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 0.65rem;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    padding: 0.85rem 1rem;
+  }
+  button {
+    border: 0;
+    border-radius: 0.65rem;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font: inherit;
+    font-weight: 750;
+    padding: 0.7rem 1.2rem;
+    cursor: pointer;
+  }
+  input:focus-visible,
+  button:focus-visible,
+  a:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+  #search-count {
+    color: var(--color-text-muted);
+  }
+  #search-empty {
+    padding: 2rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.8rem;
+  }
+  .term-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+    gap: 1rem;
+    align-items: stretch;
+  }
+  .term-card {
+    border: 1px solid var(--color-border);
+    border-radius: 0.9rem;
+    background: var(--color-surface);
+    padding: 1.4rem;
+  }
+  .term-card[hidden] {
+    display: none;
+  }
+  .term-card h2 {
+    margin: 0;
+    font-size: 1.35rem;
+  }
+  .term-card p {
+    margin: 0.6rem 0;
+  }
+  .aliases {
+    color: var(--color-text-muted);
+    font-size: 0.86rem;
+  }
+  .example {
+    padding: 0.75rem;
+    border-radius: 0.55rem;
+    background: var(--color-accent-soft);
+  }
+  .term-card a {
+    display: inline-block;
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-top: 0.5rem;
+  }
+</style>

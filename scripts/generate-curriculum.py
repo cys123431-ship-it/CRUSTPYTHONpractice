@@ -14,6 +14,7 @@ import re
 import yaml
 
 from curriculum_blueprints import DAYS, Day
+from teaching_notes import NOTES
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,7 +71,7 @@ def exercise_rows(day: Day, id_: str) -> list[dict]:
              commonMistakes=common, language=day.anchor, verification="run"),
         dict(id=f"{base}-debug", title="오류 설명하고 고치기", kind="debug",
              objective="문법 오류와 의미 오류를 구별하고 고친 이유를 설명한다.",
-             prompt=f"아래 코드의 핵심 표현 {day.wrong!r}을 점검하고 올바른 작동을 복원하세요. {day.pitfall} 오류도 함께 경계하세요.",
+             prompt=f"아래 코드와 본문의 정상 예제를 비교하여 잘못된 부분을 찾고 고치세요. 특히 {day.pitfall} 상황을 확인하세요.",
              starter=day.buggy, answer=day.code, hint=day.model,
              explanation=f"원래 예시와 비교하여 잘못된 줄을 찾으세요. {day.walk.replace('|', ' ')}",
              commonMistakes=common, language=day.anchor, verification="run"),
@@ -93,7 +94,7 @@ def quizzes(day: Day, id_: str) -> list[dict]:
              choices=[day.model, day.pitfall + "(이것이 정상적인 사용법이다)", "코드가 짧다면 상태 추적은 필요 없다"],
              answerIndex=0, explanation=day.model),
         dict(id=f"quiz-{id_}-pitfall", question="다음 중 실습에서 먼저 확인할 오류는?",
-             choices=[day.pitfall, "코드의 들여쓰기를 취향대로 바꾸기", "실행 결과를 확인하지 않고 외우기"],
+             choices=[day.pitfall, "실제 출력과 예측한 출력이 일치함", "변경된 입력을 다시 추적하여 결과를 확인함"],
              answerIndex=0, explanation=f"{day.pitfall}. 입력과 중간 상태를 차례로 확인하세요."),
         dict(id=f"quiz-{id_}-transfer", question="세 언어로 옮길 때 무엇을 보존해야 하나요?",
              choices=[f"{day.transfer}라는 동작과 경계 조건", "세 언어의 표면 문법을 한 글자도 바꾸지 않는다", "타입과 오류 처리를 모두 생략한다"],
@@ -146,15 +147,15 @@ def markdown(day: Day) -> str:
                 "이 수업의 C/Rust 코드는 브라우저에서 임의 컴파일되지 않습니다. C17은 `gcc -std=c17 -Wall -Wextra`로, "
                 "Rust는 `rustc --edition=2024` 또는 Cargo로 로컬에서 실행하세요. 하단의 실습 칸은 예시 답안 비교입니다.")
     _, change = day.modified
-    body = f"---\n{head}---\n\n" + f"""## 1. 오늘 배울 이유
+    body = f"---\n{head}---\n\n" + f"""## 오늘 배울 이유
 
 {day.why} {review_note}
 
-## 2. 시작 전에 확인할 것
+## 시작 전에 확인할 것
 
 {f'바로 앞선 [Day {day.number - 1:02d}](/learn/{previous})의 핵심을 한 문장으로 설명해 보세요.' if previous else '값과 이름의 차이를 먼저 떠올려 보세요.'} 모르면 위의 선행 Day 링크에서 다시 확인할 수 있습니다.
 
-## 3. 머릿속 그림
+## 머릿속 그림
 
 {day.model} 다음 흐름을 눈으로 확인하세요.
 
@@ -164,7 +165,11 @@ def markdown(day: Day) -> str:
 
 현재 상태와 다음 동작을 분리해서 읽으면 결과를 외우지 않아도 설명할 수 있습니다.
 
-## 4. 문법을 예제로 보기
+## 천천히 풀어보기
+
+{NOTES[day.number]}
+
+## 문법을 예제로 보기
 
 아래는 { {'c':'C', 'python':'Python', 'rust':'Rust'}[day.anchor]} 언어로 만든 독립 예제입니다. 코드를 보기 전에 오늘의 문제와 예상 출력을 먼저 떠올려 보세요.
 
@@ -180,7 +185,7 @@ def markdown(day: Day) -> str:
 
 {run_note}
 
-## 5. 핵심 줄 따라 읽기
+## 핵심 줄 따라 읽기
 
 예제의 핵심 표현은 `{day.focus}`입니다. 전체 코드에서 이 표현을 찾아 표시하세요. 선언과 조건, 출력이 연결되는 과정을 순서대로 설명합니다.
 
@@ -188,7 +193,7 @@ def markdown(day: Day) -> str:
 
 각 줄에서 **읽는 값**, **바뀌는 상태**, **출력되는 값**을 따로 표시하며 다시 읽어 보세요. 결과만 암기하면 입력이 조금만 바뀌어도 풀 수 없습니다.
 
-## 6. 실행 추적
+## 실행 추적
 
 | 순서 | 상태 또는 동작 |
 | ---: | --- |
@@ -196,18 +201,18 @@ def markdown(day: Day) -> str:
 
 마지막 상태에서 화면에 표시되는 결과는 `{day.output}`입니다. 직접 타이핑할 때는 위의 순서와 실제 출력을 비교하세요.
 
-## 7. 결과 예측과 작은 변경
+## 결과 예측과 작은 변경
 
 1. 코드를 가리고 결과를 먼저 적으세요.
 2. 그 결과를 만든 핵심 줄을 찾아 밑줄을 그으세요.
 3. {change} 바꾼 뒤 어느 단계부터 결과가 달라질지 예측하세요.
 4. 실행할 수 있는 환경에서 확인하고 틀린 예측의 이유를 한 문장으로 적으세요.
 
-## 8. 자주 틀리는 지점
+## 자주 틀리는 지점
 
 **확인할 실수: {day.pitfall}.** {day.model} 결과가 예상과 다르면 입력 → 중간 상태 → 출력 중 처음 어긋난 곳을 찾습니다.
 
-## 9. 다른 언어로 옮기기
+## 다른 언어로 옮기기
 
 같은 문제를 해결하더라도 선언, 타입, 메모리 관리, 오류 처리는 다릅니다. 핵심 동작은 **{day.transfer}**입니다. 언어를 옮겨도 이 동작을 유지하세요.
 
@@ -217,24 +222,24 @@ def markdown(day: Day) -> str:
 
 Anchor 코드의 각 값을 다른 두 언어에서 어떤 타입으로 저장할지 적어 보고, 실패하거나 비어 있는 입력을 어떻게 처리할지도 생각하세요. 문법을 단어 단위로 번역하기보다 같은 입력에서 같은 결과가 나오는지 확인해야 합니다.
 
-## 10. 실습 순서
+## 실습 순서
 
 아래에서 **예측 → 빈칸 → 변경 → 오류 수정 → 독립 구현** 순으로 진행합니다. 답 확인은 예시 문자열 비교이므로 다른 풀이를 자동으로 오답 판정하지 않습니다. 마지막에는 예시를 가리고 이번 개념을 다시 구현하세요.
 
-## 11. 스스로 설명하기
+## 스스로 설명하기
 
 - 왜 이 개념이 필요한가? {day.why}
 - 예시에서 가장 먼저 확정되는 값이나 상태는 무엇인가?
 - 어떤 실수를 점검해야 하나? {day.pitfall}
 - 다른 두 언어에서는 같은 동작을 어떤 자료형과 오류 처리로 나타내는가?
 
-## 12. 핵심 요약과 복습
+## 핵심 요약과 복습
 
 {day.model} 예시의 출력은 `{day.output}`입니다. 오류를 찾을 때는 **{day.pitfall}** 여부를 확인하세요. 완료 버튼을 누르면 +1·+3·+7·+14·+30일 복습이 이 기기에 등록됩니다.
 """
     if day.number >= 83:
         body += f"""
-## 13. Study Log Analyzer 실제 프로젝트
+## Study Log Analyzer 실제 프로젝트
 
 이 Day의 짧은 예제로 {day.title}의 한 부분을 확인한 뒤, [세 언어의 완성 프로젝트 소스와 공통 fixture](https://github.com/cys123431-ship-it/CRUSTPYTHONpractice/tree/main/examples/study-log-analyzer)를 내려받아 같은 CSV로 실행하세요. README의 실행 명령과 필터 옵션을 따라 세 결과를 비교합니다. 이 페이지의 실습 답안 비교는 전체 CLI 프로젝트를 실행하지 않습니다.
 """
@@ -243,6 +248,8 @@ Anchor 코드의 각 값을 다른 두 언어에서 어떤 타입으로 저장�
 
 def main() -> None:
     assert set(DAYS) == set(range(1, 93)) - SAMPLES, "all 89 absent days need a blueprint"
+    assert set(NOTES) == set(DAYS), "every generated day needs a unique teaching note"
+    assert all(len(note) >= 200 for note in NOTES.values()), "teaching note is too brief"
     for day in DAYS.values():
         assert day.number not in SAMPLES
         filename = CONTENT / f"{entity_id(day.number)}.md"

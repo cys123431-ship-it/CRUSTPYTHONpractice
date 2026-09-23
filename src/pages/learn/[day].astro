@@ -32,6 +32,18 @@ const languageLabel = { c: "C", python: "Python", rust: "Rust" } as const;
       </div>
       <h1>{day.data.title}</h1>
       <p>{day.data.summary}</p>
+      <form class="lesson-search" action="/glossary" method="get" role="search">
+        <label for="lesson-word">모르는 단어가 있나요?</label>
+        <div>
+          <input
+            id="lesson-word"
+            name="q"
+            type="search"
+            placeholder="예: 기본 바인딩, 포인터"
+            required
+          /><button type="submit">뜻 찾기</button>
+        </div>
+      </form>
     </header>
     <div class="lesson-grid">
       <article class="lesson-content">
@@ -104,6 +116,43 @@ const languageLabel = { c: "C", python: "Python", rust: "Rust" } as const;
 </AppLayout>
 
 <style>
+  .lesson-search {
+    margin-top: 1.5rem;
+    max-width: 31rem;
+  }
+  .lesson-search label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .lesson-search div {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .lesson-search input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.7rem 0.8rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+  }
+  .lesson-search button {
+    border: 0;
+    border-radius: 0.5rem;
+    padding: 0.6rem 0.85rem;
+    font: inherit;
+    font-weight: 700;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    cursor: pointer;
+  }
+  .lesson-search :is(input, button):focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
   .lesson-shell {
     width: min(100%, 86rem);
     margin: 0 auto;

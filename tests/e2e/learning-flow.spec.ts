@@ -42,12 +42,39 @@ test("all 92 days have a curriculum link and final lesson", async ({
   ).toBeVisible();
 });
 
+test("pointer lesson explains memory and glossary search resolves a beginner term", async ({
+  page,
+}) => {
+  await page.goto("/learn/day-30-pointer-arithmetic");
+  await expect(
+    page.getByRole("heading", { name: "천천히 풀어보기" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("*(p + 1)", { exact: true }).first(),
+  ).toBeVisible();
+  await page.getByLabel("모르는 단어가 있나요?").fill("기본 바인딩");
+  await page.getByRole("button", { name: "뜻 찾기" }).click();
+  await expect(page).toHaveURL(/glossary.*q=/);
+  await expect(page.locator(".term-card:visible")).toHaveCount(1);
+  await expect(
+    page.getByRole("heading", { name: "기본 바인딩" }),
+  ).toBeVisible();
+  await page.getByLabel("어떤 말이 궁금한가요?").fill("BFS");
+  await expect(page.locator(".term-card:visible")).toHaveCount(1);
+  await expect(page.getByRole("heading", { name: "BFS" })).toBeVisible();
+  await page.getByLabel("어떤 말이 궁금한가요?").fill("존재하지않는단어");
+  await expect(
+    page.getByText("찾은 단어가 없어요.", { exact: false }),
+  ).toBeVisible();
+});
+
 test("critical pages have no axe serious or critical violations", async ({
   page,
 }) => {
   for (const path of [
     "/",
     "/curriculum",
+    "/glossary",
     "/learn/day-01-variables-types",
     "/settings",
   ]) {
