@@ -1,0 +1,24 @@
+---
+import { getCollection } from "astro:content";
+import AppLayout from "../layouts/AppLayout.astro";
+import TodayDashboard from "../components/progress/TodayDashboard";
+
+const days = (await getCollection("days"))
+  .sort((a, b) => a.data.dayNumber - b.data.dayNumber)
+  .map((day) => ({
+    id: day.data.id,
+    dayNumber: day.data.dayNumber,
+    date: day.data.date,
+    title: day.data.title,
+    summary: day.data.summary,
+    anchorLanguage: day.data.anchorLanguage,
+    estimatedMinutes: day.data.estimatedMinutes,
+    phaseId: day.data.phaseId,
+  }));
+---
+
+<AppLayout title="오늘의 학습" current="today">
+  <div class="page-shell">
+    <TodayDashboard days={days} client:load />
+  </div>
+</AppLayout>

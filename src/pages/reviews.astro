@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import AppLayout from "../layouts/AppLayout.astro";
+import ReviewCenter from "../components/progress/ReviewCenter";
+const days = await getCollection("days");
+const titles = Object.fromEntries(
+  days.map((day) => [day.data.id, day.data.title]),
+);
+---
+
+<AppLayout title="복습" current="reviews"
+  ><div class="page-shell">
+    <p class="eyebrow">Spaced retrieval</p><h1>오늘의 복습</h1><p
+      class="muted page-copy"
+    >
+      정답 여부와 확신 정도에 따라 다음 간격이 달라집니다. 틀리면 짧게 돌아오고,
+      확실히 맞히면 더 긴 간격으로 이동합니다.
+    </p><div class="content-gap">
+      <ReviewCenter titles={titles} client:load />
+    </div>
+  </div></AppLayout
+>
+<style>
+  .page-copy {
+    max-width: 48rem;
+  }
+  .content-gap {
+    margin-top: 2rem;
+  }
+</style>

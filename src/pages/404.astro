@@ -1,0 +1,30 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+---
+
+<AppLayout title="페이지를 찾을 수 없음"
+  ><div class="page-shell">
+    <div class="card not-found">
+      <span>404</span><h1>이 학습 페이지는 아직 없습니다</h1><p>
+        주소를 확인하거나 커리큘럼에서 준비된 Day를 선택하세요.
+      </p><a class="button" href="/curriculum">커리큘럼 보기</a>
+    </div>
+  </div></AppLayout
+>
+<style>
+  .not-found {
+    max-width: 42rem;
+    margin: 10vh auto;
+    padding: 2rem;
+  }
+  .not-found > span {
+    color: var(--color-accent);
+    font:
+      900 1rem ui-monospace,
+      monospace;
+  }
+  .not-found p {
+    margin: 1rem 0 1.5rem;
+    color: var(--color-text-muted);
+  }
+</style>

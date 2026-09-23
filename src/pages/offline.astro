@@ -1,0 +1,30 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+---
+
+<AppLayout title="오프라인"
+  ><div class="page-shell">
+    <div class="card offline">
+      <span aria-hidden="true">↯</span><h1>지금은 오프라인입니다</h1><p>
+        이전에 방문해 저장된 Lesson은 메뉴에서 열 수 있습니다. 연결이 돌아오면
+        새 콘텐츠와 Python 런타임을 사용할 수 있습니다.
+      </p><a class="button" href="/">다시 시도</a>
+    </div>
+  </div></AppLayout
+>
+<style>
+  .offline {
+    max-width: 38rem;
+    margin: 10vh auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  .offline > span {
+    font-size: 3rem;
+    color: var(--color-warning);
+  }
+  .offline p {
+    color: var(--color-text-muted);
+    margin: 1rem 0 1.5rem;
+  }
+</style>

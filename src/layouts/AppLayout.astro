@@ -1,0 +1,120 @@
+---
+import "../styles/global.css";
+import { getCollection } from "astro:content";
+import WebMcpBridge from "../components/WebMcpBridge";
+
+interface Props {
+  title: string;
+  description?: string;
+  current?: string;
+}
+
+const {
+  title,
+  description = "C, Python, Rust를 하나의 개념으로 연결해 배우는 92일 학습 앱",
+  current = "",
+} = Astro.props;
+
+const nav = [
+  ["오늘", "/", "today"],
+  ["커리큘럼", "/curriculum", "curriculum"],
+  ["복습", "/reviews", "reviews"],
+  ["진도", "/progress", "progress"],
+  ["플레이그라운드", "/playground", "playground"],
+  ["설정", "/settings", "settings"],
+];
+const knownIds = (await getCollection("days")).map((day) => day.data.id);
+---
+
+<!doctype html>
+<html lang="ko" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#07111f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>{title} · CRP Study</title>
+    <script is:inline>
+      (() => {
+        const value = localStorage.getItem("crp-theme") || "system";
+        const dark =
+          value === "dark" ||
+          (value === "system" &&
+            matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">본문으로 바로가기</a>
+    <div class="app-frame">
+      <aside class="sidebar" aria-label="주요 메뉴">
+        <a class="brand" href="/" aria-label="CRP Study 홈">
+          <span class="brand-mark" aria-hidden="true"
+            >C<span>·</span>R<span>·</span>P</span
+          >
+          <span><strong>CRP Study</strong><small>92일 통합 학습</small></span>
+        </a>
+        <nav>
+          {
+            nav.map(([label, href, key]) => (
+              <a
+                href={href}
+                aria-current={current === key ? "page" : undefined}
+              >
+                <span class={`nav-icon nav-${key}`} aria-hidden="true" />
+                {label}
+              </a>
+            ))
+          }
+        </nav>
+        <div class="sidebar-foot">
+          <div class="mini-progress"><span style="width: 100%"></span></div>
+          <small>Day 01–92 수업 제공</small>
+        </div>
+      </aside>
+      <header class="mobile-header">
+        <a class="brand compact" href="/"
+          ><span class="brand-mark">C·R·P</span><strong>CRP Study</strong></a
+        >
+        <button
+          id="menu-toggle"
+          class="icon-button"
+          aria-controls="mobile-nav"
+          aria-expanded="false">메뉴</button
+        >
+      </header>
+      <nav id="mobile-nav" class="mobile-nav" aria-label="모바일 메뉴" hidden>
+        {
+          nav.map(([label, href, key]) => (
+            <a href={href} aria-current={current === key ? "page" : undefined}>
+              {label}
+            </a>
+          ))
+        }
+      </nav>
+      <main id="main" class="main"><slot /></main>
+    </div>
+    <div id="app-status" class="sr-only" role="status" aria-live="polite"></div>
+    <WebMcpBridge knownIds={knownIds} client:load />
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>("#menu-toggle");
+      const menu = document.querySelector<HTMLElement>("#mobile-nav");
+      toggle?.addEventListener("click", () => {
+        const open = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!open));
+        if (menu) menu.hidden = open;
+      });
+      if ("serviceWorker" in navigator) {
+        addEventListener("load", () =>
+          navigator.serviceWorker.register("/sw.js").catch(() => undefined),
+        );
+      }
+    </script>
+  </body>
+</html>

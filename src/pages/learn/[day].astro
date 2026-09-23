@@ -1,0 +1,261 @@
+---
+import { getCollection, render } from "astro:content";
+import AppLayout from "../../layouts/AppLayout.astro";
+import LessonActions from "../../components/learning/LessonActions";
+import CodePlayground from "../../components/code/CodePlayground";
+
+export async function getStaticPaths() {
+  const days = await getCollection("days");
+  return days.map((day) => ({ params: { day: day.data.id }, props: { day } }));
+}
+
+const { day } = Astro.props;
+const { Content } = await render(day);
+const languageLabel = { c: "C", python: "Python", rust: "Rust" } as const;
+---
+
+<AppLayout title={day.data.title} current="curriculum">
+  <div class="lesson-shell">
+    <header class="lesson-header">
+      <nav aria-label="현재 위치" class="breadcrumb">
+        <a href="/curriculum">커리큘럼</a><span>/</span><span
+          >Phase {day.data.phaseId.slice(-2)}</span
+        ><span>/</span><span
+          >Day {String(day.data.dayNumber).padStart(2, "0")}</span
+        >
+      </nav>
+      <div class="lesson-meta">
+        <span class="tag">{languageLabel[day.data.anchorLanguage]} Anchor</span
+        ><span class="tag">{day.data.estimatedMinutes}분</span><span class="tag"
+          >{day.data.difficulty}</span
+        >
+      </div>
+      <h1>{day.data.title}</h1>
+      <p>{day.data.summary}</p>
+    </header>
+    <div class="lesson-grid">
+      <article class="lesson-content">
+        <section class="goal-card card" aria-labelledby="goals-title">
+          <span class="eyebrow">오늘의 목표</span><h2 id="goals-title">
+            학습을 마치면
+          </h2>
+          <ul>
+            {
+              day.data.learningObjectives.map((objective) => (
+                <li>{objective}</li>
+              ))
+            }
+          </ul>
+          {
+            day.data.prerequisites.length > 0 && (
+              <div class="prerequisite">
+                <strong>선행 Day</strong>
+                {day.data.prerequisites.map((id) => (
+                  <a href={`/learn/${id}`}>{id}</a>
+                ))}
+              </div>
+            )
+          }
+        </section>
+        <div class="prose"><Content /></div>
+        {
+          day.data.runnerMode === "python" && (
+            <CodePlayground
+              initialLanguage="python"
+              initialSource={day.data.playgroundSource}
+              compact
+              client:visible
+            />
+          )
+        }
+        <LessonActions
+          dayId={day.data.id}
+          exercises={day.data.exercises}
+          quiz={day.data.quiz}
+          client:load
+        />
+      </article>
+      <aside class="lesson-rail" aria-label="Lesson 정보">
+        <div class="rail-card">
+          <span>Anchor</span><strong
+            >{languageLabel[day.data.anchorLanguage]}</strong
+          >
+        </div>
+        <div class="rail-card">
+          <span>Transfer</span><strong
+            >{
+              day.data.transferLanguages
+                .map((value) => languageLabel[value])
+                .join(" · ")
+            }</strong
+          >
+        </div>
+        <div class="rail-card">
+          <span>개념</span><div class="concept-tags">
+            {day.data.concepts.map((concept) => <span>{concept}</span>)}
+          </div>
+        </div>
+        <div class="rail-card">
+          <span>복습</span><strong>+1 · +3 · +7 · +14 · +30일</strong>
+        </div>
+      </aside>
+    </div>
+  </div>
+</AppLayout>
+
+<style>
+  .lesson-shell {
+    width: min(100%, 86rem);
+    margin: 0 auto;
+    padding: 2rem clamp(1rem, 3vw, 3rem) 6rem;
+  }
+  .lesson-header {
+    max-width: 58rem;
+  }
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    color: var(--color-text-muted);
+    font-size: 0.84rem;
+  }
+  .breadcrumb a {
+    color: var(--color-accent);
+  }
+  .lesson-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 2rem;
+  }
+  .lesson-header h1 {
+    margin-top: 0.9rem;
+  }
+  .lesson-header > p {
+    max-width: 47rem;
+    color: var(--color-text-muted);
+    font-size: 1.08rem;
+  }
+  .lesson-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    gap: 2rem;
+    margin-top: 2.2rem;
+  }
+  .lesson-content {
+    min-width: 0;
+  }
+  .goal-card {
+    padding: 1.4rem;
+  }
+  .goal-card h2 {
+    margin-top: 0.25rem;
+  }
+  .goal-card ul {
+    padding-left: 1.25rem;
+  }
+  .goal-card li + li {
+    margin-top: 0.35rem;
+  }
+  .prerequisite {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .prerequisite a {
+    color: var(--color-accent);
+  }
+  .prose {
+    margin: 2.5rem 0;
+  }
+  .prose :global(h2) {
+    margin: 2.5rem 0 0.8rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .prose :global(h3) {
+    margin: 1.7rem 0 0.6rem;
+  }
+  .prose :global(p),
+  .prose :global(li) {
+    max-width: 52rem;
+  }
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    display: block;
+    overflow-x: auto;
+  }
+  .prose :global(th),
+  .prose :global(td) {
+    min-width: 8rem;
+    padding: 0.7rem;
+    border: 1px solid var(--color-border);
+    text-align: left;
+  }
+  .prose :global(th) {
+    background: var(--color-surface);
+  }
+  .lesson-rail {
+    position: sticky;
+    top: 2rem;
+    align-self: start;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .rail-card {
+    padding: 1rem;
+    border-left: 2px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+  .rail-card > span {
+    display: block;
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .rail-card strong {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--color-text);
+  }
+  .concept-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.45rem;
+  }
+  .concept-tags span {
+    padding: 0.15rem 0.4rem;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    border-radius: 0.35rem;
+    font-size: 0.72rem;
+  }
+  @media (max-width: 1000px) {
+    .lesson-grid {
+      grid-template-columns: 1fr;
+    }
+    .lesson-rail {
+      position: static;
+      grid-template-columns: repeat(2, 1fr);
+      order: -1;
+    }
+  }
+  @media (max-width: 520px) {
+    .lesson-rail {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.2rem;
+    }
+    .rail-card {
+      padding: 0.7rem;
+    }
+    .lesson-shell {
+      padding-top: 1.3rem;
+    }
+  }
+</style>

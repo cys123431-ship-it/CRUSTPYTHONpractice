@@ -1,0 +1,23 @@
+---
+import AppLayout from "../layouts/AppLayout.astro";
+import CodePlayground from "../components/code/CodePlayground";
+---
+
+<AppLayout title="플레이그라운드" current="playground"
+  ><div class="page-shell">
+    <p class="eyebrow">Run & trace</p><h1>코드 플레이그라운드</h1><p
+      class="muted page-copy"
+    >
+      Python은 Run을 누를 때만 Pyodide를 내려받아 Worker에서 실제 실행합니다.
+      C와 Rust는 임의 컴파일이 아니라 prepared WebAssembly demo입니다.
+    </p><div class="content-gap"><CodePlayground client:load /></div>
+  </div></AppLayout
+>
+<style>
+  .page-copy {
+    max-width: 52rem;
+  }
+  .content-gap {
+    margin-top: 2rem;
+  }
+</style>

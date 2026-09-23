@@ -1,0 +1,27 @@
+---
+import { getCollection } from "astro:content";
+import AppLayout from "../layouts/AppLayout.astro";
+import SettingsPanel from "../components/settings/SettingsPanel";
+const knownIds = (await getCollection("days")).map((day) => day.data.id);
+---
+
+<AppLayout title="설정" current="settings"
+  ><div class="page-shell">
+    <p class="eyebrow">Preferences & backup</p><h1>설정</h1><p
+      class="muted page-copy"
+    >
+      계정이나 클라우드 동기화 없이 이 기기에서 학습합니다. 중요한 진도는
+      JSON으로 정기 백업하세요.
+    </p><div class="content-gap">
+      <SettingsPanel knownIds={knownIds} client:load />
+    </div>
+  </div></AppLayout
+>
+<style>
+  .page-copy {
+    max-width: 48rem;
+  }
+  .content-gap {
+    margin-top: 2rem;
+  }
+</style>
