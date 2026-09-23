@@ -91,7 +91,11 @@ export default function TodayDashboard({ days }: { days: Day[] }) {
           <p>{current.summary}</p>
           <div
             className="progress-track"
-            aria-label={`전체 진도 ${Math.round((completed / days.length) * 100)}%`}
+            role="progressbar"
+            aria-label="전체 진도"
+            aria-valuenow={Math.round((completed / days.length) * 100)}
+            aria-valuemin={0}
+            aria-valuemax={100}
           >
             <div
               className="progress-fill"

@@ -62,7 +62,7 @@ export default function ReviewCenter({
             <h2>{titles[review.lessonId] ?? review.lessonId}</h2>
             <a href={`/learn/${review.lessonId}`}>Lesson 다시 보기</a>
           </div>
-          <div className="confidence" aria-label="복습 결과">
+          <div className="confidence" role="group" aria-label="복습 결과">
             <button onClick={() => answer(review, "incorrect")}>틀림</button>
             <button onClick={() => answer(review, "correct-uncertain")}>
               정답 · 불확실
