@@ -326,6 +326,9 @@ pre {
   font-size: 0.9rem;
   line-height: 1.65;
 }
+.astro-code.github-dark span[style*="color:#6A737D"] {
+  color: #b6c0cb !important;
+}
 .notice {
   padding: 1rem;
   border-left: 4px solid var(--color-info);
