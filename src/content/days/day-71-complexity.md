@@ -69,7 +69,7 @@ exercises:
     prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 2에서 3로 바꿔 보세요. 출력도 먼저 예측하세요.
     starter: "values = [2, 4, 6, 8]\nsteps = 0\nfor value in values:\n    steps += 1\nprint(steps)"
     answer: "values = [3, 4, 6, 8]\nsteps = 0\nfor value in values:\n    steps += 1\nprint(steps)"
-    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 0 → 1 → 2 → 3 → 4 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 2에서 3로 바꿨습니다. 원본 출력은 '4'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - O(n)을 실제 실행 시간이 정확히 n초라는 뜻으로 착각함

@@ -89,7 +89,7 @@ exercises:
       impl Session { fn doubled(&self) -> u32 { self.minutes * 3 } }
 
       fn main() { let s=Session{minutes:30}; println!("{}",s.doubled()); }'
-    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 s.minutes=30 → &s 빌림 → 60 반환 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 2에서 3로 바꿨습니다. 원본 출력은 '60'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함

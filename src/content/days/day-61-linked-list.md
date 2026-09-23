@@ -81,7 +81,7 @@ exercises:
     answer:
       "#include <stdio.h>\ntypedef struct Node { int value; struct Node *next; } Node;\nint main(void) {\n \
       \   Node last={21,NULL}; Node first={10,&last};\n    printf(\"%d\\n\", first.next->value);\n    return 0;\n}"
-    hint: 처음 등장하는 숫자를 20에서 21로 바꾼 뒤 first(10) → next=&last → last(20) → 출력 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 20에서 21로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 20에서 21로 바꿨습니다. 원본 출력은 '20'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - NULL인 next를 검사하지 않고 역참조함

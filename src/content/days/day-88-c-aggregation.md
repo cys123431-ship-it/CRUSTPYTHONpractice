@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\nint main(void) {\n    int minutes[] = {31, 20, 10};\n    int total = 0;\n    for\
       \ (int i = 0; i < 3; i++) total += minutes[i];\n    printf(\"%d\\n\", total);\n    return 0;\n}"
-    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 0 → 30 → 50 → 60 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원본 출력은 '60'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 배열 길이와 인덱스의 경계를 혼동해 원소를 하나 더 읽음

@@ -89,7 +89,7 @@ exercises:
       fields = header.split(",")
 
       print(len(fields), fields[2])'
-    hint: "'fields[3]'을 'fields[2]'로 바꾼 뒤 헤더 → 다섯 열 → 네 번째 minutes 순으로 따라가세요."
+    hint: "'fields[3]'을 'fields[2]'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요."
     explanation: 예시 답안에서는 'fields[3]'을 'fields[2]'로 바꿨습니다. 원본 출력은 '5 minutes'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함

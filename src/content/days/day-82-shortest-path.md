@@ -96,7 +96,7 @@ exercises:
       \    if cost != dist[node]: continue\n    for next_node, weight in graph[node]:\n        if cost + weight <\
       \ dist[next_node]:\n            dist[next_node] = cost + weight\n            heapq.heappush(heap, (dist[next_node],\
       \ next_node))\nprint(dist[\"C\"])"
-    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 A=0 → B=2,C=5 → B 경유 C=3 → C=3 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 2에서 3로 바꿨습니다. 원본 출력은 '3'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 음수 간선에도 다익스트라의 확정 규칙을 그대로 적용함

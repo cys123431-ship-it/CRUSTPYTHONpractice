@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\ntypedef struct { int minutes; int focused; } Session;\nint main(void) {\n    Session\
       \ s = {31, 1};\n    printf(\"%d\\n\", s.minutes);\n    return 0;\n}"
-    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 타입 정의 → s={30,1} → s.minutes=30 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원본 출력은 '30'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 필드 선언 순서와 초기화 값 순서를 혼동함

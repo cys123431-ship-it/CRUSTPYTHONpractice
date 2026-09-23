@@ -99,7 +99,7 @@ exercises:
       heapq.heapify(waiting)
 
       print(heapq.heappop(waiting))"
-    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 [30,10,20] → heapify 최소 루트 10 → pop 10 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원본 출력은 '10'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 힙 내부 배열 전체가 정렬돼 있다고 생각함

@@ -47,6 +47,12 @@ class Day:
             85: ('변수,30,pass', '변수,31,pass'),
             92: ('assert total == 60', 'assert total == 60\nassert len(sessions) == 3'),
         }
+        if self.number == 56:
+            return (self.code.replace('let s=Session{minutes:30};\n    assert_eq!(s.minutes,30);',
+                                      'let s=Session{minutes:31};\n    assert_eq!(s.minutes,31);'),
+                    '초기 minutes 값과 assert_eq!의 기대값을 함께 30에서 31로')
+        if self.number == 89:
+            return self.code.replace('let raw = "30";', 'let raw = "31";'), '입력 문자열 30을 31로'
         if self.number in overrides:
             before, after = overrides[self.number]
             return self.code.replace(before, after, 1), f"{before!r}을 {after!r}로"

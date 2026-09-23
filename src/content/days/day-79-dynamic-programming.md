@@ -79,7 +79,7 @@ exercises:
     answer:
       "ways = [1] * 5\nways[0] = 1\nfor step in range(1, 5):\n    ways[step] = ways[step-1] + (ways[step-2]\
       \ if step >= 2 else 0)\nprint(ways[4])"
-    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 ways[0]=1 → 1 → 2 → 3 → 5 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 0에서 1로 바꿨습니다. 원본 출력은 '5'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 기저 경우 수 0을 0으로 두어 모든 값이 0이 됨

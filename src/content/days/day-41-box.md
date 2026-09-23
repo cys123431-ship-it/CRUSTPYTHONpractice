@@ -79,7 +79,7 @@ exercises:
     answer:
       "fn main() {\n    let boxed = Box::new(41);\n    let answer = *boxed + 2;\n    println!(\"{answer}\");\n\
       }"
-    hint: 처음 등장하는 숫자를 40에서 41로 바꾼 뒤 Box(40) → 역참조 40 → 42 → Drop 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 40에서 41로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 40에서 41로 바꿨습니다. 원본 출력은 '42'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - Box를 C의 raw pointer처럼 직접 free해야 한다고 생각함

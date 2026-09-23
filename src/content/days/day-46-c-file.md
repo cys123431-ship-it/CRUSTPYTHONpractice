@@ -84,7 +84,7 @@ exercises:
       "#include <stdio.h>\nint main(void) {\n    FILE *f = tmpfile();\n    if (!f) return 2;\n    fputs(\"30\\\
       n\", f); rewind(f);\n    int n=0;\n    if (fscanf(f,\"%d\",&n)==1) printf(\"%d\\n\",n);\n    fclose(f); return\
       \ 0;\n}"
-    hint: 처음 등장하는 숫자를 1에서 2로 바꾼 뒤 열기 → 쓰기 → rewind → 읽기 → 닫기 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 1에서 2로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 1에서 2로 바꿨습니다. 원본 출력은 '30'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 쓰기 직후 위치를 되돌리지 않고 읽어 EOF를 만남

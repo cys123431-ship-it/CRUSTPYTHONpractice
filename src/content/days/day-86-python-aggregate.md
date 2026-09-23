@@ -99,7 +99,7 @@ exercises:
       for name, minutes in rows: totals[name] = totals.get(name, 0) + minutes
 
       print(sorted(totals.items(), key=lambda row: (-row[1], row[0]))[0])'
-    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 C=30 → Python=45 → C=45 → 동률은 이름순 C 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원본 출력은 "('C', 45)"입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 동률 순서를 명시하지 않아 구현 언어마다 Top N이 달라짐

@@ -79,7 +79,7 @@ exercises:
     answer:
       "fn main() {\n    let mut n = 1;\n    let answer = loop { n += 1; if n == 3 { break n * 2; } };\n    println!(\"\
       {answer}\");\n}"
-    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 n=0 → 1 → 2 → 3 → answer=6 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 0에서 1로 바꿨습니다. 원본 출력은 '6'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - break 뒤의 값을 무시하고 loop는 언제나 빈 값을 준다고 생각함

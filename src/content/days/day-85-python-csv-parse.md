@@ -109,7 +109,7 @@ exercises:
       minutes = int(row["minutes"])
 
       print(minutes)'
-    hint: "'변수,30,pass'을 '변수,31,pass'로 바꾼 뒤 CSV 문자열 → row['minutes']='30' → int=30 순으로 따라가세요."
+    hint: "'변수,30,pass'을 '변수,31,pass'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요."
     explanation: 예시 답안에서는 '변수,30,pass'을 '변수,31,pass'로 바꿨습니다. 원본 출력은 '30'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 검증 없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함

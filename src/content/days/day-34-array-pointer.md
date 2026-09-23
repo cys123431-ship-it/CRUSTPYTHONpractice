@@ -99,7 +99,7 @@ exercises:
       int sum(const int *a, size_t n) { int out=1; for (size_t i=0;i<n;i++) out+=a[i]; return out; }
 
       int main(void) { int a[]={2,4,6}; printf("%d\n",sum(a,3)); return 0; }'
-    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 i=0 out=2 → i=1 out=6 → i=2 out=12 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 0에서 1로 바꿨습니다. 원본 출력은 '12'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 배열 끝 인덱스를 n으로 착각해 한 칸 넘겨 읽음

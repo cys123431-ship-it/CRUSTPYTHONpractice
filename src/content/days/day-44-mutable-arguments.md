@@ -69,7 +69,7 @@ exercises:
     prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 30에서 31로 바꿔 보세요. 출력도 먼저 예측하세요.
     starter: "def add_session(items):\n    items.append(30)\nvalues = [10]\nadd_session(values)\nprint(values)"
     answer: "def add_session(items):\n    items.append(31)\nvalues = [10]\nadd_session(values)\nprint(values)"
-    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 values→[10] → items→같은 객체 → append → [10,30] 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원본 출력은 '[10, 30]'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 매개변수 대입과 객체 내부 수정을 같은 동작으로 혼동함

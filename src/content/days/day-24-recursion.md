@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\nint sum_to(int n) {\n    if (n == 1) return 0;\n    return n + sum_to(n - 1);\n}\n\
       int main(void) { printf(\"%d\\n\", sum_to(3)); return 0; }"
-    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 sum_to(3) → sum_to(2) → sum_to(1) → sum_to(0) → 6 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 0에서 1로 바꿨습니다. 원본 출력은 '6'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 기저 조건이 없거나 입력을 줄이지 않아 끝없이 호출함

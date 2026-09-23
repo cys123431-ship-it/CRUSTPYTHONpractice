@@ -72,15 +72,15 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: 예시를 직접 타이핑한 뒤 첫 문자열을 '30'에서 '30!'로 바꿔 보세요. 출력도 먼저 예측하세요.
+    prompt: 예시를 직접 타이핑한 뒤 입력 문자열 30을 31로 바꿔 보세요. 출력도 먼저 예측하세요.
     starter:
       "struct Session { minutes: u32 }\nfn main() {\n    let raw = \"30\";\n    let session = Session { minutes:\
       \ raw.parse().expect(\"분 숫자 오류\") };\n    println!(\"{}\", session.minutes);\n}"
     answer:
-      "struct Session { minutes: u32 }\nfn main() {\n    let raw = \"30!\";\n    let session = Session { minutes:\
+      "struct Session { minutes: u32 }\nfn main() {\n    let raw = \"31\";\n    let session = Session { minutes:\
       \ raw.parse().expect(\"분 숫자 오류\") };\n    println!(\"{}\", session.minutes);\n}"
-    hint: 첫 문자열을 '30'에서 '30!'로 바꾼 뒤 raw='30' → parse Ok(30) → Session.minutes=30 순으로 따라가세요.
-    explanation: 예시 답안에서는 첫 문자열을 '30'에서 '30!'로 바꿨습니다. 원본 출력은 '30'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
+    hint: 입력 문자열 30을 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
+    explanation: 예시 답안에서는 입력 문자열 30을 31로 바꿨습니다. 원본 출력은 '30'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 실제 파일 파서에서 expect로 전체 프로그램을 종료하고 어느 행인지 숨김
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -220,7 +220,7 @@ fn main() {
 
 1. 코드를 가리고 결과를 먼저 적으세요.
 2. 그 결과를 만든 핵심 줄을 찾아 밑줄을 그으세요.
-3. 첫 문자열을 '30'에서 '30!'로 바꾼 뒤 어느 단계부터 결과가 달라질지 예측하세요.
+3. 입력 문자열 30을 31로 바꾼 뒤 어느 단계부터 결과가 달라질지 예측하세요.
 4. 실행할 수 있는 환경에서 확인하고 틀린 예측의 이유를 한 문장으로 적으세요.
 
 ## 8. 자주 틀리는 지점

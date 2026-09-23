@@ -72,15 +72,15 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 30에서 31로 바꿔 보세요. 출력도 먼저 예측하세요.
+    prompt: 예시를 직접 타이핑한 뒤 초기 minutes 값과 assert_eq!의 기대값을 함께 30에서 31로 바꿔 보세요. 출력도 먼저 예측하세요.
     starter:
       "struct Session { minutes: u32 }\nfn main() {\n    let s=Session{minutes:30};\n    assert_eq!(s.minutes,30);\n\
       \    println!(\"검증 완료\");\n}"
     answer:
-      "struct Session { minutes: u32 }\nfn main() {\n    let s=Session{minutes:31};\n    assert_eq!(s.minutes,30);\n\
+      "struct Session { minutes: u32 }\nfn main() {\n    let s=Session{minutes:31};\n    assert_eq!(s.minutes,31);\n\
       \    println!(\"검증 완료\");\n}"
-    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 s.minutes=30 → 기대값=30 → 통과 순으로 따라가세요.
-    explanation: 예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원본 출력은 '검증 완료'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
+    hint: 초기 minutes 값과 assert_eq!의 기대값을 함께 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
+    explanation: 예시 답안에서는 초기 minutes 값과 assert_eq!의 기대값을 함께 30에서 31로 바꿨습니다. 원본 출력은 '검증 완료'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -220,7 +220,7 @@ fn main() {
 
 1. 코드를 가리고 결과를 먼저 적으세요.
 2. 그 결과를 만든 핵심 줄을 찾아 밑줄을 그으세요.
-3. 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 어느 단계부터 결과가 달라질지 예측하세요.
+3. 초기 minutes 값과 assert_eq!의 기대값을 함께 30에서 31로 바꾼 뒤 어느 단계부터 결과가 달라질지 예측하세요.
 4. 실행할 수 있는 환경에서 확인하고 틀린 예측의 이유를 한 문장으로 적으세요.
 
 ## 8. 자주 틀리는 지점

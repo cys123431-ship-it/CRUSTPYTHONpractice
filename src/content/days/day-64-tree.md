@@ -79,7 +79,7 @@ exercises:
     answer:
       "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 1 if node is None\
       \ else 1 + count(node[1]) + count(node[2])\nprint(count(tree))"
-    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 B=1 → C=1 → A=1+1+1=3 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 0에서 1로 바꿨습니다. 원본 출력은 '3'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함

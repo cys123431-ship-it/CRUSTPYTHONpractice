@@ -69,7 +69,7 @@ exercises:
     prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 1에서 2로 바꿔 보세요. 출력도 먼저 예측하세요.
     starter: "pairs = []\nfor a in [1, 2]:\n    for b in [3, 4]:\n        pairs.append((a, b))\nprint(pairs)"
     answer: "pairs = []\nfor a in [2, 2]:\n    for b in [3, 4]:\n        pairs.append((a, b))\nprint(pairs)"
-    hint: 처음 등장하는 숫자를 1에서 2로 바꾼 뒤 a=1,b=3 → a=1,b=4 → a=2,b=3 → a=2,b=4 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 1에서 2로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 1에서 2로 바꿨습니다. 원본 출력은 '[(1, 3), (1, 4), (2, 3), (2, 4)]'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 안쪽 반복이 전체에서 한 번만 실행된다고 생각함

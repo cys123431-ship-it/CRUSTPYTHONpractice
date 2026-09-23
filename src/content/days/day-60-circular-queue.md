@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\nint main(void) {\n    int buffer[4] = {10,20,30};\n    int head = 2;\n    printf(\"\
       %d\\n\", buffer[(head + 1) % 3]);\n    return 0;\n}"
-    hint: 처음 등장하는 숫자를 3에서 4로 바꾼 뒤 head=2 → 다음 인덱스=0 → 값 10 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 3에서 4로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 3에서 4로 바꿨습니다. 원본 출력은 '10'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 나머지 연산을 빼먹어 배열 경계를 넘음

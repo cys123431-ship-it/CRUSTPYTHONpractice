@@ -79,7 +79,7 @@ exercises:
     answer:
       "graph = {\"A\": [\"B\"], \"B\": [\"C\"], \"C\": [\"A\"]}\nseen = set()\ndef dfs(node):\n    if node in\
       \ seen: return\n    seen.add(node)\n    for nxt in graph[node]: dfs(nxt)\ndfs(\"B\")\nprint(len(seen))"
-    hint: '''dfs("A")''을 ''dfs("B")''로 바꾼 뒤 A 방문 → B 방문 → C 방문 → A 재방문 차단 순으로 따라가세요.'
+    hint: '''dfs("A")''을 ''dfs("B")''로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.'
     explanation: 예시 답안에서는 'dfs("A")'을 'dfs("B")'로 바꿨습니다. 원본 출력은 '3'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함

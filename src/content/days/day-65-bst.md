@@ -109,7 +109,7 @@ exercises:
       if key > node: node = tree[node][1]
 
       print(node == key)"
-    hint: "'key = 10'을 'key = 9'로 바꾼 뒤 root=8 → 오른쪽=10 → 발견 순으로 따라가세요."
+    hint: "'key = 10'을 'key = 9'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요."
     explanation: 예시 답안에서는 'key = 10'을 'key = 9'로 바꿨습니다. 원본 출력은 'True'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 정렬 불변식 없이 아무 트리에도 이분 탐색을 적용함

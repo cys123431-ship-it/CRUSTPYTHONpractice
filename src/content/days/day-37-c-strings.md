@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\n#include <string.h>\nint main(void) {\n    char word[] = \"cat!\";\n    printf(\"\
       %zu\\n\", strlen(word));\n    return 0;\n}"
-    hint: 첫 문자열을 'cat'에서 'cat!'로 바꾼 뒤 c a t \0 → strlen=3 → 출력 순으로 따라가세요.
+    hint: 첫 문자열을 'cat'에서 'cat!'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 첫 문자열을 'cat'에서 'cat!'로 바꿨습니다. 원본 출력은 '3'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 널 종료가 없는 버퍼를 strlen에 넘겨 범위 밖을 읽음

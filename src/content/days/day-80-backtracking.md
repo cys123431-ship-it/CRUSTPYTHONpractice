@@ -84,7 +84,7 @@ exercises:
       "results = []\ndef visit(path, remaining):\n    if not remaining:\n        results.append(tuple(path));\
       \ return\n    for x in remaining:\n        path.append(x)\n        visit(path, [v for v in remaining if v !=\
       \ x])\n        path.pop()\nvisit([], [2, 2])\nprint(results)"
-    hint: 처음 등장하는 숫자를 1에서 2로 바꾼 뒤 [] → [1,2] 기록 → []로 복귀 → [2,1] 기록 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 1에서 2로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 1에서 2로 바꿨습니다. 원본 출력은 '[(1, 2), (2, 1)]'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 되돌리기 pop을 빼먹어 다른 가지의 경로가 섞임

@@ -79,7 +79,7 @@ exercises:
     answer:
       "def maximum(values):\n    if len(values) == 2: return values[0]\n    mid = len(values) // 2\n    return\
       \ max(maximum(values[:mid]), maximum(values[mid:]))\nprint(maximum([3, 9, 2, 7]))"
-    hint: 처음 등장하는 숫자를 1에서 2로 바꾼 뒤 [3,9,2,7] → max(3,9)=9 + max(2,7)=7 → 9 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 1에서 2로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 1에서 2로 바꿨습니다. 원본 출력은 '9'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 빈 입력 처리 정책 없이 길이 0의 배열도 호출함

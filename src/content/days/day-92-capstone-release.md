@@ -101,9 +101,7 @@ exercises:
       assert len(sessions) == 3
 
       print("Study Log Analyzer 완료:", total)'
-    hint:
-      '''assert total == 60''을 ''assert total == 60\nassert len(sessions) == 3''로 바꾼 뒤 C30 + Python20 + Rust10
-      → 60 → 테스트 통과 순으로 따라가세요.'
+    hint: '''assert total == 60''을 ''assert total == 60\nassert len(sessions) == 3''로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.'
     explanation:
       '예시 답안에서는 ''assert total == 60''을 ''assert total == 60\nassert len(sessions) == 3''로 바꿨습니다. 원본 출력은
       ''Study Log Analyzer 완료: 60''입니다. 바뀐 코드의 결과는 실행해 확인하세요.'

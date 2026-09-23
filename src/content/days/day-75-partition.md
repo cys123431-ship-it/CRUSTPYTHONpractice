@@ -86,7 +86,7 @@ exercises:
       "def quick_sort(values):\n    if len(values) < 3: return values\n    pivot = values[0]\n    less = [v\
       \ for v in values[1:] if v < pivot]\n    more = [v for v in values[1:] if v >= pivot]\n    return quick_sort(less)\
       \ + [pivot] + quick_sort(more)\nprint(quick_sort([4, 1, 3, 2, 3]))"
-    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 [4,1,3,2,3] → 피벗4 → 피벗3 → [1,2,3,3,4] 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 2에서 3로 바꿨습니다. 원본 출력은 '[1, 2, 3, 3, 4]'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 피벗과 같은 값을 두 그룹 모두에서 제외해 중복 원소를 잃음

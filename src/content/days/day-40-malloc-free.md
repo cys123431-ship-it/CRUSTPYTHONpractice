@@ -83,7 +83,7 @@ exercises:
       "#include <stdio.h>\n#include <stdlib.h>\nint main(void) {\n    int *value = malloc(sizeof *value);\n\
       \    if (!value) return 2;\n    *value = 42;\n    printf(\"%d\\n\", *value);\n    free(value);\n    return 0;\n\
       }"
-    hint: 처음 등장하는 숫자를 1에서 2로 바꾼 뒤 malloc → NULL 검사 → 저장·출력 → free 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 1에서 2로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 1에서 2로 바꿨습니다. 원본 출력은 '42'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - free 뒤 포인터를 다시 역참조하거나 해제를 빼먹음

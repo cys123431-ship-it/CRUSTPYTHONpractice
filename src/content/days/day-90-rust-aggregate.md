@@ -79,7 +79,7 @@ exercises:
     answer:
       "fn main() {\n    let minutes = [30u32, 21, 10];\n    let total: u32 = minutes.iter().sum();\n    println!(\"\
       {total}\");\n}"
-    hint: 처음 등장하는 숫자를 20에서 21로 바꾼 뒤 30 → 50 → 60 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 20에서 21로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 20에서 21로 바꿨습니다. 원본 출력은 '60'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 배열 길이를 합계와 혼동하거나 release overflow 정책을 가정함

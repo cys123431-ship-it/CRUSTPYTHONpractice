@@ -79,7 +79,7 @@ exercises:
     answer:
       "fn main() {\n    let mut topic = String::from(\"C!\");\n    topic.push_str(\" Rust\");\n    let view:\
       \ &str = &topic;\n    println!(\"{view}\");\n}"
-    hint: 첫 문자열을 'C'에서 'C!'로 바꾼 뒤 topic=C → topic=C Rust → view=C Rust 순으로 따라가세요.
+    hint: 첫 문자열을 'C'에서 'C!'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 첫 문자열을 'C'에서 'C!'로 바꿨습니다. 원본 출력은 'C Rust'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - "&str 참조로 원본의 크기를 바꿀 수 있다고 생각함"

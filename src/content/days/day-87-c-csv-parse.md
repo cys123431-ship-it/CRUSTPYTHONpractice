@@ -84,7 +84,7 @@ exercises:
       "#include <stdio.h>\n#include <stdlib.h>\nint main(void) {\n    char *end = NULL;\n    long minutes =\
       \ strtol(\"30\", &end, 11);\n    if (!end || *end != '\\0' || minutes <= 0) return 1;\n    printf(\"%ld\\n\"\
       , minutes);\n    return 0;\n}"
-    hint: 처음 등장하는 숫자를 10에서 11로 바꾼 뒤 입력 30 → minutes=30 → end는 끝 → 성공 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 10에서 11로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 10에서 11로 바꿨습니다. 원본 출력은 '30'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - atoi로 오류·남은 문자·범위를 구분하지 못함

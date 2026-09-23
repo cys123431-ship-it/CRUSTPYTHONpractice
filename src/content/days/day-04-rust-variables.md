@@ -69,7 +69,7 @@ exercises:
     prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 20에서 21로 바꿔 보세요. 출력도 먼저 예측하세요.
     starter: "fn main() {\n    let mut minutes = 20;\n    minutes += 10;\n    println!(\"{minutes}\");\n}"
     answer: "fn main() {\n    let mut minutes = 21;\n    minutes += 10;\n    println!(\"{minutes}\");\n}"
-    hint: 처음 등장하는 숫자를 20에서 21로 바꾼 뒤 minutes=20 → minutes=30 → 30 출력 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 20에서 21로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 20에서 21로 바꿨습니다. 원본 출력은 '30'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - mut 없이 같은 바인딩을 다시 대입하려고 함

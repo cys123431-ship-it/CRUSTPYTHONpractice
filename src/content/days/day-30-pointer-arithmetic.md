@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\nint main(void) {\n    int values[] = {11, 20, 30};\n    int *p = values;\n    printf(\"\
       %d\\n\", *(p + 1));\n    return 0;\n}"
-    hint: 처음 등장하는 숫자를 10에서 11로 바꾼 뒤 p→10 → p+1→20 → 20 출력 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 10에서 11로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 10에서 11로 바꿨습니다. 원본 출력은 '20'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 배열 끝을 지난 주소를 역참조함

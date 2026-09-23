@@ -75,7 +75,7 @@ exercises:
       "class Session:\n    def __init__(self, minutes):\n        self.minutes = minutes\ns = Session(30)\n\
       print(s.minutes)"
     answer: "class Session:\n    def __init__(self, minutes):\n        self.minutes = minutes\ns = Session(31)\nprint(s.minutes)"
-    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 클래스 정의 → s 생성 → s.minutes=30 → 출력 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원본 출력은 '30'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - self를 빼고 지역 변수만 저장해 객체에 값이 남지 않음

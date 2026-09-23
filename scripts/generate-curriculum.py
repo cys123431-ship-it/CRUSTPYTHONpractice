@@ -65,7 +65,7 @@ def exercise_rows(day: Day, id_: str) -> list[dict]:
         dict(id=f"{base}-guided", title="값을 바꿔 다시 추적하기", kind="modify",
              objective="입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.",
              prompt=f"예시를 직접 타이핑한 뒤 {change} 바꿔 보세요. 출력도 먼저 예측하세요.",
-             starter=day.code, answer=modified, hint=f"{change} 바꾼 뒤 {day.trace} 순으로 따라가세요.",
+             starter=day.code, answer=modified, hint=f"{change} 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.",
              explanation=f"예시 답안에서는 {change} 바꿨습니다. 원본 출력은 {day.output!r}입니다. 바뀐 코드의 결과는 실행해 확인하세요.",
              commonMistakes=common, language=day.anchor, verification="run"),
         dict(id=f"{base}-debug", title="오류 설명하고 고치기", kind="debug",

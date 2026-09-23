@@ -89,7 +89,7 @@ exercises:
       actual = {"count": 3, "total": 60}
 
       print(actual == expected)'
-    hint: 처음 등장하는 숫자를 60에서 61로 바꾼 뒤 두 결과의 키·값 일치 → True 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 60에서 61로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 60에서 61로 바꿨습니다. 원본 출력은 'True'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 객체 동일성 is로 독립된 결과의 값 일치를 검사함

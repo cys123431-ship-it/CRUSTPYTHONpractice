@@ -79,7 +79,7 @@ exercises:
     answer: 'edges = {"A": ["B", "C"], "B": ["C"], "C": []}
 
       print(edges["B"])'
-    hint: '''print(edges["A"])''을 ''print(edges["B"])''로 바꾼 뒤 A→B,C → B→C → A 이웃 B,C 순으로 따라가세요.'
+    hint: '''print(edges["A"])''을 ''print(edges["B"])''로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.'
     explanation:
       예시 답안에서는 'print(edges["A"])'을 'print(edges["B"])'로 바꿨습니다. 원본 출력은 "['B', 'C']"입니다. 바뀐 코드의 결과는 실행해
       확인하세요.

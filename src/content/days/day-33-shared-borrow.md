@@ -79,7 +79,7 @@ exercises:
     answer:
       "fn length(text: &String) -> usize { text.len() }\nfn main() {\n    let topic = String::from(\"Rust!\"\
       );\n    println!(\"{} {topic}\", length(&topic));\n}"
-    hint: 첫 문자열을 'Rust'에서 'Rust!'로 바꾼 뒤 topic 소유 → &topic 빌림 → 길이 4 → topic 여전히 유효 순으로 따라가세요.
+    hint: 첫 문자열을 'Rust'에서 'Rust!'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 첫 문자열을 'Rust'에서 'Rust!'로 바꿨습니다. 원본 출력은 '4 Rust'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 참조를 값 이동과 똑같이 생각해 원본을 쓰지 못한다고 판단함

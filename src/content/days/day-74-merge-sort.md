@@ -91,7 +91,7 @@ exercises:
       \ = merge_sort(values[:mid]), merge_sort(values[mid:])\n    out = []; i = j = 0\n    while i < len(a) and j\
       \ < len(b):\n        if a[i] <= b[j]: out.append(a[i]); i += 1\n        else: out.append(b[j]); j += 1\n   \
       \ return out + a[i:] + b[j:]\nprint(merge_sort([4, 1, 3, 2]))"
-    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 [4,1,3,2] → [1,4]+[2,3] → [1,2,3,4] 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 2에서 3로 바꿨습니다. 원본 출력은 '[1, 2, 3, 4]'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 부분 배열의 정렬이 끝나기 전에 병합하거나 남은 꼬리를 빠뜨림

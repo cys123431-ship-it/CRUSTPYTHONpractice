@@ -79,7 +79,7 @@ exercises:
     answer: 'rows = [("C", 31), ("Rust", 20), ("C", 10)]
 
       print(sum(minutes for language, minutes in rows if language == "C"))'
-    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 C 30 → Rust 제외 → C 10 → 40 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원본 출력은 '40'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 필터를 적용한 결과와 전체 합계를 같은 값으로 비교함

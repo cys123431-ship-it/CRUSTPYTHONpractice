@@ -79,7 +79,7 @@ exercises:
     answer: 'fn show<T: std::fmt::Display>(value: T) { println!("{value}"); }
 
       fn main() { show(31); }'
-    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 T=i32 추론 → Display 확인 → 30 출력 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원본 출력은 '30'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 지원하지 않는 타입을 제약 없이 출력할 수 있다고 생각함

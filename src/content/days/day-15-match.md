@@ -79,7 +79,7 @@ exercises:
     answer:
       "fn main() {\n    let level = 3;\n    let label = match level { 1 => \"입문\", 2 => \"기본\", _ => \"심화\"\
       \ };\n    println!(\"{label}\");\n}"
-    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 level=2 → 2 arm 선택 → 기본 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 2에서 3로 바꿨습니다. 원본 출력은 '기본'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 모든 패턴을 덮지 않아 컴파일이 실패함

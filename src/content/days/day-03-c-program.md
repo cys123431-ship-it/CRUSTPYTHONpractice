@@ -69,7 +69,7 @@ exercises:
     prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 30에서 31로 바꿔 보세요. 출력도 먼저 예측하세요.
     starter: "#include <stdio.h>\nint main(void) {\n    printf(\"study: %d\\n\", 30);\n    return 0;\n}"
     answer: "#include <stdio.h>\nint main(void) {\n    printf(\"study: %d\\n\", 31);\n    return 0;\n}"
-    hint: "처음 등장하는 숫자를 30에서 31로 바꾼 뒤 main 시작 → %d에 30 대입 → study: 30 출력 → 종료 순으로 따라가세요."
+    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: "예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원본 출력은 'study: 30'입니다. 바뀐 코드의 결과는 실행해 확인하세요."
     commonMistakes:
       - 형식 지정자 %d에 정수 인수를 전달하지 않음

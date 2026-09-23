@@ -79,7 +79,7 @@ exercises:
     answer:
       "values = [4, 1, 2]\nfor i in range(1, len(values)):\n    key = values[i]; j = i - 1\n    while j >= 0\
       \ and values[j] > key:\n        values[j + 1] = values[j]; j -= 1\n    values[j + 1] = key\nprint(values)"
-    hint: 처음 등장하는 숫자를 3에서 4로 바꾼 뒤 [3,1,2] → [1,3,2] → [1,2,3] 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 3에서 4로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 3에서 4로 바꿨습니다. 원본 출력은 '[1, 2, 3]'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 비교 방향을 반대로 써 내림차순으로 정렬함

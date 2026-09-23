@@ -79,7 +79,7 @@ exercises:
     answer:
       "coins = [6, 1]\nremaining = 11\nused = []\nfor coin in coins:\n    while remaining >= coin: remaining\
       \ -= coin; used.append(coin)\nprint(used)"
-    hint: 처음 등장하는 숫자를 5에서 6로 바꾼 뒤 11 → 6 → 1 → 0 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 5에서 6로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 5에서 6로 바꿨습니다. 원본 출력은 '[5, 5, 1]'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 모든 동전 체계에서 큰 동전부터 고르면 최적이라고 일반화함

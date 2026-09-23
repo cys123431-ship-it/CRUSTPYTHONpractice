@@ -79,7 +79,7 @@ exercises:
     answer:
       "values = [3, 4, 6, 8, 10]\ntarget = 8\nlo, hi = 0, len(values)\nwhile lo < hi:\n    mid = (lo + hi) //\
       \ 2\n    if values[mid] < target: lo = mid + 1\n    else: hi = mid\nprint(lo)"
-    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 [0,5) → [3,5) → [3,4) → 위치 3 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 2에서 3로 바꿨습니다. 원본 출력은 '3'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 정렬되지 않은 배열에 이진 탐색을 적용함

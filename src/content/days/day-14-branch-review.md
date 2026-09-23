@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\nint main(void) {\n    int minutes = 31;\n    if (minutes >= 30) puts(\"달성\");\n \
       \   else puts(\"미달\");\n    return 0;\n}"
-    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 minutes=30 → 경계 포함 → 달성 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원본 출력은 '달성'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - ">로 바꿔 30분을 미달로 잘못 판정함"

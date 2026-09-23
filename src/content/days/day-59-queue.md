@@ -99,7 +99,7 @@ exercises:
       waiting.append("C")
 
       print(waiting.popleft())'
-    hint: 첫 문자열을 'A'에서 'A!'로 바꾼 뒤 [A,B] → [A,B,C] → A 처리 순으로 따라가세요.
+    hint: 첫 문자열을 'A'에서 'A!'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 첫 문자열을 'A'에서 'A!'로 바꿨습니다. 원본 출력은 'A'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - pop()으로 마지막 접수 C를 먼저 처리함

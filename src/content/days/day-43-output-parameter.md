@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\nint double_into(int input, int *out) {\n    if (!out) return 0;\n    *out = input\
       \ * 3; return 1;\n}\nint main(void) { int n=0; if(double_into(6,&n)) printf(\"%d\\n\",n); return 0; }"
-    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 n=0 → &n 전달 → *out=12 → n 출력 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 2에서 3로 바꿨습니다. 원본 출력은 '12'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - out 자체에 대입하고 호출자 변수도 바뀌었다고 생각함

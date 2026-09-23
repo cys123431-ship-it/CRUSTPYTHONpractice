@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\nint main(void) {\n    int total = 6;\n    double average = (double)total / 2;\n \
       \   printf(\"%.1f\\n\", average);\n    return 0;\n}"
-    hint: 처음 등장하는 숫자를 5에서 6로 바꾼 뒤 int 5 → double 5.0 → 5.0/2=2.5 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 5에서 6로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 5에서 6로 바꿨습니다. 원본 출력은 '2.5'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 정수끼리 먼저 나누고 결과만 double에 저장함

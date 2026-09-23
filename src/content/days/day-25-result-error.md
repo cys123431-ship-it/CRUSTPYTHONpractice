@@ -79,7 +79,7 @@ exercises:
     answer:
       "fn parse_minutes(text: &str) -> Result<u32, std::num::ParseIntError> {\n    text.parse::<u32>()\n}\n\
       fn main() {\n    match parse_minutes(\"30!\") { Ok(n) => println!(\"{n}\"), Err(_) => println!(\"오류\") }\n}"
-    hint: 첫 문자열을 '30'에서 '30!'로 바꾼 뒤 문자열 30 → Ok(30) → 30 출력 순으로 따라가세요.
+    hint: 첫 문자열을 '30'에서 '30!'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 첫 문자열을 '30'에서 '30!'로 바꿨습니다. 원본 출력은 '30'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - unwrap으로 잘못된 입력에서 프로그램을 종료시킴

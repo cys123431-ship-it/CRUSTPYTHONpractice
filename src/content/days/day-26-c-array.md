@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\nint main(void) {\n    int minutes[4] = {10, 20, 30};\n    printf(\"%d\\n\", minutes[1]);\n\
       \    return 0;\n}"
-    hint: 처음 등장하는 숫자를 3에서 4로 바꾼 뒤 인덱스 0=10 → 인덱스 1=20 → 출력 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 3에서 4로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 3에서 4로 바꿨습니다. 원본 출력은 '20'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 길이 3의 마지막 인덱스를 3으로 착각해 범위 밖을 읽음

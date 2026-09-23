@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\n#include <limits.h>\nint main(void) {\n    printf(\"%d\\n\", INT_MAX > 1);\n    return\
       \ 0;\n}"
-    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 INT_MAX는 양수 → 비교 결과 참 → 1 출력 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 0에서 1로 바꿨습니다. 원본 출력은 '1'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - int 최대치에 1을 더해도 안전하게 감싼다고 단정함

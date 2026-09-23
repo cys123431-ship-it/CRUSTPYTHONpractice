@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\nint add(int a, int b) { return a + b; }\nint main(void) {\n    printf(\"%d\\n\",\
       \ add(3, 3));\n    return 0;\n}"
-    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 인수 2,3 전달 → a+b=5 → 호출 지점에 5 반환 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 2에서 3로 바꿨습니다. 원본 출력은 '5'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 함수 안의 a를 main의 변수와 같은 저장공간이라고 생각함

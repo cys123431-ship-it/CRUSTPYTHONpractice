@@ -79,7 +79,7 @@ exercises:
     answer:
       "def total(values):\n    result = 1\n    for value in values:\n        result += value\n    return result\n\
       print(total([10, 20]))"
-    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 입력 [10,20] → result=10 → result=30 → 출력 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 0에서 1로 바꿨습니다. 원본 출력은 '30'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 반복 안에서 result를 덮어써 마지막 값만 반환함

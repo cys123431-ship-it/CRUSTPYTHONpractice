@@ -69,9 +69,7 @@ exercises:
     prompt: 예시를 직접 타이핑한 뒤 'assert total([10, 20]) == 30'을 'assert total([11, 20]) == 31'로 바꿔 보세요. 출력도 먼저 예측하세요.
     starter: "def total(values):\n    return sum(values)\nassert total([10, 20]) == 30\nprint(\"검증 완료\")"
     answer: "def total(values):\n    return sum(values)\nassert total([11, 20]) == 31\nprint(\"검증 완료\")"
-    hint:
-      "'assert total([10, 20]) == 30'을 'assert total([11, 20]) == 31'로 바꾼 뒤 [10,20] → total=30 → 조건 참 → 출력
-      순으로 따라가세요."
+    hint: "'assert total([10, 20]) == 30'을 'assert total([11, 20]) == 31'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요."
     explanation:
       예시 답안에서는 'assert total([10, 20]) == 30'을 'assert total([11, 20]) == 31'로 바꿨습니다. 원본 출력은 '검증 완료'입니다.
       바뀐 코드의 결과는 실행해 확인하세요.

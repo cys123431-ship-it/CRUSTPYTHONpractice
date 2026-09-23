@@ -69,7 +69,7 @@ exercises:
     prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 2에서 3로 바꿔 보세요. 출력도 먼저 예측하세요.
     starter: "fn doubled(n: i32) -> i32 {\n    n * 2\n}\nfn main() { println!(\"{}\", doubled(7)); }"
     answer: "fn doubled(n: i32) -> i32 {\n    n * 3\n}\nfn main() { println!(\"{}\", doubled(7)); }"
-    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 n=7 → 7*2=14 → 반환 14 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 2에서 3로 바꿨습니다. 원본 출력은 '14'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 마지막 표현식에 세미콜론을 붙여 반환형이 ()가 됨

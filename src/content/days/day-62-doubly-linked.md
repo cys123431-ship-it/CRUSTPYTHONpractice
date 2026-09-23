@@ -84,7 +84,7 @@ exercises:
       'nodes = {"A": {"next": "B", "prev": None}, "B": {"next": None, "prev": "A"}}
 
       print(nodes[nodes["A"]["next"]]["next"])'
-    hint: '''["B"]["prev"]''을 ''["A"]["next"]''로 바꾼 뒤 B.prev=A → A.next=B → 일치 순으로 따라가세요.'
+    hint: '''["B"]["prev"]''을 ''["A"]["next"]''로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.'
     explanation: 예시 답안에서는 '["B"]["prev"]'을 '["A"]["next"]'로 바꿨습니다. 원본 출력은 'B'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 삽입·삭제 때 next만 바꾸고 prev를 갱신하지 않음

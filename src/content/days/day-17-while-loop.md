@@ -79,7 +79,7 @@ exercises:
     answer:
       "#include <stdio.h>\nint main(void) {\n    int n = 4;\n    while (n > 0) { printf(\"%d \", n); n--; }\n\
       \    puts(\"\");\n    return 0;\n}"
-    hint: 처음 등장하는 숫자를 3에서 4로 바꾼 뒤 n=3 → 2 → 1 → 0 종료 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 3에서 4로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 3에서 4로 바꿨습니다. 원본 출력은 '3 2 1 '입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - n을 줄이지 않아 무한 루프가 됨

@@ -69,7 +69,7 @@ exercises:
     prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 45에서 46로 바꿔 보세요. 출력도 먼저 예측하세요.
     starter: "minutes = 45\nif minutes >= 30:\n    print(\"목표 달성\")\nelse:\n    print(\"조금 더\")"
     answer: "minutes = 46\nif minutes >= 30:\n    print(\"목표 달성\")\nelse:\n    print(\"조금 더\")"
-    hint: 처음 등장하는 숫자를 45에서 46로 바꾼 뒤 minutes=45 → 조건 참 → 목표 달성 순으로 따라가세요.
+    hint: 처음 등장하는 숫자를 45에서 46로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 처음 등장하는 숫자를 45에서 46로 바꿨습니다. 원본 출력은 '목표 달성'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - 들여쓰기를 지워 else 블록도 실행될 거라 생각함

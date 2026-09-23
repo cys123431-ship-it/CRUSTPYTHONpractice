@@ -79,7 +79,7 @@ exercises:
     answer:
       "fn main() {\n    let original = String::from(\"study!\");\n    let copy = original.clone();\n    println!(\"\
       {original} {copy}\");\n}"
-    hint: 첫 문자열을 'study'에서 'study!'로 바꾼 뒤 original 소유 → clone 별도 소유 → 둘 다 출력 순으로 따라가세요.
+    hint: 첫 문자열을 'study'에서 'study!'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
     explanation: 예시 답안에서는 첫 문자열을 'study'에서 'study!'로 바꿨습니다. 원본 출력은 'study study'입니다. 바뀐 코드의 결과는 실행해 확인하세요.
     commonMistakes:
       - String을 이동한 뒤 이전 변수를 다시 사용함
