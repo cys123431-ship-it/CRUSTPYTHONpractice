@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-e
+contentVersion: 2026.10-f
 id: day-85-python-csv-parse
 courseId: crp-92
 phaseId: phase-08
@@ -49,10 +49,10 @@ exercises:
 
       print(minutes)'
     answer: "30"
-    hint: DictReader는 헤더 이름으로 필드를 읽고 int는 minutes를 정수로 변환하며 잘못된 값이면 실패합니다. 설명을 떠올리고 `CSV 문자열` 단계부터 순서대로 적어 보세요.
+    hint: CSV 문자열에서 시작해 int=30까지 순서대로 적어 보세요. DictReader는 헤더 이름으로 필드를 읽고 int는 minutes를 정수로 변환하며 잘못된 값이면 실패합니다.
     explanation:
-      CSV 문자열  →  row['minutes']='30'  →  int=30 순서로 실행됩니다. `int(row["minutes"])` 부분이 `int=30` 단계를 확정해
-      최종 출력 '30'가 됩니다. 이 흐름을 떠올리면 `CSV 레코드 필드별 검증` 동작이 왜 필요한지 알 수 있습니다.
+      1. 헤더로 열 이름을 인식합니다. 2. 첫 데이터 행을 사전으로 읽습니다. 3. minutes 문자열 30을 정수 30으로 바꿉니다. `CSV 문자열 → minutes 문자열
+      30 → int 30` 흐름으로 실제 출력 `30`이 됩니다. 핵심 `int(row["minutes"])`는 문자열을 합산 가능한 정수로 바꾸는 자리에 쓰입니다.
     commonMistakes:
       - 검증 없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -61,7 +61,7 @@ exercises:
   - id: ex-day-85-python-csv-parse-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: "'Python CSV 파싱과 검증' 개념의 핵심 표현을 스스로 적는다."
+    objective: Python CSV 파싱과 검증의 핵심 표현을 스스로 적는다.
     prompt: '빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: int(row["minutes"])'
     starter: 'import csv, io
 
@@ -81,11 +81,11 @@ exercises:
       minutes = int(row["minutes"])
 
       print(minutes)'
-    hint: 힌트 문장을 완전하게 읽으면 `헤더로 열 이름을 인식합니다` 단계에 필요한 표현이 `int(row["minutes"])`입니다.
+    hint: 필요한 표현은 CSV 레코드 필드별 검증 동작을 잇는 int(row["minutes"])입니다.
     explanation:
-      빈칸에 들어갈 표현은 'int(row["minutes"])'입니다. `minutes = int(row["minutes"])` 줄을 완성해야 `CSV 레코드 필드별 검증` 동작이
-      이어져 실행 결과 '30'가 됩니다. 힌트의 첫 단계 `헤더로 열 이름을 인식합니다`이 바로 이 줄입니다. 이어서 첫 데이터 행을 사전으로 읽습니다 minutes 문자열 30을 정수 30으로 바꿉니다
-      순서로 진행됩니다.
+      빈칸에 들어갈 표현은 'int(row["minutes"])'입니다. 이 표현이 없으면 실행 중 오류로 멈춥니다. 1. 헤더로 열 이름을 인식합니다. 2. 첫 데이터 행을 사전으로
+      읽습니다. 3. minutes 문자열 30을 정수 30으로 바꿉니다. `CSV 문자열 → minutes 문자열 30 → int 30` 흐름으로 실제 출력 `30`이 됩니다. 핵심 `int(row["minutes"])`는
+      문자열을 합산 가능한 정수로 바꾸는 자리에 쓰입니다.
     commonMistakes:
       - 검증 없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -95,7 +95,7 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: '변수,30,pass' → '변수,31,pass'. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
+    prompt: 예시를 직접 타이핑한 뒤 '변수,30,pass' → '변수,31,pass' 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
     starter: 'import csv, io
 
       source = io.StringIO("date,language,topic,minutes,result\n2026-10-01,Python,변수,30,pass\n")
@@ -114,12 +114,8 @@ exercises:
       minutes = int(row["minutes"])
 
       print(minutes)'
-    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: '변수,30,pass' → '변수,31,pass'."
-    explanation:
-      바꾼 뒤 출력은 '31'입니다. 원본 출력 '30'에서 달라졌습니다. 바뀐 줄은 `source = io.StringIO("date,language,topic,minutes,result\n2026-10-01,Python,변수,30,pass\n")`에서
-      `source = io.StringIO("date,language,topic,minutes,result\n2026-10-01,Python,변수,31,pass\n")`로 바뀌었습니다. 바뀐 프로그램은
-      `CSV 문자열` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져 최종 `31`가 됩니다. 원본 추적 `CSV 문자열  →  row['minutes']='30'  →  int=30`와
-      바뀐 줄 이후를 순서대로 비교하면 처음 달라지는 곳이 보입니다.
+    hint: "'변수,30,pass' → '변수,31,pass' 바꾼 뒤 실행 결과를 먼저 적어 보세요. 원본 출력 '30'와 비교해 달라지는 첫 중간 값을 찾으면 됩니다."
+    explanation: 바꾼 뒤 출력은 '31'입니다. 원본은 `30`, 수정본은 `31`이다. 첫 변경 줄의 입력 행 분 30에서 31로 바꾸면, 같은 변환을 거쳐 31이 출력된다.
     commonMistakes:
       - 검증 없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -138,7 +134,7 @@ exercises:
 
       minutes = row["minutes"]
 
-      print(minutes)'
+      print(minutes + 5)'
     answer: 'import csv, io
 
       source = io.StringIO("date,language,topic,minutes,result\n2026-10-01,Python,변수,30,pass\n")
@@ -147,14 +143,15 @@ exercises:
 
       minutes = int(row["minutes"])
 
-      print(minutes)'
+      print(minutes + 5)'
     hint:
-      DictReader는 헤더 이름으로 필드를 읽고 int는 minutes를 정수로 변환하며 잘못된 값이면 실패합니다. 설명과 어긋나는 줄을 찾으세요. `검증 없이 음수·누락·알 수 없는 언어를
-      정상 행으로 취급함` 상황이 단서가 됩니다.
+      검증 없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함 상황에서 어긋나는 줄을 DictReader는 헤더 이름으로 필드를 읽고 int는 minutes를 정수로 변환하며 잘못된 값이면
+      실패합니다. 설명과 대조해 보세요.
     explanation:
-      틀린 줄은 `minutes = row["minutes"]`입니다. 여기서는 `row["minutes"]`을 써서 `int(row["minutes"])` 동작이 깨집니다. 이대로
-      실행하면 `검증 없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함` 문제가 생겨 원본 추적 `CSV 문자열  →  row['minutes']='30'  →  int=30`대로 '30'가 나오지
-      않습니다. 고친 줄 `minutes = int(row["minutes"])`에서는 `int(row["minutes"])`가 `CSV 레코드 필드별 검증` 동작을 지켜 '30'까지 도달합니다.
+      틀린 줄은 `minutes = row["minutes"]`와 `print(minutes + 5)`입니다. 변환 없이 문자열에 5를 더하려 하므로 TypeError라는 런타임
+      오류가 나고 프로그램이 멈춥니다. 오류 분류는 런타임 오류입니다. 흐름이 깨지는 첫 순간은 문자열과 정수의 덧셈입니다. 고친 줄 `minutes = int(row["minutes"])`와 `print(minutes
+      + 5)`에서는 30+5를 계산해 `35`를 출력합니다. `int()`는 숫자 형식 변환만 할 뿐 음수·누락·언어 검증을 대신하지 않으므로, 제목의 검증을 살리려면 누락 확인·허용 집합·0 이상
+      검사를 실제 코드로 더해야 합니다. 고친 코드는 읽기→정수 변환→35 계산의 순서로 `35`를 출력합니다. 이날 원본 예제의 `30` 출력과 구별하세요.
     commonMistakes:
       - 검증 없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -164,7 +161,7 @@ exercises:
     title: 예시를 가리고 다시 구현하기
     kind: independent
     objective: 설명 없이 같은 개념을 작은 프로그램으로 재현한다.
-    prompt: 예시를 가리고 'Python CSV 파싱과 검증' 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
+    prompt: 예시를 가리고 Python CSV 파싱과 검증 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
     starter: "# Python CSV 파싱과 검증: 직접 구현"
     answer: 'import csv, io
 
@@ -175,13 +172,10 @@ exercises:
       minutes = int(row["minutes"])
 
       print(minutes)'
-    hint:
-      DictReader는 헤더 이름으로 필드를 읽고 int는 minutes를 정수로 변환하며 잘못된 값이면 실패합니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은
-      경계를 함께 적으세요.
+    hint: 키 자체가 빠지면 별도 오류입니다. 오류 메시지에 행과 필드를 적으세요. 예상 출력과 경계 조건도 함께 적어 보세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. `int(row["minutes"])` 부분이 `CSV 레코드 필드별 검증` 동작을 지켜 실행 결과 '30'가 됩니다. 같은 개념을 다른
-      입력으로 바꿔도 `int(row["minutes"])`부터 `int=30`까지 추적할 수 있으면 정답입니다. `검증 없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함` 상황과 빈 입력 같은
-      경계도 함께 설명해 보세요.
+      입력·처리·출력·경계 조건을 스스로 설계하세요. 키 자체가 빠지면 별도 오류입니다. 오류 메시지에 행과 필드를 적으세요. 같은 CSV 레코드 필드별 검증 동작을 구현하고 실행
+      결과 '30'와 대조할 수 있으면, 예시 답안과 달라도 정답입니다.
     commonMistakes:
       - 검증 없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -196,8 +190,8 @@ quiz:
       - 아무것도 출력하지 않는다
     answerIndex: 1
     explanation:
-      CSV 문자열  →  row['minutes']='30'  →  int=30 순서로 실행되어 출력은 '30'입니다. `int(row["minutes"])` 부분이 마지막 단계를
-      확정하므로 다른 선택지는 이 추적과 맞지 않습니다.
+      먼저 헤더로 열 이름을 인식합니다. 이어서 첫 행을 사전으로 읽고 minutes 문자열 30을 정수 30으로 바꿔 출력하므로 `30`이 됩니다. `실행 전에 반드시 오류가 난다`는
+      틀린 선택지인데 읽기와 변환이 모두 정상이기 때문입니다. `아무것도 출력하지 않는다`도 틀린 선택지인데 print가 실제로 호출되기 때문입니다. 다른 선택지는 이 추적과 맞지 않습니다.
   - id: quiz-day-85-python-csv-parse-model
     question: "'Python CSV 파싱과 검증' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -206,8 +200,8 @@ quiz:
       - DictReader는 헤더 이름으로 필드를 읽고 int는 minutes를 정수로 변환하며 잘못된 값이면 실패합니다.
     answerIndex: 2
     explanation:
-      DictReader는 헤더 이름으로 필드를 읽고 int는 minutes를 정수로 변환하며 잘못된 값이면 실패합니다. 이 설명이 맞는 이유는 `CSV 레코드 필드별 검증` 동작을
-      지키는 조건과 같기 때문입니다. `검증 없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
+      DictReader는 헤더 이름으로 필드를 읽는다는 뜻이고, int는 minutes를 정수로 변환하며 잘못된 값이면 실패한다는 뜻은 변환과 검증이 분리된다는 뜻입니다. `검증
+      없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함`은 반대 사례인데, `int()`는 형식 변환만 하므로 별도 검사가 필요하기 때문입니다.
   - id: quiz-day-85-python-csv-parse-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -216,8 +210,8 @@ quiz:
       - 변경된 입력을 다시 추적하여 결과를 확인함
     answerIndex: 0
     explanation:
-      검증 없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함. 이 실수가 나오면 원본 추적 `CSV 문자열 → row['minutes']='30' → int=30`대로 '30'가
-      나오지 않으므로 먼저 확인해야 합니다.
+      먼저 확인할 실수는 `검증 없이 음수·누락·알 수 없는 언어를 정상 행으로 취급함`입니다. 잘못된 코드는 문자열 덧셈에서 TypeError로 멈춥니다. 변환 뒤 별도 검사를
+      확인하세요.
   - id: quiz-day-85-python-csv-parse-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -225,7 +219,9 @@ quiz:
       - CSV 레코드 필드별 검증라는 동작과 경계 조건
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 1
-    explanation: 문법은 달라도 `CSV 레코드 필드별 검증` 목적과 입력·출력은 유지합니다. 실행 결과 '30'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
+    explanation:
+      세 언어로 옮길 때 보존해야 하는 것은 `CSV 레코드 필드별 검증`이라는 의미와 입력·출력 계약입니다. C의 필드 검사와 Rust의 파싱 검증으로 같은 동작을 구현하고, 실행
+      결과 `30`으로 대조하면 옮김이 맞는지 확인할 수 있습니다.
 playgroundSource: 'import csv, io
 
   source = io.StringIO("date,language,topic,minutes,result\n2026-10-01,Python,변수,30,pass\n")
@@ -261,6 +257,10 @@ CSV 문자열  →  row['minutes']='30'  →  int=30
 
 키 `"minutes"` 자체가 빠졌다면 `KeyError`이고, 빈 값이나 음수 값은 따로 검증해야 합니다. CSV를 읽는 동작과 '유효한 학습 기록인가'를 판단하는 동작을 나눠 보세요. 오류 메시지에는 어떤 행의 어느 필드인지 알려 주면 사용자가 파일을 고칠 수 있습니다.
 
+`csv.DictReader`는 헤더 이름을 키로 각 행을 읽습니다. `row["minutes"]`가 문자열 30이면 `int(...)`를 거쳐 정수 30이 되고 합계에 쓸 수 있습니다. 숫자가 아닌 값은 `ValueError`가 납니다. `int()`는 숫자 형식 변환만 할 뿐 음수, 누락 필드, 허용 언어를 모두 검증하지는 않습니다.
+
+키 자체가 빠졌다면 별도 오류이고, 빈 값이나 음수 값은 따로 검증해야 합니다. CSV를 읽는 동작과 유효한 학습 기록인가를 판단하는 동작을 나누세요. 오류 메시지에는 어떤 행의 어느 필드인지 알려 주면 사용자가 파일을 고칠 수 있습니다.
+
 ## 문법을 예제로 보기
 
 아래 Python 코드는 Day 85 "`Python CSV 파싱과 검증`"의 독립 예제입니다. 전체 5줄 가운데 핵심 부분은 `int(row["minutes"])`이며, 실행 결과는 `30`입니다.
@@ -283,7 +283,7 @@ print(minutes)
 
 ## 핵심 줄 따라 읽기
 
-예제의 핵심 표현은 `int(row["minutes"])`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄을 찾으세요.
+예제의 핵심 표현은 `int(row["minutes"])`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄 번호를 말하고, 그 줄이 읽는 값과 바꾸는 값을 적어 보세요.
 
 ```python
  1 | import csv, io
@@ -315,7 +315,7 @@ print(minutes)
 
 ## 결과 예측과 작은 변경
 
-원본 실행 결과는 `30`입니다. 아래 코드에서 원본과 다른 줄을 먼저 찾으세요.
+원본 실행 결과는 `30`입니다. 아래 코드에서 원본과 달라지는 첫 줄을 표시하고, 그 줄의 변경 전후 값을 적어 보세요.
 
 ```python
 import csv, io
@@ -333,7 +333,7 @@ print(minutes)
 31
 ```
 
-원본 출력은 `30`이고, 바뀐 코드의 실행 결과는 `31`입니다. 바뀐 줄은 `source = io.StringIO("date,language,topic,minutes,result\n2026-10-01,Python,변수,30,pass\n")`에서 `source = io.StringIO("date,language,topic,minutes,result\n2026-10-01,Python,변수,31,pass\n")`로 바뀌었습니다. 바뀐 프로그램은 `CSV 문자열` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `31`가 됩니다. 원본 추적 `CSV 문자열  →  row['minutes']='30'  →  int=30`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
+원본은 `30`, 수정본은 `31`이다. 첫 변경 줄의 입력 행 분 30에서 31로 바꾸면, 같은 변환을 거쳐 31이 출력된다.
 
 ## 자주 틀리는 지점
 

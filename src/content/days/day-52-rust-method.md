@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-e
+contentVersion: 2026.10-f
 id: day-52-rust-method
 courseId: crp-92
 phaseId: phase-05
@@ -45,10 +45,10 @@ exercises:
 
       fn main() { let s=Session{minutes:30}; println!("{}",s.doubled()); }'
     answer: "60"
-    hint: impl의 &self는 소유권을 가져가지 않고 구조체 값을 읽는 메서드 수신자입니다. 설명을 떠올리고 `s.minutes=30` 단계부터 순서대로 적어 보세요.
+    hint: s.minutes=30에서 시작해 60 반환까지 순서대로 적어 보세요. impl의 &self는 소유권을 가져가지 않고 구조체 값을 읽는 메서드 수신자입니다.
     explanation:
-      s.minutes=30  →  &s 빌림  →  60 반환 순서로 실행됩니다. `&self` 부분이 `60 반환` 단계를 확정해 최종 출력 '60'가 됩니다. 이 흐름을 떠올리면
-      `데이터에 연결된 읽기 메서드` 동작이 왜 필요한지 알 수 있습니다.
+      1. minutes=30인 Session을 만듭니다. 2. doubled가 s를 빌려 30*2를 계산합니다. 3. 60을 출력합니다. `s.minutes=30 → &s 빌림
+      → 60 반환` 흐름으로 실제 출력 `60`이 됩니다. 핵심 `&self`는 소유권 없이 읽기를 빌리는 자리에 쓰입니다.
     commonMistakes:
       - 읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -57,7 +57,7 @@ exercises:
   - id: ex-day-52-rust-method-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: "'Rust 구조체와 메서드' 개념의 핵심 표현을 스스로 적는다."
+    objective: Rust 구조체와 메서드의 핵심 표현을 스스로 적는다.
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: &self"
     starter: 'struct Session { minutes: u32 }
 
@@ -69,11 +69,11 @@ exercises:
       impl Session { fn doubled(&self) -> u32 { self.minutes * 2 } }
 
       fn main() { let s=Session{minutes:30}; println!("{}",s.doubled()); }'
-    hint: 힌트 문장을 완전하게 읽으면 `minutes=30인 Session을 만듭니다` 단계에 필요한 표현이 `&self`입니다.
+    hint: 필요한 표현은 데이터에 연결된 읽기 메서드 동작을 잇는 &self입니다.
     explanation:
-      빈칸에 들어갈 표현은 '&self'입니다. `impl Session { fn doubled(&self) -> u32 { self.minutes * 2 } }` 줄을 완성해야
-      `데이터에 연결된 읽기 메서드` 동작이 이어져 실행 결과 '60'가 됩니다. 힌트의 첫 단계 `minutes=30인 Session을 만듭니다`이 바로 이 줄입니다. 이어서 doubled가 s를
-      빌려 30*2를 계산합니다 60을 출력합니다 순서로 진행됩니다.
+      빈칸에 들어갈 표현은 '&self'입니다. 이 표현이 없어도 이번 화면 출력은 같을 수 있으나 숨은 계약을 어깁니다. 1. minutes=30인 Session을 만듭니다. 2.
+      doubled가 s를 빌려 30*2를 계산합니다. 3. 60을 출력합니다. `s.minutes=30 → &s 빌림 → 60 반환` 흐름으로 실제 출력 `60`이 됩니다. 핵심 `&self`는 소유권
+      없이 읽기를 빌리는 자리에 쓰입니다.
     commonMistakes:
       - 읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -83,7 +83,7 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 처음 등장하는 숫자를 2에서 3로. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
+    prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 2에서 3로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
     starter: 'struct Session { minutes: u32 }
 
       impl Session { fn doubled(&self) -> u32 { self.minutes * 2 } }
@@ -94,12 +94,10 @@ exercises:
       impl Session { fn doubled(&self) -> u32 { self.minutes * 3 } }
 
       fn main() { let s=Session{minutes:30}; println!("{}",s.doubled()); }'
-    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 처음 등장하는 숫자를 2에서 3로."
+    hint: 처음 등장하는 숫자를 2에서 3로 바꾼 뒤 실행 결과를 먼저 적어 보세요. 원본 출력 '60'와 비교해 달라지는 첫 중간 값을 찾으면 됩니다.
     explanation:
-      바꾼 뒤 출력은 '90'입니다. 원본 출력 '60'에서 달라졌습니다. 바뀐 줄은 `impl Session { fn doubled(&self) -> u32 { self.minutes
-      * 2 } }`에서 `impl Session { fn doubled(&self) -> u32 { self.minutes * 3 } }`로 바뀌었습니다. 바뀐 프로그램은 `s.minutes=30`
-      단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져 최종 `90`가 됩니다. 원본 추적 `s.minutes=30  →  &s 빌림  →  60 반환`와 바뀐 줄
-      이후를 순서대로 비교하면 처음 달라지는 곳이 보입니다.
+      바꾼 뒤 출력은 '90'입니다. 원본은 `60`, 수정본은 `90`이다. 첫 변경 줄의 `self.minutes * 2`에서 `self.minutes * 3`으로 곱수를 바꾸면,
+      같은 30에 대해 90이 계산되어 반환된다.
     commonMistakes:
       - 읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -120,14 +118,11 @@ exercises:
       impl Session { fn doubled(&self) -> u32 { self.minutes * 2 } }
 
       fn main() { let s=Session{minutes:30}; println!("{}",s.doubled()); }'
-    hint:
-      impl의 &self는 소유권을 가져가지 않고 구조체 값을 읽는 메서드 수신자입니다. 설명과 어긋나는 줄을 찾으세요. `읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함` 상황이
-      단서가 됩니다.
+    hint: 읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함 상황에서 어긋나는 줄을 impl의 &self는 소유권을 가져가지 않고 구조체 값을 읽는 메서드 수신자입니다. 설명과 대조해 보세요.
     explanation:
-      틀린 줄은 `impl Session { fn doubled(self) -> u32 { self.minutes * 2 } }`입니다. 여기서는 `self`을 써서 `&self`
-      동작이 깨집니다. 이대로 실행하면 `읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함` 문제가 생겨 원본 추적 `s.minutes=30  →  &s 빌림  →  60 반환`대로 '60'가
-      나오지 않습니다. 고친 줄 `impl Session { fn doubled(&self) -> u32 { self.minutes * 2 } }`에서는 `&self`가 `데이터에 연결된 읽기 메서드`
-      동작을 지켜 '60'까지 도달합니다.
+      틀린 줄은 `impl Session { fn doubled(self) -> u32 { self.minutes * 2 } }`입니다. 읽기 전용 호출에 소유권 이동을 쓰므로 이번
+      한 번 호출에서는 화면 출력이 같습니다. 오류 분류는 같은 출력이지만 숨은 계약 위반입니다. 호출 뒤에 `s`를 다시 쓰면 이동된 소유권 때문에 컴파일이 막힙니다. 고친 줄의 `&self`에서는
+      `데이터에 연결된 읽기 메서드` 동작이 지켜집니다. 정상 코드는 값 생성→공유 읽기 호출→60 반환의 순서로 `60`을 출력합니다.
     commonMistakes:
       - 읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -137,17 +132,19 @@ exercises:
     title: 예시를 가리고 다시 구현하기
     kind: independent
     objective: 설명 없이 같은 개념을 작은 프로그램으로 재현한다.
-    prompt: 예시를 가리고 'Rust 구조체와 메서드' 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
+    prompt: 예시를 가리고 Rust 구조체와 메서드 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
     starter: "// Rust 구조체와 메서드: 직접 구현 (Python에서는 이 안내 줄을 # 주석으로 바꾸세요)"
     answer: 'struct Session { minutes: u32 }
 
       impl Session { fn doubled(&self) -> u32 { self.minutes * 2 } }
 
       fn main() { let s=Session{minutes:30}; println!("{}",s.doubled()); }'
-    hint: impl의 &self는 소유권을 가져가지 않고 구조체 값을 읽는 메서드 수신자입니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
+    hint:
+      "`self`, `&self`, `&mut self`를 호출 전후 소유권 그림에 표시하세요. 상태를 바꾸려면 `&mut self`와 `mut` 소유자가 필요합니다. 예상 출력과 경계 조건도
+      함께 적어 보세요."
     explanation:
-      한 가지 예시 해법은 위 코드입니다. `&self` 부분이 `데이터에 연결된 읽기 메서드` 동작을 지켜 실행 결과 '60'가 됩니다. 같은 개념을 다른 입력으로 바꿔도 `&self`부터
-      `60 반환`까지 추적할 수 있으면 정답입니다. `읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함` 상황과 빈 입력 같은 경계도 함께 설명해 보세요.
+      입력·처리·출력·경계 조건을 스스로 설계하세요. `self`, `&self`, `&mut self`를 호출 전후 소유권 그림에 표시하세요. 상태를 바꾸려면 `&mut self`와
+      `mut` 소유자가 필요합니다. 같은 데이터에 연결된 읽기 메서드 동작을 구현하고 실행 결과 '60'와 대조할 수 있으면, 예시 답안과 달라도 정답입니다.
     commonMistakes:
       - 읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -162,8 +159,9 @@ quiz:
       - 아무것도 출력하지 않는다
     answerIndex: 1
     explanation:
-      s.minutes=30  →  &s 빌림  →  60 반환 순서로 실행되어 출력은 '60'입니다. `&self` 부분이 마지막 단계를 확정하므로 다른 선택지는 이 추적과 맞지
-      않습니다.
+      먼저 minutes=30인 Session이 만들어집니다. 이어서 doubled가 s를 빌려 30*2를 계산해 60을 반환하고, println!이 표시하므로 출력 `60`이 됩니다.
+      `실행 전에 반드시 오류가 난다`는 틀린 선택지인데 수신자와 계산이 모두 정상이기 때문입니다. `아무것도 출력하지 않는다`도 틀린 선택지인데 println!이 실제로 호출되기 때문입니다. 다른
+      선택지는 이 추적과 맞지 않습니다.
   - id: quiz-day-52-rust-method-model
     question: "'Rust 구조체와 메서드' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -172,8 +170,8 @@ quiz:
       - impl의 &self는 소유권을 가져가지 않고 구조체 값을 읽는 메서드 수신자입니다.
     answerIndex: 2
     explanation:
-      impl의 &self는 소유권을 가져가지 않고 구조체 값을 읽는 메서드 수신자입니다. 이 설명이 맞는 이유는 `데이터에 연결된 읽기 메서드` 동작을 지키는 조건과 같기 때문입니다.
-      `읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
+      impl의 `&self`는 소유권을 가져가지 않고 구조체 값을 읽는 메서드 수신자라는 뜻은, 호출 뒤에도 호출자가 값을 쓸 수 있다는 뜻입니다. `읽기 전용 메서드에 self를
+      써 소유권을 불필요하게 이동함`은 반대 사례인데, 이동 뒤에는 원래 이름을 쓸 수 없기 때문입니다.
   - id: quiz-day-52-rust-method-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -182,8 +180,8 @@ quiz:
       - 변경된 입력을 다시 추적하여 결과를 확인함
     answerIndex: 0
     explanation:
-      읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함. 이 실수가 나오면 원본 추적 `s.minutes=30 → &s 빌림 → 60 반환`대로 '60'가 나오지 않으므로
-      먼저 확인해야 합니다.
+      먼저 확인할 실수는 `읽기 전용 메서드에 self를 써 소유권을 불필요하게 이동함`입니다. 잘못된 코드는 이번 한 번 호출에서는 화면 출력이 같습니다. 같다고 해서 맞는 것이
+      아니라, 호출 뒤 재사용이 막히는 숨은 계약 위반입니다.
   - id: quiz-day-52-rust-method-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -191,7 +189,9 @@ quiz:
       - 데이터에 연결된 읽기 메서드라는 동작과 경계 조건
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 1
-    explanation: 문법은 달라도 `데이터에 연결된 읽기 메서드` 목적과 입력·출력은 유지합니다. 실행 결과 '60'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
+    explanation:
+      세 언어로 옮길 때 보존해야 하는 것은 `데이터에 연결된 읽기 메서드`라는 의미와 입력·출력 계약입니다. C의 읽기 함수와 Python의 메서드로 같은 동작을 구현하고, 실행
+      결과 `60`으로 대조하면 옮김이 맞는지 확인할 수 있습니다.
 ---
 
 ## 오늘 배울 이유
@@ -218,6 +218,10 @@ s.minutes=30  →  &s 빌림  →  60 반환
 
 상태를 바꾸는 메서드가 필요하면 소유자가 `mut`여야 하고 수신자를 `&mut self`로 선언합니다. `self`, `&self`, `&mut self`가 각각 소유권 이동, 공유 읽기, 배타적 수정과 어떻게 연결되는지 예제 호출 전후로 표시해 보세요.
 
+`struct Session { minutes: u32 }`는 값의 필드를 정의하고, `impl Session`은 그 값에 관한 메서드를 모읍니다. 메서드의 `&self`는 지금 호출한 객체를 읽기만 빌린다는 뜻입니다. `session.minutes`를 계산에 쓴 후에도 호출자에게 소유권이 남습니다.
+
+상태를 바꾸는 메서드가 필요하면 소유자가 `mut`여야 하고 수신자를 `&mut self`로 선언합니다. `self`, `&self`, `&mut self`가 각각 소유권 이동, 공유 읽기, 배타적 수정과 어떻게 연결되는지 예제 호출 전후로 표시해 보세요.
+
 ## 문법을 예제로 보기
 
 아래 Rust 코드는 Day 52 "`Rust 구조체와 메서드`"의 독립 예제입니다. 전체 3줄 가운데 핵심 부분은 `&self`이며, 실행 결과는 `60`입니다.
@@ -238,7 +242,7 @@ Rust는 `rustc --edition=2024` 또는 Cargo로 실행하면 실행 결과는 `60
 
 ## 핵심 줄 따라 읽기
 
-예제의 핵심 표현은 `&self`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄을 찾으세요.
+예제의 핵심 표현은 `&self`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄 번호를 말하고, 그 줄이 읽는 값과 바꾸는 값을 적어 보세요.
 
 ```rust
  1 | struct Session { minutes: u32 }
@@ -268,7 +272,7 @@ Rust는 `rustc --edition=2024` 또는 Cargo로 실행하면 실행 결과는 `60
 
 ## 결과 예측과 작은 변경
 
-원본 실행 결과는 `60`입니다. 아래 코드에서 원본과 다른 줄을 먼저 찾으세요.
+원본 실행 결과는 `60`입니다. 아래 코드에서 원본과 달라지는 첫 줄을 표시하고, 그 줄의 변경 전후 값을 적어 보세요.
 
 ```rust
 struct Session { minutes: u32 }
@@ -284,7 +288,7 @@ fn main() { let s=Session{minutes:30}; println!("{}",s.doubled()); }
 90
 ```
 
-원본 출력은 `60`이고, 바뀐 코드의 실행 결과는 `90`입니다. 바뀐 줄은 `impl Session { fn doubled(&self) -> u32 { self.minutes * 2 } }`에서 `impl Session { fn doubled(&self) -> u32 { self.minutes * 3 } }`로 바뀌었습니다. 바뀐 프로그램은 `s.minutes=30` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `90`가 됩니다. 원본 추적 `s.minutes=30  →  &s 빌림  →  60 반환`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
+원본은 `60`, 수정본은 `90`이다. 첫 변경 줄의 `self.minutes * 2`에서 `self.minutes * 3`으로 곱수를 바꾸면, 같은 30에 대해 90이 계산되어 반환된다.
 
 ## 자주 틀리는 지점
 

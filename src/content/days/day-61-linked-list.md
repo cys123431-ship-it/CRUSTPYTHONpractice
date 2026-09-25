@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-e
+contentVersion: 2026.10-f
 id: day-61-linked-list
 courseId: crp-92
 phaseId: phase-06
@@ -44,10 +44,10 @@ exercises:
       \    Node last={20,NULL}; Node first={10,&last};\n    printf(\"%d\\n\", first.next->value);\n    return 0;\n\
       }"
     answer: "20"
-    hint: first.next는 last의 주소이고 ->는 포인터를 통해 last.value를 읽습니다. 설명을 떠올리고 `first(10)` 단계부터 순서대로 적어 보세요.
+    hint: first(10)에서 시작해 출력까지 순서대로 적어 보세요. first.next는 last의 주소이고 ->는 포인터를 통해 last.value를 읽습니다.
     explanation:
-      first(10)  →  next=&last  →  last(20)  →  출력 순서로 실행됩니다. `first.next->value` 부분이 `출력` 단계를 확정해 최종 출력
-      '20'가 됩니다. 이 흐름을 떠올리면 `주소 링크를 따라 다음 노드 방문` 동작이 왜 필요한지 알 수 있습니다.
+      1. last는 값 20과 비어 있음 표시를 가집니다. 2. first의 next를 마지막 노드 주소로 초기화합니다. 3. 다음 노드의 20을 출력합니다. `first(10)
+      → next=마지막 주소 → last(20) → 출력` 흐름으로 실제 출력 `20`이 됩니다. 핵심 `first.next->value`는 주소를 따라가 값을 읽는 두 단계 자리에 쓰입니다.
     commonMistakes:
       - NULL인 next를 검사하지 않고 역참조함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -56,7 +56,7 @@ exercises:
   - id: ex-day-61-linked-list-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: "'단일 연결 리스트의 다음 노드' 개념의 핵심 표현을 스스로 적는다."
+    objective: 단일 연결 리스트의 다음 노드의 핵심 표현을 스스로 적는다.
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: first.next->value"
     starter:
       "#include <stdio.h>\ntypedef struct Node { int value; struct Node *next; } Node;\nint main(void) {\n\
@@ -64,11 +64,11 @@ exercises:
     answer:
       "#include <stdio.h>\ntypedef struct Node { int value; struct Node *next; } Node;\nint main(void) {\n \
       \   Node last={20,NULL}; Node first={10,&last};\n    printf(\"%d\\n\", first.next->value);\n    return 0;\n}"
-    hint: 힌트 문장을 완전하게 읽으면 `last는 값 20과 NULL을 가집니다` 단계에 필요한 표현이 `first.next->value`입니다.
+    hint: 필요한 표현은 주소 링크를 따라 다음 노드 방문 동작을 잇는 first.next->value입니다.
     explanation:
-      빈칸에 들어갈 표현은 'first.next->value'입니다. `printf("%d\n", first.next->value);` 줄을 완성해야 `주소 링크를 따라 다음 노드
-      방문` 동작이 이어져 실행 결과 '20'가 됩니다. 힌트의 첫 단계 `last는 값 20과 NULL을 가집니다`이 바로 이 줄입니다. 이어서 first의 next를 &last로 초기화합니다 다음
-      노드의 20을 출력합니다 순서로 진행됩니다.
+      빈칸에 들어갈 표현은 'first.next->value'입니다. 이 표현이 없으면 실행 결과는 달라집니다. 1. last는 값 20과 비어 있음 표시를 가집니다. 2. first의
+      next를 마지막 노드 주소로 초기화합니다. 3. 다음 노드의 20을 출력합니다. `first(10) → next=마지막 주소 → last(20) → 출력` 흐름으로 실제 출력 `20`이 됩니다.
+      핵심 `first.next->value`는 주소를 따라가 값을 읽는 두 단계 자리에 쓰입니다.
     commonMistakes:
       - NULL인 next를 검사하지 않고 역참조함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -78,7 +78,7 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 처음 등장하는 숫자를 20에서 21로. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
+    prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 20에서 21로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
     starter:
       "#include <stdio.h>\ntypedef struct Node { int value; struct Node *next; } Node;\nint main(void) {\n\
       \    Node last={20,NULL}; Node first={10,&last};\n    printf(\"%d\\n\", first.next->value);\n    return 0;\n\
@@ -86,11 +86,10 @@ exercises:
     answer:
       "#include <stdio.h>\ntypedef struct Node { int value; struct Node *next; } Node;\nint main(void) {\n \
       \   Node last={21,NULL}; Node first={10,&last};\n    printf(\"%d\\n\", first.next->value);\n    return 0;\n}"
-    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 처음 등장하는 숫자를 20에서 21로."
+    hint: 처음 등장하는 숫자를 20에서 21로 바꾼 뒤 실행 결과를 먼저 적어 보세요. 원본 출력 '20'와 비교해 달라지는 첫 중간 값을 찾으면 됩니다.
     explanation:
-      바꾼 뒤 출력은 '21'입니다. 원본 출력 '20'에서 달라졌습니다. 바뀐 줄은 `Node last={20,NULL}; Node first={10,&last};`에서 `Node
-      last={21,NULL}; Node first={10,&last};`로 바뀌었습니다. 바뀐 프로그램은 `first(10)` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후
-      단계로 이어져 최종 `21`가 됩니다. 원본 추적 `first(10)  →  next=&last  →  last(20)  →  출력`와 바뀐 줄 이후를 순서대로 비교하면 처음 달라지는 곳이 보입니다.
+      바꾼 뒤 출력은 '21'입니다. 원본은 `20`, 수정본은 `21`이다. 첫 변경 줄의 `Node last={20,NULL};`에서 `Node last={21,NULL};`로
+      마지막 값을 바꾸면, 따라간 주소의 값이 달라져 출력이 달라진다.
     commonMistakes:
       - NULL인 next를 검사하지 않고 역참조함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -107,13 +106,11 @@ exercises:
     answer:
       "#include <stdio.h>\ntypedef struct Node { int value; struct Node *next; } Node;\nint main(void) {\n \
       \   Node last={20,NULL}; Node first={10,&last};\n    printf(\"%d\\n\", first.next->value);\n    return 0;\n}"
-    hint:
-      first.next는 last의 주소이고 ->는 포인터를 통해 last.value를 읽습니다. 설명과 어긋나는 줄을 찾으세요. `NULL인 next를 검사하지 않고 역참조함` 상황이 단서가
-      됩니다.
+    hint: NULL인 next를 검사하지 않고 역참조함 상황에서 어긋나는 줄을 first.next는 last의 주소이고 ->는 포인터를 통해 last.value를 읽습니다. 설명과 대조해 보세요.
     explanation:
-      틀린 줄은 `printf("%d\n", first.value);`입니다. 여기서는 `first.value`을 써서 `first.next->value` 동작이 깨집니다. 이대로
-      실행하면 `NULL인 next를 검사하지 않고 역참조함` 문제가 생겨 원본 추적 `first(10)  →  next=&last  →  last(20)  →  출력`대로 '20'가 나오지 않습니다.
-      고친 줄 `printf("%d\n", first.next->value);`에서는 `first.next->value`가 `주소 링크를 따라 다음 노드 방문` 동작을 지켜 '20'까지 도달합니다.
+      틀린 줄은 `printf("%d\n", first.value);`입니다. 다음 노드를 따라가지 않고 첫 노드 값을 읽으므로 실행은 되지만 결과는 `10`이 됩니다. 오류 분류는
+      잘못된 출력입니다. 링크를 따라가지 않은 첫 순간은 점 연산자 뒤 이름입니다. 고친 줄 `printf("%d\n", first.next->value);`에서는 `주소 링크를 따라 다음 노드 방문`
+      동작이 지켜집니다. 정상 코드는 노드 연결→주소 이동→값 읽기의 순서로 `20`을 출력합니다.
     commonMistakes:
       - NULL인 next를 검사하지 않고 역참조함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -123,16 +120,15 @@ exercises:
     title: 예시를 가리고 다시 구현하기
     kind: independent
     objective: 설명 없이 같은 개념을 작은 프로그램으로 재현한다.
-    prompt: 예시를 가리고 '단일 연결 리스트의 다음 노드' 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
+    prompt: 예시를 가리고 단일 연결 리스트의 다음 노드 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
     starter: "// 단일 연결 리스트의 다음 노드: 직접 구현 (Python에서는 이 안내 줄을 # 주석으로 바꾸세요)"
     answer:
       "#include <stdio.h>\ntypedef struct Node { int value; struct Node *next; } Node;\nint main(void) {\n \
       \   Node last={20,NULL}; Node first={10,&last};\n    printf(\"%d\\n\", first.next->value);\n    return 0;\n}"
-    hint: first.next는 last의 주소이고 ->는 포인터를 통해 last.value를 읽습니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
+    hint: 함수가 끝난 뒤 지역 노드 주소를 쓰면 안 됩니다. 동적 할당 노드는 순회하며 각각 해제하세요. 예상 출력과 경계 조건도 함께 적어 보세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. `first.next->value` 부분이 `주소 링크를 따라 다음 노드 방문` 동작을 지켜 실행 결과 '20'가 됩니다. 같은 개념을
-      다른 입력으로 바꿔도 `first.next->value`부터 `출력`까지 추적할 수 있으면 정답입니다. `NULL인 next를 검사하지 않고 역참조함` 상황과 빈 입력 같은 경계도 함께 설명해
-      보세요.
+      입력·처리·출력·경계 조건을 스스로 설계하세요. 함수가 끝난 뒤 지역 노드 주소를 쓰면 안 됩니다. 동적 할당 노드는 순회하며 각각 해제하세요. 같은 주소 링크를 따라 다음
+      노드 방문 동작을 구현하고 실행 결과 '20'와 대조할 수 있으면, 예시 답안과 달라도 정답입니다.
     commonMistakes:
       - NULL인 next를 검사하지 않고 역참조함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -147,8 +143,9 @@ quiz:
       - 아무것도 출력하지 않는다
     answerIndex: 1
     explanation:
-      first(10)  →  next=&last  →  last(20)  →  출력 순서로 실행되어 출력은 '20'입니다. `first.next->value` 부분이 마지막 단계를
-      확정하므로 다른 선택지는 이 추적과 맞지 않습니다.
+      먼저 last에 20과 비어 있음 표시가 저장됩니다. 이어서 first의 next가 last를 가리키고, 따라가 읽은 20을 출력하므로 `20`이 됩니다. `실행 전에 반드시
+      오류가 난다`는 틀린 선택지인데 연결과 역참조가 모두 정상이기 때문입니다. `아무것도 출력하지 않는다`도 틀린 선택지인데 printf가 실제로 호출되기 때문입니다. 다른 선택지는 이 추적과 맞지
+      않습니다.
   - id: quiz-day-61-linked-list-model
     question: "'단일 연결 리스트의 다음 노드' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -157,8 +154,8 @@ quiz:
       - first.next는 last의 주소이고 ->는 포인터를 통해 last.value를 읽습니다.
     answerIndex: 2
     explanation:
-      first.next는 last의 주소이고 ->는 포인터를 통해 last.value를 읽습니다. 이 설명이 맞는 이유는 `주소 링크를 따라 다음 노드 방문` 동작을 지키는 조건과
-      같기 때문입니다. `NULL인 next를 검사하지 않고 역참조함` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
+      first.next는 last의 주소라는 뜻이고, 화살표는 포인터를 통해 last.value를 읽는다는 뜻은 두 단계로 값을 찾는다는 뜻입니다. `NULL인 next를 검사하지
+      않고 역참조함`은 반대 사례인데, `NULL`을 따라가면 잘못되기 때문입니다.
   - id: quiz-day-61-linked-list-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -166,9 +163,7 @@ quiz:
       - 실제 출력과 예측한 출력이 일치함
       - 변경된 입력을 다시 추적하여 결과를 확인함
     answerIndex: 0
-    explanation:
-      NULL인 next를 검사하지 않고 역참조함. 이 실수가 나오면 원본 추적 `first(10) → next=&last → last(20) → 출력`대로 '20'가 나오지 않으므로
-      먼저 확인해야 합니다.
+    explanation: 먼저 확인할 실수는 `NULL인 next를 검사하지 않고 역참조함`입니다. 잘못된 코드는 실행은 되지만 `10`이라는 잘못된 출력을 냅니다. 따라간 주소가 유효한지 먼저 확인하세요.
   - id: quiz-day-61-linked-list-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -176,7 +171,9 @@ quiz:
       - 주소 링크를 따라 다음 노드 방문라는 동작과 경계 조건
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 1
-    explanation: 문법은 달라도 `주소 링크를 따라 다음 노드 방문` 목적과 입력·출력은 유지합니다. 실행 결과 '20'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
+    explanation:
+      세 언어로 옮길 때 보존해야 하는 것은 `주소 링크를 따라 다음 노드 방문`이라는 의미와 입력·출력 계약입니다. Python의 next 참조와 Rust의 Box 링크로 같은
+      동작을 구현하고, 실행 결과 `20`으로 대조하면 옮김이 맞는지 확인할 수 있습니다.
 ---
 
 ## 오늘 배울 이유
@@ -208,6 +205,10 @@ first(10)  →  next=&last  →  last(20)  →  출력
 
 따라서 first에서 출발하면 10, 이어서 20, 다음 주소가 `NULL`이므로 끝납니다. `NULL->value`를 읽으려 하면 잘못됩니다. 여기 예제는 지역 변수로 만든 두 노드를 연결하므로 함수가 끝난 뒤에는 그 주소를 사용할 수 없습니다. 동적 할당한 노드라면 잃어버리기 전에 모든 노드를 순회해 각각 해제하는 책임도 생깁니다.
 
+연결 리스트의 노드는 값과 다음 노드의 주소를 함께 가집니다. `first.next = &last`라면 첫 노드의 `next`가 마지막 노드를 가리킵니다. `first.next->value`는 next 주소를 따라간 다음 그 노드의 value를 읽는다는 두 단계입니다.
+
+따라서 first에서 출발하면 10, 이어서 20, 다음 주소가 `NULL`이므로 끝납니다. `NULL`을 읽으려 하면 잘못됩니다. 여기 예제는 지역 변수로 만든 두 노드를 연결하므로 함수가 끝난 뒤에는 그 주소를 사용할 수 없습니다. 동적 할당한 노드라면 잃어버리기 전에 모든 노드를 순회해 각각 해제하는 책임도 생깁니다.
+
 ## 문법을 예제로 보기
 
 아래 C 코드는 Day 61 "`단일 연결 리스트의 다음 노드`"의 독립 예제입니다. 전체 7줄 가운데 핵심 부분은 `first.next->value`이며, 실행 결과는 `20`입니다.
@@ -232,7 +233,7 @@ C17은 `gcc -std=c17 -Wall -Wextra`로 컴파일해 실행하면 실행 결과�
 
 ## 핵심 줄 따라 읽기
 
-예제의 핵심 표현은 `first.next->value`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄을 찾으세요.
+예제의 핵심 표현은 `first.next->value`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄 번호를 말하고, 그 줄이 읽는 값과 바꾸는 값을 적어 보세요.
 
 ```c
  1 | #include <stdio.h>
@@ -271,7 +272,7 @@ A(값 7)의 `next`가 B(값 9)의 주소라면 `A.next->value`는 9입니다. �
 
 ## 결과 예측과 작은 변경
 
-원본 실행 결과는 `20`입니다. 아래 코드에서 원본과 다른 줄을 먼저 찾으세요.
+원본 실행 결과는 `20`입니다. 아래 코드에서 원본과 달라지는 첫 줄을 표시하고, 그 줄의 변경 전후 값을 적어 보세요.
 
 ```c
 #include <stdio.h>
@@ -291,7 +292,7 @@ int main(void) {
 21
 ```
 
-원본 출력은 `20`이고, 바뀐 코드의 실행 결과는 `21`입니다. 바뀐 줄은 `Node last={20,NULL}; Node first={10,&last};`에서 `Node last={21,NULL}; Node first={10,&last};`로 바뀌었습니다. 바뀐 프로그램은 `first(10)` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `21`가 됩니다. 원본 추적 `first(10)  →  next=&last  →  last(20)  →  출력`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
+원본은 `20`, 수정본은 `21`이다. 첫 변경 줄의 `Node last={20,NULL};`에서 `Node last={21,NULL};`로 마지막 값을 바꾸면, 따라간 주소의 값이 달라져 출력이 달라진다.
 
 ## 자주 틀리는 지점
 

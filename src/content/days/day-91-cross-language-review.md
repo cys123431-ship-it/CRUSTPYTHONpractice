@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-e
+contentVersion: 2026.10-f
 id: day-91-cross-language-review
 courseId: crp-92
 phaseId: phase-08
@@ -45,10 +45,10 @@ exercises:
 
       print(actual == expected)'
     answer: "True"
-    hint: 사전의 ==는 항목의 순서가 달라도 키와 값이 모두 같으면 참입니다. 설명을 떠올리고 `두 결과의 키·값 일치` 단계부터 순서대로 적어 보세요.
+    hint: 두 결과의 키·값 일치에서 시작해 True까지 순서대로 적어 보세요. 사전의 ==는 항목의 순서가 달라도 키와 값이 모두 같으면 참입니다.
     explanation:
-      두 결과의 키·값 일치  →  True 순서로 실행됩니다. `actual == expected` 부분이 `True` 단계를 확정해 최종 출력 'True'가 됩니다. 이 흐름을
-      떠올리면 `공통 fixture 기대값 비교` 동작이 왜 필요한지 알 수 있습니다.
+      1. expected와 actual에 같은 두 키·값이 들어 있습니다. 2. 순서는 달라도 값 비교가 성공합니다. 3. True를 출력합니다. `두 결과의 키·값 일치 → True`
+      흐름으로 실제 출력 `True`가 됩니다. 핵심 `actual == expected`는 값 일치를 묻는 자리에 쓰입니다.
     commonMistakes:
       - 객체 동일성 is로 독립된 결과의 값 일치를 검사함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -57,7 +57,7 @@ exercises:
   - id: ex-day-91-cross-language-review-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: "'세 구현의 결과 일치 검사' 개념의 핵심 표현을 스스로 적는다."
+    objective: 세 구현의 결과 일치 검사의 핵심 표현을 스스로 적는다.
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: actual == expected"
     starter: 'expected = {"total": 60, "count": 3}
 
@@ -69,11 +69,11 @@ exercises:
       actual = {"count": 3, "total": 60}
 
       print(actual == expected)'
-    hint: 힌트 문장을 완전하게 읽으면 `expected와 actual에 같은 두 키·값이 들어 있습니다` 단계에 필요한 표현이 `actual == expected`입니다.
+    hint: 필요한 표현은 공통 fixture 기대값 비교 동작을 잇는 actual == expected입니다.
     explanation:
-      빈칸에 들어갈 표현은 'actual == expected'입니다. `print(actual == expected)` 줄을 완성해야 `공통 fixture 기대값 비교` 동작이
-      이어져 실행 결과 'True'가 됩니다. 힌트의 첫 단계 `expected와 actual에 같은 두 키·값이 들어 있습니다`이 바로 이 줄입니다. 이어서 순서는 달라도 값 비교가 성공합니다 True를
-      출력합니다 순서로 진행됩니다.
+      빈칸에 들어갈 표현은 'actual == expected'입니다. 이 표현이 없으면 실행 결과는 달라집니다. 1. expected와 actual에 같은 두 키·값이 들어 있습니다.
+      2. 순서는 달라도 값 비교가 성공합니다. 3. True를 출력합니다. `두 결과의 키·값 일치 → True` 흐름으로 실제 출력 `True`가 됩니다. 핵심 `actual == expected`는
+      값 일치를 묻는 자리에 쓰입니다.
     commonMistakes:
       - 객체 동일성 is로 독립된 결과의 값 일치를 검사함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -83,7 +83,7 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 처음 등장하는 숫자를 60에서 61로. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
+    prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 60에서 61로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
     starter: 'expected = {"total": 60, "count": 3}
 
       actual = {"count": 3, "total": 60}
@@ -94,11 +94,10 @@ exercises:
       actual = {"count": 3, "total": 60}
 
       print(actual == expected)'
-    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 처음 등장하는 숫자를 60에서 61로."
+    hint: 처음 등장하는 숫자를 60에서 61로 바꾼 뒤 실행 결과를 먼저 적어 보세요. 원본 출력 'True'와 비교해 달라지는 첫 중간 값을 찾으면 됩니다.
     explanation:
-      '바꾼 뒤 출력은 ''False''입니다. 원본 출력 ''True''에서 달라졌습니다. 바뀐 줄은 `expected = {"total": 60, "count": 3}`에서 `expected
-      = {"total": 61, "count": 3}`로 바뀌었습니다. 바뀐 프로그램은 `두 결과의 키·값 일치` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져
-      최종 `False`가 됩니다. 원본 추적 `두 결과의 키·값 일치  →  True`와 바뀐 줄 이후를 순서대로 비교하면 처음 달라지는 곳이 보입니다.'
+      '바꾼 뒤 출력은 ''False''입니다. 원본은 `True`, 수정본은 `False`이다. 첫 변경 줄 `expected = {"total": 60, "count": 3}`에서
+      `expected = {"total": 61, "count": 3}`으로 기대값을 바꾸면, actual과 달라져 거짓이 된다.'
     commonMistakes:
       - 객체 동일성 is로 독립된 결과의 값 일치를 검사함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -119,11 +118,11 @@ exercises:
       actual = {"count": 3, "total": 60}
 
       print(actual == expected)'
-    hint: 사전의 ==는 항목의 순서가 달라도 키와 값이 모두 같으면 참입니다. 설명과 어긋나는 줄을 찾으세요. `객체 동일성 is로 독립된 결과의 값 일치를 검사함` 상황이 단서가 됩니다.
+    hint: 객체 동일성 is로 독립된 결과의 값 일치를 검사함 상황에서 어긋나는 줄을 사전의 ==는 항목의 순서가 달라도 키와 값이 모두 같으면 참입니다. 설명과 대조해 보세요.
     explanation:
-      틀린 줄은 `print(actual is expected)`입니다. 여기서는 `actual is expected`을 써서 `actual == expected` 동작이 깨집니다.
-      이대로 실행하면 `객체 동일성 is로 독립된 결과의 값 일치를 검사함` 문제가 생겨 원본 추적 `두 결과의 키·값 일치  →  True`대로 'True'가 나오지 않습니다. 고친 줄 `print(actual
-      == expected)`에서는 `actual == expected`가 `공통 fixture 기대값 비교` 동작을 지켜 'True'까지 도달합니다.
+      틀린 줄은 `print(actual is expected)`입니다. 서로 다른 두 객체이므로 동일성 검사는 거짓이 되어 실행은 되지만 결과는 `False`가 됩니다. 오류 분류는
+      잘못된 출력입니다. 값 일치가 동일성으로 바뀐 첫 순간이 원인입니다. 고친 줄 `print(actual == expected)`에서는 `공통 fixture 기대값 비교` 동작이 지켜집니다. 정상
+      코드는 두 결과 준비→값 비교→일치 판정의 순서로 `True`를 출력합니다.
     commonMistakes:
       - 객체 동일성 is로 독립된 결과의 값 일치를 검사함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -133,18 +132,17 @@ exercises:
     title: 예시를 가리고 다시 구현하기
     kind: independent
     objective: 설명 없이 같은 개념을 작은 프로그램으로 재현한다.
-    prompt: 예시를 가리고 '세 구현의 결과 일치 검사' 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
+    prompt: 예시를 가리고 세 구현의 결과 일치 검사 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
     starter: "# 세 구현의 결과 일치 검사: 직접 구현"
     answer: 'expected = {"total": 60, "count": 3}
 
       actual = {"count": 3, "total": 60}
 
       print(actual == expected)'
-    hint: 사전의 ==는 항목의 순서가 달라도 키와 값이 모두 같으면 참입니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
+    hint: Top N 목록에는 순서가 의미 있으므로 리스트 순서까지 비교하세요. 결과가 다르면 첫 번째로 다른 기록부터 추적하세요. 예상 출력과 경계 조건도 함께 적어 보세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. `actual == expected` 부분이 `공통 fixture 기대값 비교` 동작을 지켜 실행 결과 'True'가 됩니다. 같은 개념을
-      다른 입력으로 바꿔도 `actual == expected`부터 `True`까지 추적할 수 있으면 정답입니다. `객체 동일성 is로 독립된 결과의 값 일치를 검사함` 상황과 빈 입력 같은 경계도
-      함께 설명해 보세요.
+      입력·처리·출력·경계 조건을 스스로 설계하세요. Top N 목록에는 순서가 의미 있으므로 리스트 순서까지 비교하세요. 결과가 다르면 첫 번째로 다른 기록부터 추적하세요. 같은
+      공통 fixture 기대값 비교 동작을 구현하고 실행 결과 'True'와 대조할 수 있으면, 예시 답안과 달라도 정답입니다.
     commonMistakes:
       - 객체 동일성 is로 독립된 결과의 값 일치를 검사함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -159,8 +157,8 @@ quiz:
       - 아무것도 출력하지 않는다
     answerIndex: 1
     explanation:
-      두 결과의 키·값 일치  →  True 순서로 실행되어 출력은 'True'입니다. `actual == expected` 부분이 마지막 단계를 확정하므로 다른 선택지는 이 추적과
-      맞지 않습니다.
+      먼저 expected와 actual에 같은 두 키·값이 들어 있습니다. 이어서 순서는 달라도 값 비교가 성공해 True가 되므로 출력 `True`가 됩니다. `실행 전에 반드시
+      오류가 난다`는 틀린 선택지인데 딕셔너리 비교가 정상이기 때문입니다. `아무것도 출력하지 않는다`도 틀린 선택지인데 print가 실제로 호출되기 때문입니다. 다른 선택지는 이 추적과 맞지 않습니다.
   - id: quiz-day-91-cross-language-review-model
     question: "'세 구현의 결과 일치 검사' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -169,8 +167,8 @@ quiz:
       - 사전의 ==는 항목의 순서가 달라도 키와 값이 모두 같으면 참입니다.
     answerIndex: 2
     explanation:
-      사전의 ==는 항목의 순서가 달라도 키와 값이 모두 같으면 참입니다. 이 설명이 맞는 이유는 `공통 fixture 기대값 비교` 동작을 지키는 조건과 같기 때문입니다. `객체
-      동일성 is로 독립된 결과의 값 일치를 검사함` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
+      사전의 ==는 항목의 순서가 달라도 키와 값이 모두 같으면 참이라는 뜻은, 순서가 의미 없는 자료에 편하다는 뜻입니다. `객체 동일성 is로 독립된 결과의 값 일치를 검사함`은
+      반대 사례인데, 다른 객체는 is가 거짓이기 때문입니다.
   - id: quiz-day-91-cross-language-review-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -178,7 +176,9 @@ quiz:
       - 실제 출력과 예측한 출력이 일치함
       - 변경된 입력을 다시 추적하여 결과를 확인함
     answerIndex: 0
-    explanation: 객체 동일성 is로 독립된 결과의 값 일치를 검사함. 이 실수가 나오면 원본 추적 `두 결과의 키·값 일치 → True`대로 'True'가 나오지 않으므로 먼저 확인해야 합니다.
+    explanation:
+      먼저 확인할 실수는 `객체 동일성 is로 독립된 결과의 값 일치를 검사함`입니다. 잘못된 코드는 실행은 되지만 `False`라는 잘못된 출력을 냅니다. 값 일치와 객체 동일성을
+      구별하세요.
   - id: quiz-day-91-cross-language-review-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -186,7 +186,9 @@ quiz:
       - 공통 fixture 기대값 비교라는 동작과 경계 조건
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 1
-    explanation: 문법은 달라도 `공통 fixture 기대값 비교` 목적과 입력·출력은 유지합니다. 실행 결과 'True'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
+    explanation:
+      세 언어로 옮길 때 보존해야 하는 것은 `공통 fixture 기대값 비교`라는 의미와 입력·출력 계약입니다. 세 언어의 같은 비교 규칙으로 동작을 구현하고, 실행 결과 `True`로
+      대조하면 옮김이 맞는지 확인할 수 있습니다.
 playgroundSource: 'expected = {"total": 60, "count": 3}
 
   actual = {"count": 3, "total": 60}
@@ -218,6 +220,10 @@ playgroundSource: 'expected = {"total": 60, "count": 3}
 
 반면 Top N 목록에는 순서가 의미 있으므로 리스트 순서까지 비교해야 합니다. 오류 사례에서는 단순히 '실패했다'뿐 아니라 어떤 입력이 거부되어야 하는지도 확인하세요. 결과가 다르면 첫 번째로 다른 기록 또는 집계 단계부터 추적하세요.
 
+세 구현이 같다고 주장하려면 같은 fixture와 같은 규칙으로 결과를 비교해야 합니다. Python 사전의 `==`는 키의 순서가 달라도 모든 키와 값이 같으면 참입니다. 따라서 언어별 합계처럼 순서가 중요하지 않은 자료는 사전 비교가 편합니다.
+
+반면 Top N 목록에는 순서가 의미 있으므로 리스트 순서까지 비교해야 합니다. 오류 사례에서는 단순히 실패했다뿐 아니라 어떤 입력이 거부되어야 하는지도 확인하세요. 결과가 다르면 첫 번째로 다른 기록 또는 집계 단계부터 추적하세요.
+
 ## 문법을 예제로 보기
 
 아래 Python 코드는 Day 91 "`세 구현의 결과 일치 검사`"의 독립 예제입니다. 전체 3줄 가운데 핵심 부분은 `actual == expected`이며, 실행 결과는 `True`입니다.
@@ -238,7 +244,7 @@ True
 
 ## 핵심 줄 따라 읽기
 
-예제의 핵심 표현은 `actual == expected`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄을 찾으세요.
+예제의 핵심 표현은 `actual == expected`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄 번호를 말하고, 그 줄이 읽는 값과 바꾸는 값을 적어 보세요.
 
 ```python
  1 | expected = {"total": 60, "count": 3}
@@ -267,7 +273,7 @@ True
 
 ## 결과 예측과 작은 변경
 
-원본 실행 결과는 `True`입니다. 아래 코드에서 원본과 다른 줄을 먼저 찾으세요.
+원본 실행 결과는 `True`입니다. 아래 코드에서 원본과 달라지는 첫 줄을 표시하고, 그 줄의 변경 전후 값을 적어 보세요.
 
 ```python
 expected = {"total": 61, "count": 3}
@@ -283,7 +289,7 @@ print(actual == expected)
 False
 ```
 
-원본 출력은 `True`이고, 바뀐 코드의 실행 결과는 `False`입니다. 바뀐 줄은 `expected = {"total": 60, "count": 3}`에서 `expected = {"total": 61, "count": 3}`로 바뀌었습니다. 바뀐 프로그램은 `두 결과의 키·값 일치` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `False`가 됩니다. 원본 추적 `두 결과의 키·값 일치  →  True`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
+원본은 `True`, 수정본은 `False`이다. 첫 변경 줄 `expected = {"total": 60, "count": 3}`에서 `expected = {"total": 61, "count": 3}`으로 기대값을 바꾸면, actual과 달라져 거짓이 된다.
 
 ## 자주 틀리는 지점
 

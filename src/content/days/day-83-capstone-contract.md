@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-e
+contentVersion: 2026.10-f
 id: day-83-capstone-contract
 courseId: crp-92
 phaseId: phase-08
@@ -45,10 +45,10 @@ exercises:
 
       print(len(fields), fields[3])'
     answer: 5 minutes
-    hint: CSV 한 행은 날짜·언어·주제·분·결과의 다섯 열이고 minutes는 네 번째 열입니다. 설명을 떠올리고 `헤더` 단계부터 순서대로 적어 보세요.
+    hint: 헤더에서 시작해 네 번째 minutes까지 순서대로 적어 보세요. CSV 한 행은 날짜·언어·주제·분·결과의 다섯 열이고 minutes는 네 번째 열입니다.
     explanation:
-      헤더  →  다섯 열  →  네 번째 minutes 순서로 실행됩니다. `split(",")` 부분이 `네 번째 minutes` 단계를 확정해 최종 출력 '5 minutes'가
-      됩니다. 이 흐름을 떠올리면 `공통 입력 스키마 정의` 동작이 왜 필요한지 알 수 있습니다.
+      1. 헤더 문자열을 쉼표로 나눕니다. 2. 다섯 항목을 얻습니다. 3. 인덱스 3의 minutes를 출력합니다. `헤더 → 다섯 열 → 네 번째 minutes` 흐름으로 실제
+      출력 `5 minutes`가 됩니다. 핵심 나누기 연산은 열을 가르는 자리에 쓰입니다.
     commonMistakes:
       - 쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -57,7 +57,7 @@ exercises:
   - id: ex-day-83-capstone-contract-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: "'프로젝트 계약: 공통 CSV 입력' 개념의 핵심 표현을 스스로 적는다."
+    objective: "프로젝트 계약: 공통 CSV 입력의 핵심 표현을 스스로 적는다."
     prompt: '빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: split(",")'
     starter: 'header = "date,language,topic,minutes,result"
 
@@ -69,10 +69,10 @@ exercises:
       fields = header.split(",")
 
       print(len(fields), fields[3])'
-    hint: 힌트 문장을 완전하게 읽으면 `헤더 문자열을 쉼표로 나눕니다` 단계에 필요한 표현이 `split(",")`입니다.
+    hint: 필요한 표현은 공통 입력 스키마 정의 동작을 잇는 split(",")입니다.
     explanation:
-      빈칸에 들어갈 표현은 'split(",")'입니다. `fields = header.split(",")` 줄을 완성해야 `공통 입력 스키마 정의` 동작이 이어져 실행 결과 '5
-      minutes'가 됩니다. 힌트의 첫 단계 `헤더 문자열을 쉼표로 나눕니다`이 바로 이 줄입니다. 이어서 다섯 항목을 얻습니다 인덱스 3의 minutes를 출력합니다 순서로 진행됩니다.
+      빈칸에 들어갈 표현은 'split(",")'입니다. 이 표현이 없으면 실행 중 오류로 멈춥니다. 1. 헤더 문자열을 쉼표로 나눕니다. 2. 다섯 항목을 얻습니다. 3. 인덱스
+      3의 minutes를 출력합니다. `헤더 → 다섯 열 → 네 번째 minutes` 흐름으로 실제 출력 `5 minutes`가 됩니다. 핵심 나누기 연산은 열을 가르는 자리에 쓰입니다.
     commonMistakes:
       - 쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -82,7 +82,7 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 'fields[3]' → 'fields[2]'. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
+    prompt: 예시를 직접 타이핑한 뒤 'fields[3]' → 'fields[2]' 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
     starter: 'header = "date,language,topic,minutes,result"
 
       fields = header.split(",")
@@ -93,11 +93,10 @@ exercises:
       fields = header.split(",")
 
       print(len(fields), fields[2])'
-    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 'fields[3]' → 'fields[2]'."
+    hint: "'fields[3]' → 'fields[2]' 바꾼 뒤 실행 결과를 먼저 적어 보세요. 원본 출력 '5 minutes'와 비교해 달라지는 첫 중간 값을 찾으면 됩니다."
     explanation:
-      바꾼 뒤 출력은 '5 topic'입니다. 원본 출력 '5 minutes'에서 달라졌습니다. 바뀐 줄은 `print(len(fields), fields[3])`에서 `print(len(fields),
-      fields[2])`로 바뀌었습니다. 바뀐 프로그램은 `헤더` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져 최종 `5 topic`가 됩니다. 원본 추적 `헤더  →  다섯
-      열  →  네 번째 minutes`와 바뀐 줄 이후를 순서대로 비교하면 처음 달라지는 곳이 보입니다.
+      바꾼 뒤 출력은 '5 topic'입니다. 원본은 `5 minutes`, 수정본은 `5 topic`이다. 첫 변경 줄 `print(len(fields), fields[3])`에서
+      `print(len(fields), fields[2])`로 읽는 열을 바꾸면, 네 번째 대신 세 번째 값이 출력된다.
     commonMistakes:
       - 쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -119,12 +118,12 @@ exercises:
 
       print(len(fields), fields[3])'
     hint:
-      CSV 한 행은 날짜·언어·주제·분·결과의 다섯 열이고 minutes는 네 번째 열입니다. 설명과 어긋나는 줄을 찾으세요. `쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼
-      처리함` 상황이 단서가 됩니다.
+      쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함 상황에서 어긋나는 줄을 CSV 한 행은 날짜·언어·주제·분·결과의 다섯 열이고 minutes는 네 번째 열입니다. 설명과
+      대조해 보세요.
     explanation:
-      틀린 줄은 `fields = header.split(";")`입니다. 여기서는 `split(";")`을 써서 `split(",")` 동작이 깨집니다. 이대로 실행하면 `쉼표가
-      포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함` 문제가 생겨 원본 추적 `헤더  →  다섯 열  →  네 번째 minutes`대로 '5 minutes'가 나오지 않습니다. 고친
-      줄 `fields = header.split(",")`에서는 `split(",")`가 `공통 입력 스키마 정의` 동작을 지켜 '5 minutes'까지 도달합니다.
+      틀린 줄은 `fields = header.split(";")`입니다. 세미콜론으로 나누면 조각이 하나뿐이므로 뒤의 `fields[3]`을 읽으려다 IndexError라는 런타임
+      오류가 나고 프로그램이 멈춥니다. 오류 분류는 런타임 오류입니다. 흐름이 깨지는 첫 순간은 구분자 선택입니다. 고친 줄 `fields = header.split(",")`에서는 `공통 입력 스키마
+      정의` 동작이 지켜집니다. 따옴표 안 쉼표가 있는 실제 CSV는 단순 나누기로 처리하면 안 됩니다. 정상 코드는 나누기→다섯 열 확정→네 번째 읽기→출력의 순서로 `5 minutes`를 출력합니다.
     commonMistakes:
       - 쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -134,18 +133,17 @@ exercises:
     title: 예시를 가리고 다시 구현하기
     kind: independent
     objective: 설명 없이 같은 개념을 작은 프로그램으로 재현한다.
-    prompt: "예시를 가리고 '프로젝트 계약: 공통 CSV 입력' 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요."
+    prompt: "예시를 가리고 프로젝트 계약: 공통 CSV 입력 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요."
     starter: "# 프로젝트 계약: 공통 CSV 입력: 직접 구현"
     answer: 'header = "date,language,topic,minutes,result"
 
       fields = header.split(",")
 
       print(len(fields), fields[3])'
-    hint: CSV 한 행은 날짜·언어·주제·분·결과의 다섯 열이고 minutes는 네 번째 열입니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
+    hint: 누락된 열·빈 분·음수 분을 어떻게 처리할지 공통 계약에 적으세요. 따옴표 안 쉼표는 단순 나누기로 처리하면 안 됩니다. 예상 출력과 경계 조건도 함께 적어 보세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. `split(",")` 부분이 `공통 입력 스키마 정의` 동작을 지켜 실행 결과 '5 minutes'가 됩니다. 같은 개념을 다른 입력으로
-      바꿔도 `split(",")`부터 `네 번째 minutes`까지 추적할 수 있으면 정답입니다. `쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함` 상황과 빈 입력 같은 경계도
-      함께 설명해 보세요.
+      입력·처리·출력·경계 조건을 스스로 설계하세요. 누락된 열·빈 분·음수 분을 어떻게 처리할지 공통 계약에 적으세요. 따옴표 안 쉼표는 단순 나누기로 처리하면 안 됩니다. 같은
+      공통 입력 스키마 정의 동작을 구현하고 실행 결과 '5 minutes'와 대조할 수 있으면, 예시 답안과 달라도 정답입니다.
     commonMistakes:
       - 쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -160,8 +158,8 @@ quiz:
       - 5 minutes
     answerIndex: 2
     explanation:
-      헤더  →  다섯 열  →  네 번째 minutes 순서로 실행되어 출력은 '5 minutes'입니다. `split(",")` 부분이 마지막 단계를 확정하므로 다른 선택지는
-      이 추적과 맞지 않습니다.
+      먼저 헤더 문자열이 쉼표로 나뉩니다. 이어서 다섯 항목을 얻고 인덱스 3의 minutes를 읽어 출력하므로 `5 minutes`가 됩니다. `실행 전에 반드시 오류가 난다`는
+      틀린 선택지인데 나누기와 인덱싱이 모두 정상이기 때문입니다. `아무것도 출력하지 않는다`도 틀린 선택지인데 print가 실제로 호출되기 때문입니다. 다른 선택지는 이 추적과 맞지 않습니다.
   - id: quiz-day-83-capstone-contract-model
     question: "'프로젝트 계약: 공통 CSV 입력' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -170,8 +168,8 @@ quiz:
       - 코드가 짧다면 상태 추적은 필요 없다
     answerIndex: 0
     explanation:
-      CSV 한 행은 날짜·언어·주제·분·결과의 다섯 열이고 minutes는 네 번째 열입니다. 이 설명이 맞는 이유는 `공통 입력 스키마 정의` 동작을 지키는 조건과 같기 때문입니다.
-      `쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
+      CSV 한 행은 날짜·언어·주제·분·결과의 다섯 열이라는 뜻이고, minutes는 네 번째 열이라는 뜻은 인덱스 3을 읽는다는 뜻입니다. `쉼표가 포함된 인용 필드를 단순 나누기로
+      실제 CSV처럼 처리함`은 반대 사례인데, 인용 규칙을 무시하면 열이 어긋나기 때문입니다.
   - id: quiz-day-83-capstone-contract-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -180,8 +178,8 @@ quiz:
       - 변경된 입력을 다시 추적하여 결과를 확인함
     answerIndex: 1
     explanation:
-      쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함. 이 실수가 나오면 원본 추적 `헤더 → 다섯 열 → 네 번째 minutes`대로 '5 minutes'가
-      나오지 않으므로 먼저 확인해야 합니다.
+      먼저 확인할 실수는 `쉼표가 포함된 인용 필드를 단순 나누기로 실제 CSV처럼 처리함`입니다. 잘못된 코드는 조각이 하나뿐이라 IndexError로 멈춥니다. 구분자를 먼저
+      확인하세요.
   - id: quiz-day-83-capstone-contract-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -189,7 +187,9 @@ quiz:
       - 타입과 오류 처리를 모두 생략한다
       - 공통 입력 스키마 정의라는 동작과 경계 조건
     answerIndex: 2
-    explanation: 문법은 달라도 `공통 입력 스키마 정의` 목적과 입력·출력은 유지합니다. 실행 결과 '5 minutes'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
+    explanation:
+      세 언어로 옮길 때 보존해야 하는 것은 `공통 입력 스키마 정의`라는 의미와 입력·출력 계약입니다. 세 언어의 같은 스키마 파서로 동작을 구현하고, 실행 결과 `5 minutes`로
+      대조하면 옮김이 맞는지 확인할 수 있습니다.
 playgroundSource: 'header = "date,language,topic,minutes,result"
 
   fields = header.split(",")
@@ -221,6 +221,10 @@ CSV 한 행은 날짜·언어·주제·분·결과의 다섯 열이고 minutes�
 
 실제 CSV에서는 따옴표 안 쉼표 같은 규칙이 있어서 단순 `split`으로 항상 안전하게 파싱할 수 없습니다. 완성 프로젝트의 각 언어 구현과 Python의 `csv` 모듈처럼 CSV 규칙을 다루는 코드를 확인하세요. 누락된 열·빈 분·음수 분을 어떻게 처리할지도 공통 계약에 적어야 합니다.
 
+프로젝트의 CSV 한 행은 날짜·언어·주제·분·결과의 순서 기록입니다. 단순 예제의 `split(",")`는 쉼표로 나눠 다섯 조각을 얻고 네 번째인 인덱스 3을 분으로 읽습니다. 분 문자열은 합계에 넣기 전에 정수로 바꿔야 합니다.
+
+실제 CSV에서는 따옴표 안 쉼표 같은 규칙이 있어서 단순 나누기로 항상 안전하게 파싱할 수 없습니다. 완성 프로젝트의 각 언어 구현과 CSV 규칙을 다루는 코드를 확인하세요. 누락된 열·빈 분·음수 분을 어떻게 처리할지도 공통 계약에 적어야 합니다.
+
 ## 문법을 예제로 보기
 
 아래 Python 코드는 Day 83 "`프로젝트 계약: 공통 CSV 입력`"의 독립 예제입니다. 전체 3줄 가운데 핵심 부분은 `split(",")`이며, 실행 결과는 `5 minutes`입니다.
@@ -241,7 +245,7 @@ print(len(fields), fields[3])
 
 ## 핵심 줄 따라 읽기
 
-예제의 핵심 표현은 `split(",")`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄을 찾으세요.
+예제의 핵심 표현은 `split(",")`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄 번호를 말하고, 그 줄이 읽는 값과 바꾸는 값을 적어 보세요.
 
 ```python
  1 | header = "date,language,topic,minutes,result"
@@ -271,7 +275,7 @@ CSV 행 `2026-10-01,Python,변수,30,pass`를 다섯 칸으로 분리하면 번�
 
 ## 결과 예측과 작은 변경
 
-원본 실행 결과는 `5 minutes`입니다. 아래 코드에서 원본과 다른 줄을 먼저 찾으세요.
+원본 실행 결과는 `5 minutes`입니다. 아래 코드에서 원본과 달라지는 첫 줄을 표시하고, 그 줄의 변경 전후 값을 적어 보세요.
 
 ```python
 header = "date,language,topic,minutes,result"
@@ -287,7 +291,7 @@ print(len(fields), fields[2])
 5 topic
 ```
 
-원본 출력은 `5 minutes`이고, 바뀐 코드의 실행 결과는 `5 topic`입니다. 바뀐 줄은 `print(len(fields), fields[3])`에서 `print(len(fields), fields[2])`로 바뀌었습니다. 바뀐 프로그램은 `헤더` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `5 topic`가 됩니다. 원본 추적 `헤더  →  다섯 열  →  네 번째 minutes`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
+원본은 `5 minutes`, 수정본은 `5 topic`이다. 첫 변경 줄 `print(len(fields), fields[3])`에서 `print(len(fields), fields[2])`로 읽는 열을 바꾸면, 네 번째 대신 세 번째 값이 출력된다.
 
 ## 자주 틀리는 지점
 

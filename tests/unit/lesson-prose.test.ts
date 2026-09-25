@@ -116,4 +116,86 @@ describe("lesson prose regressions", () => {
     );
     expect(bad).toEqual([]);
   });
+  it("pins day 77 redesigned debug outputs 0 and 3", () => {
+    const flat = fullOf("day-77-search-sort-review.md").replace(/\s+/g, " ");
+    expect(flat).toContain("위치는 0");
+    expect(flat).toContain("`3`이 됩니다");
+  });
+  it("pins day 85 TypeError debug and 35 fix", () => {
+    const flat = fullOf("day-85-python-csv-parse.md").replace(/\s+/g, " ");
+    expect(flat).toContain("TypeError");
+    expect(flat).toContain("`35`");
+  });
+  it("states day 26 out-of-bounds as undefined behavior without promising outputs", () => {
+    const flat = fullOf("day-26-c-array.md").replace(/\s+/g, " ");
+    expect(flat).toContain("정의되지 않은 동작");
+    expect(flat).not.toContain("나오지 않습니다");
+  });
+  it("states day 92 total unchanged by the added assert", () => {
+    expect(fullOf("day-92-capstone-release.md")).toContain("total은 계속 60");
+  });
+  it("contains no bare find-it imperatives in generated lessons", () => {
+    const bad = files.filter((f) =>
+      fullOf(f).replace(/\s+/g, " ").includes("찾으세요"),
+    );
+    expect(bad).toEqual([]);
+  });
+  it("manages debug fixtures as classified data", () => {
+    const src = readFileSync(
+      resolve(process.cwd(), "scripts/debug_fixtures.py"),
+      "utf8",
+    );
+    expect(src).toContain("    12: (");
+    expect(src).toContain("    77: (");
+    expect(src).toContain("    85: (");
+    const rows = [
+      ...src.matchAll(
+        /^\s+(\d+): \(".*", ".*", ".*", "([a-z-]+)", (True|False)\),$/gm,
+      ),
+    ];
+    expect(rows.length).toBe(89);
+    const classes = new Set([
+      "compile-error",
+      "runtime-error",
+      "infinite-loop",
+      "wrong-output",
+      "undefined-behavior",
+      "same-output-contract",
+    ]);
+    for (const row of rows) {
+      expect(classes.has(row[2]!)).toBe(true);
+      if (row[2]! === "undefined-behavior") expect(row[3]!).toBe("True");
+    }
+  });
+  it("classifies C out-of-bounds fixtures statically", () => {
+    for (const f of [
+      "day-26-c-array.md",
+      "day-30-pointer-arithmetic.md",
+      "day-34-array-pointer.md",
+      "day-46-c-file.md",
+      "day-60-circular-queue.md",
+      "day-88-c-aggregation.md",
+    ]) {
+      expect(fullOf(f)).toContain("정의되지 않은 동작");
+    }
+  });
+  it("leaves sample lessons untouched by generation", () => {
+    for (const f of [
+      "day-01-variables-types.md",
+      "day-29-references-borrowing.md",
+      "day-57-stack.md",
+    ]) {
+      const s = fullOf(f);
+      expect(s).not.toContain("2026.10-f");
+      expect(s).not.toContain("틀린 줄은");
+    }
+  });
+  it("keeps the content validator strict on frontmatter newlines", () => {
+    const src = readFileSync(
+      resolve(process.cwd(), "scripts/validate-content/index.ts"),
+      "utf8",
+    );
+    expect(src).toContain("^---\\n");
+    expect(src).not.toContain("\\r");
+  });
 });

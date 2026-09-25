@@ -17,6 +17,8 @@ from curriculum_blueprints import DAYS, Day
 from teaching_notes import NOTES
 from second_examples import MORE
 from modified_outputs import MODIFIED_OUTPUT, SAME_REASON
+from lesson_manuscripts import MANUSCRIPTS
+from debug_fixtures import OVERRIDES, EXPECTED
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -87,103 +89,87 @@ def fill_source(day: Day) -> str:
 
 def exercise_rows(day: Day, id_: str) -> list[dict]:
     base = f"ex-{id_}"
+    M = MANUSCRIPTS[day.number]
     common = [day.pitfall, "실행 전에 출력과 중간 상태를 손으로 확인하지 않음"]
     modified, change = day.modified
     change_display = change.replace(chr(92) + "n", " + 다음 줄 ")
     modified_output = MODIFIED_OUTPUT[day.number]
-    is_same = modified_output.strip() == day.output.strip()
-    same_reason = SAME_REASON.get(day.number, "")
-    orig_lines = day.code.splitlines()
-    mod_lines = modified.splitlines()
-    diff_old = ""
-    diff_new = ""
-    for a, b in zip(orig_lines, mod_lines):
-        if a != b:
-            diff_old = a.strip()
-            diff_new = b.strip()
-            break
-    if not diff_old and len(mod_lines) > len(orig_lines):
-        diff_old = "(원본에는 없는 추가 줄)"
-        diff_new = " / ".join(line.strip() for line in mod_lines[len(orig_lines):] if line.strip())
-    trace_spaced = day.trace.replace("→", " → ")
     trace_steps = [s.strip() for s in day.trace.split("→")]
     trace_first = trace_steps[0] if trace_steps else day.trace.strip()
     trace_last = trace_steps[-1] if trace_steps else day.trace.strip()
-    walk_parts = [w.strip() for w in day.walk.split("|")]
-    walk_first = walk_parts[0] if walk_parts else day.walk.strip()
-    walk_rest = " ".join(walk_parts[1:]) if len(walk_parts) > 1 else ""
-    output_inline_ex = day.output.strip().replace("\n", " / ")
-    modified_inline_ex = modified_output.strip().replace("\n", " / ")
-    fixed_line_ex = ""
-    buggy_line_ex = ""
-    for _line in day.code.splitlines():
-        if day.focus and day.focus in _line:
-            fixed_line_ex = _line.strip()
-            if day.wrong:
-                buggy_line_ex = _line.replace(day.focus, day.wrong, 1).strip()
-            else:
-                buggy_line_ex = _line.replace(day.focus, "", 1).strip()
-            break
-    if day.number == 26:
-        guided_explanation = "바꾼 뒤 출력은 '30'입니다. 배열의 값은 10·20·30 그대로이고 읽는 인덱스가 1에서 2로 바뀌었습니다. 그래서 기존 출력 20 대신 마지막 원소 30을 출력합니다. 인덱스 3은 범위 밖이라 사용하면 안 됩니다."
-    elif is_same:
-        guided_explanation = f"바꾼 뒤 출력은 {modified_output!r}입니다. 원본 출력 {day.output!r}와 같습니다. 바뀐 줄은 {chr(96)}{diff_new}{chr(96)}입니다. 바뀐 프로그램도 {chr(96)}{trace_first}{chr(96)} 단계에서 시작해 바뀐 줄을 지나 최종 {chr(96)}{modified_inline_ex}{chr(96)}로 끝납니다. {same_reason} 출력은 같지만 바뀐 줄 부분의 중간 값은 달라졌다가 같은 최종 값으로 이어진다는 점을 위 추적 순서와 대조해 확인할 수 있습니다."
+    if day.number in OVERRIDES:
+        debug_starter, debug_answer = OVERRIDES[day.number]
     else:
-        guided_explanation = f"바꾼 뒤 출력은 {modified_output!r}입니다. 원본 출력 {day.output!r}에서 달라졌습니다. 바뀐 줄은 {chr(96)}{diff_old}{chr(96)}에서 {chr(96)}{diff_new}{chr(96)}로 바뀌었습니다. 바뀐 프로그램은 {chr(96)}{trace_first}{chr(96)} 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져 최종 {chr(96)}{modified_inline_ex}{chr(96)}가 됩니다. 원본 추적 {chr(96)}{trace_spaced}{chr(96)}와 바뀐 줄 이후를 순서대로 비교하면 처음 달라지는 곳이 보입니다."
-    if day.wrong:
-        debug_explanation = f"틀린 줄은 {chr(96)}{buggy_line_ex}{chr(96)}입니다. 여기서는 {chr(96)}{day.wrong}{chr(96)}을 써서 {chr(96)}{day.focus}{chr(96)} 동작이 깨집니다. 이대로 실행하면 {chr(96)}{day.pitfall}{chr(96)} 문제가 생겨 원본 추적 {chr(96)}{trace_spaced}{chr(96)}대로 {day.output!r}가 나오지 않습니다. 고친 줄 {chr(96)}{fixed_line_ex}{chr(96)}에서는 {chr(96)}{day.focus}{chr(96)}가 {chr(96)}{day.transfer}{chr(96)} 동작을 지켜 {day.output!r}까지 도달합니다."
+        debug_starter, debug_answer = day.buggy, day.code
+    _bout, _berr, _fout, _bclass, _bstatic = EXPECTED[day.number]
+    if _bclass == "compile-error":
+        no_expr = "이 표현이 없으면 컴파일 단계에서 막혀 실행 자체가 되지 않습니다"
+    elif _bclass == "runtime-error":
+        no_expr = "이 표현이 없으면 실행 중 오류로 멈춥니다"
+    elif _bclass == "infinite-loop":
+        no_expr = "이 표현이 없으면 반복이 끝나지 않습니다"
+    elif _bclass == "undefined-behavior":
+        no_expr = "이 표현이 없으면 정의되지 않은 동작이 되어 어떤 결과도 보장할 수 없습니다"
+    elif _bclass == "same-output-contract":
+        no_expr = "이 표현이 없어도 이번 화면 출력은 같을 수 있으나 숨은 계약을 어깁니다"
     else:
-        debug_explanation = f"틀린 줄은 {chr(96)}{buggy_line_ex}{chr(96)}입니다. 여기서는 {chr(96)}{day.focus}{chr(96)} 표현이 빠져 {chr(96)}{day.transfer}{chr(96)} 동작이 깨집니다. 이대로 실행하면 {chr(96)}{day.pitfall}{chr(96)} 문제가 생겨 원본 추적 {chr(96)}{trace_spaced}{chr(96)}대로 {day.output!r}가 나오지 않습니다. 고친 줄 {chr(96)}{fixed_line_ex}{chr(96)}에서는 {chr(96)}{day.focus}{chr(96)}가 {chr(96)}{day.transfer}{chr(96)} 동작을 지켜 {day.output!r}까지 도달합니다."
+        no_expr = "이 표현이 없으면 실행 결과는 달라집니다"
+    guided_explanation = f"바꾼 뒤 출력은 {modified_output!r}입니다. " + M["guided"]
+    fill_explanation = f"빈칸에 들어갈 표현은 {day.focus!r}입니다. " + no_expr + ". " + M["predict"]
+    independent_explanation = f"입력·처리·출력·경계 조건을 스스로 설계하세요. " + M["boundary"] + f" 같은 {day.transfer} 동작을 구현하고 실행 결과 {day.output!r}와 대조할 수 있으면, 예시 답안과 달라도 정답입니다."
     return [
         dict(id=f"{base}-predict", title="결과를 먼저 예측하기", kind="predict",
              objective="코드를 실행하지 않고 상태와 출력을 순서대로 추적한다.",
-             prompt=f"아래 코드를 실행하면 어떤 문장이 출력될까요? {day.trace.split('→')[0].strip()}에서 시작해 계산하세요.",
-             starter=day.code, answer=day.output, hint=f"{day.model} 설명을 떠올리고 {chr(96)}{trace_first}{chr(96)} 단계부터 순서대로 적어 보세요.",
-             explanation=f"{trace_spaced} 순서로 실행됩니다. {chr(96)}{day.focus}{chr(96)} 부분이 {chr(96)}{trace_last}{chr(96)} 단계를 확정해 최종 출력 {day.output!r}가 됩니다. 이 흐름을 떠올리면 {chr(96)}{day.transfer}{chr(96)} 동작이 왜 필요한지 알 수 있습니다.",
+             prompt=f"아래 코드를 실행하면 어떤 문장이 출력될까요? {trace_first}에서 시작해 계산하세요.",
+             starter=day.code, answer=day.output,
+             hint=f"{trace_first}에서 시작해 {trace_last}까지 순서대로 적어 보세요. {day.model}",
+             explanation=M["predict"],
              commonMistakes=common, language=day.anchor, verification="none"),
         dict(id=f"{base}-fill", title="핵심 표현 빈칸 채우기", kind="fill",
-             objective=f"'{day.title}' 개념의 핵심 표현을 스스로 적는다.",
+             objective=f"{day.title}의 핵심 표현을 스스로 적는다.",
              prompt=f"빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: {day.focus}",
-             starter=fill_source(day), answer=day.code, hint=f"힌트 문장을 완전하게 읽으면 {chr(96)}{walk_first}{chr(96)} 단계에 필요한 표현이 {chr(96)}{day.focus}{chr(96)}입니다.",
-             explanation=f"빈칸에 들어갈 표현은 {day.focus!r}입니다. {chr(96)}{fixed_line_ex}{chr(96)} 줄을 완성해야 {chr(96)}{day.transfer}{chr(96)} 동작이 이어져 실행 결과 {day.output!r}가 됩니다. 힌트의 첫 단계 {chr(96)}{walk_first}{chr(96)}이 바로 이 줄입니다." + (f" 이어서 {walk_rest} 순서로 진행됩니다." if walk_rest else ""),
+             starter=fill_source(day), answer=day.code,
+             hint=f"필요한 표현은 {day.transfer} 동작을 잇는 {day.focus}입니다.",
+             explanation=fill_explanation,
              commonMistakes=common, language=day.anchor, verification="run"),
         dict(id=f"{base}-guided", title="값을 바꿔 다시 추적하기", kind="modify",
              objective="입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.",
-             prompt=f"예시를 직접 타이핑한 뒤 다음을 바꾸세요: {change_display}. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.",
-             starter=day.code, answer=modified, hint=f"다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: {change}.",
+             prompt=f"예시를 직접 타이핑한 뒤 {change_display} 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.",
+             starter=day.code, answer=modified,
+             hint=f"{change} 바꾼 뒤 실행 결과를 먼저 적어 보세요. 원본 출력 {day.output!r}와 비교해 달라지는 첫 중간 값을 찾으면 됩니다.",
              explanation=guided_explanation,
              commonMistakes=common, language=day.anchor, verification="run"),
         dict(id=f"{base}-debug", title="오류 설명하고 고치기", kind="debug",
              objective="문법 오류와 의미 오류를 구별하고 고친 이유를 설명한다.",
              prompt=f"아래 코드와 본문의 정상 예제를 비교하여 잘못된 부분을 찾고 고치세요. 특히 {day.pitfall} 상황을 확인하세요.",
-             starter=day.buggy, answer=day.code, hint=f"{day.model} 설명과 어긋나는 줄을 찾으세요. {chr(96)}{day.pitfall}{chr(96)} 상황이 단서가 됩니다.",
-             explanation=debug_explanation,
+             starter=debug_starter, answer=debug_answer,
+             hint=f"{day.pitfall} 상황에서 어긋나는 줄을 {day.model} 설명과 대조해 보세요.",
+             explanation=M["debug"],
              commonMistakes=common, language=day.anchor, verification="run"),
         dict(id=f"{base}-independent", title="예시를 가리고 다시 구현하기", kind="independent",
              objective="설명 없이 같은 개념을 작은 프로그램으로 재현한다.",
-             prompt=f"예시를 가리고 '{day.title}' 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.",
+             prompt=f"예시를 가리고 {day.title} 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.",
              starter=f"// {day.title}: 직접 구현 (Python에서는 이 안내 줄을 # 주석으로 바꾸세요)" if day.anchor != "python" else f"# {day.title}: 직접 구현",
-             answer=day.code, hint=f"{day.model} 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.",
-             explanation=f"한 가지 예시 해법은 위 코드입니다. {chr(96)}{day.focus}{chr(96)} 부분이 {chr(96)}{day.transfer}{chr(96)} 동작을 지켜 실행 결과 {day.output!r}가 됩니다. 같은 개념을 다른 입력으로 바꿔도 {chr(96)}{day.focus}{chr(96)}부터 {chr(96)}{trace_last}{chr(96)}까지 추적할 수 있으면 정답입니다. {chr(96)}{day.pitfall}{chr(96)} 상황과 빈 입력 같은 경계도 함께 설명해 보세요.",
+             answer=day.code, hint=M["boundary"] + " 예상 출력과 경계 조건도 함께 적어 보세요.",
+             explanation=independent_explanation,
              commonMistakes=common, language=day.anchor, verification="run"),
     ]
 
-
 def quizzes(day: Day, id_: str) -> list[dict]:
-    _trace_spaced = day.trace.replace("→", " → ")
+    M = MANUSCRIPTS[day.number]
     items = [
         dict(id=f"quiz-{id_}-output", question=f"예시 코드의 출력은 무엇인가요?",
              choices=[day.output, "실행 전에 반드시 오류가 난다", "아무것도 출력하지 않는다"], answerIndex=0,
-             explanation=f"{_trace_spaced} 순서로 실행되어 출력은 {day.output!r}입니다. {chr(96)}{day.focus}{chr(96)} 부분이 마지막 단계를 확정하므로 다른 선택지는 이 추적과 맞지 않습니다."),
+             explanation=M["qout"] + " 다른 선택지는 이 추적과 맞지 않습니다."),
         dict(id=f"quiz-{id_}-model", question=f"'{day.title}' 개념을 이해하는 데 맞는 설명은?",
              choices=[day.model, day.pitfall + "(이것이 정상적인 사용법이다)", "코드가 짧다면 상태 추적은 필요 없다"],
-             answerIndex=0, explanation=f"{day.model} 이 설명이 맞는 이유는 {chr(96)}{day.transfer}{chr(96)} 동작을 지키는 조건과 같기 때문입니다. {chr(96)}{day.pitfall}{chr(96)} 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다."),
+             answerIndex=0, explanation=M["qmodel"]),
         dict(id=f"quiz-{id_}-pitfall", question="다음 중 실습에서 먼저 확인할 오류는?",
              choices=[day.pitfall, "실제 출력과 예측한 출력이 일치함", "변경된 입력을 다시 추적하여 결과를 확인함"],
-             answerIndex=0, explanation=f"{day.pitfall}. 이 실수가 나오면 원본 추적 {chr(96)}{day.trace}{chr(96)}대로 {day.output!r}가 나오지 않으므로 먼저 확인해야 합니다."),
+             answerIndex=0, explanation=M["qpit"]),
         dict(id=f"quiz-{id_}-transfer", question="세 언어로 옮길 때 무엇을 보존해야 하나요?",
              choices=[f"{day.transfer}라는 동작과 경계 조건", "세 언어의 표면 문법을 한 글자도 바꾸지 않는다", "타입과 오류 처리를 모두 생략한다"],
-             answerIndex=0, explanation=f"문법은 달라도 {chr(96)}{day.transfer}{chr(96)} 목적과 입력·출력은 유지합니다. 실행 결과 {day.output!r}로 대조하면 옮김이 맞는지 확인할 수 있습니다."),
+             answerIndex=0, explanation=M["qtrans"]),
     ]
     for number, item in enumerate(items):
         correct, *others = item["choices"]
@@ -192,13 +178,12 @@ def quizzes(day: Day, id_: str) -> list[dict]:
         item["answerIndex"] = index
     return items
 
-
 def markdown(day: Day) -> str:
     id_ = entity_id(day.number)
     transfers = [lang for lang in LANGUAGES if lang != day.anchor]
     review = day.number in REVIEWS
     previous = entity_id(day.number - 1) if day.number > 1 else None
-    data = dict(schemaVersion=1, contentVersion="2026.10-e", id=id_, courseId="crp-92",
+    data = dict(schemaVersion=1, contentVersion="2026.10-f", id=id_, courseId="crp-92",
                 phaseId=phase(day.number), dayNumber=day.number,
                 date=(date(2026, 10, 1) + timedelta(days=day.number - 1)).isoformat(),
                 title=day.title,
@@ -266,10 +251,19 @@ def markdown(day: Day) -> str:
         diff_old = "(원본에는 없는 추가 줄)"
         diff_new = " / ".join(line.strip() for line in mod_lines[len(orig_lines):] if line.strip())
     trace_spaced_body = day.trace.replace("→", " → ")
-    if is_same:
-        modified_reason = f"바꾼 뒤 출력도 {chr(96)}{output_inline}{chr(96)}입니다. {same_reason} 바뀐 프로그램도 {chr(96)}{trace_first}{chr(96)} 단계에서 시작해 {chr(96)}{diff_new}{chr(96)} 줄을 지나 최종 {chr(96)}{modified_inline}{chr(96)}로 끝납니다. 원본 추적 {chr(96)}{trace_spaced_body}{chr(96)}와 바뀐 줄 이후를 순서대로 놓으면 출력은 같아도 중간 값이 어디서 달라졌다가 합쳐지는지 확인할 수 있습니다."
-    else:
-        modified_reason = f"원본 출력은 {chr(96)}{output_inline}{chr(96)}이고, 바뀐 코드의 실행 결과는 {chr(96)}{modified_inline}{chr(96)}입니다. 바뀐 줄은 {chr(96)}{diff_old}{chr(96)}에서 {chr(96)}{diff_new}{chr(96)}로 바뀌었습니다. 바뀐 프로그램은 {chr(96)}{trace_first}{chr(96)} 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 {chr(96)}{modified_inline}{chr(96)}가 됩니다. 원본 추적 {chr(96)}{trace_spaced_body}{chr(96)}에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다."
+    modified_reason = MANUSCRIPTS[day.number]["guided"]
+    slow_parts = [NOTES[day.number]] + MANUSCRIPTS[day.number]["notes"]
+    slow_text = ""
+    _in_table = False
+    for _block in slow_parts:
+        _is_row = _block.startswith("|")
+        if slow_text == "":
+            slow_text = _block
+        elif _is_row:
+            slow_text = slow_text + "\n" + _block
+        else:
+            slow_text = slow_text + "\n\n" + _block
+        _in_table = _is_row
     body = f"---\n{head}---\n\n" + f"""## 오늘 배울 이유
 
 {day.why} Day {day.number:02d} "`{day.title}`"에서는 {lang} 코드의 실행 결과(`{output_inline}`)를 따라가며, `{day.transfer}` 동작이 왜 필요한지 확인합니다. 이 동작이 빠지면 "`{day.pitfall}`" 같은 문제가 생깁니다.
@@ -290,7 +284,7 @@ def markdown(day: Day) -> str:
 
 ## 천천히 풀어보기
 
-{NOTES[day.number]}
+{slow_text}
 
 ## 문법을 예제로 보기
 
@@ -310,7 +304,7 @@ def markdown(day: Day) -> str:
 
 ## 핵심 줄 따라 읽기
 
-예제의 핵심 표현은 `{day.focus}`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄을 찾으세요.
+예제의 핵심 표현은 `{day.focus}`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄 번호를 말하고, 그 줄이 읽는 값과 바꾸는 값을 적어 보세요.
 
 ```{day.anchor}
 {code_lines}
@@ -336,7 +330,7 @@ def markdown(day: Day) -> str:
 
 ## 결과 예측과 작은 변경
 
-원본 실행 결과는 `{output_inline}`입니다. 아래 코드에서 원본과 다른 줄을 먼저 찾으세요.
+원본 실행 결과는 `{output_inline}`입니다. 아래 코드에서 원본과 달라지는 첫 줄을 표시하고, 그 줄의 변경 전후 값을 적어 보세요.
 
 ```{day.anchor}
 {modified_code}

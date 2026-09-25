@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-e
+contentVersion: 2026.10-f
 id: day-70-structures-review
 courseId: crp-92
 phaseId: phase-06
@@ -45,10 +45,10 @@ exercises:
 
       print(work.popleft())'
     answer: first
-    hint: 접수 순서 보존이 불변식이라면 앞에서 꺼내는 큐가 맞습니다. 설명을 떠올리고 `first 대기` 단계부터 순서대로 적어 보세요.
+    hint: first 대기에서 시작해 first 처리까지 순서대로 적어 보세요. 접수 순서 보존이 불변식이라면 앞에서 꺼내는 큐가 맞습니다.
     explanation:
-      first 대기  →  second 대기  →  first 처리 순서로 실행됩니다. `popleft()` 부분이 `first 처리` 단계를 확정해 최종 출력 'first'가
-      됩니다. 이 흐름을 떠올리면 `처리 순서에 맞는 구조 선택` 동작이 왜 필요한지 알 수 있습니다.
+      1. first가 먼저 들어왔습니다. 2. second가 뒤에 있습니다. 3. popleft가 first를 처리합니다. `first 대기 → second 대기 → first
+      처리` 흐름으로 실제 출력 `first`가 됩니다. 핵심 `popleft()`는 접수 순서를 지키는 자리에 쓰입니다.
     commonMistakes:
       - 최근 항목 pop을 써서 접수 순서를 뒤집음
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -57,7 +57,7 @@ exercises:
   - id: ex-day-70-structures-review-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: "'자료구조 선택 회상' 개념의 핵심 표현을 스스로 적는다."
+    objective: 자료구조 선택 회상의 핵심 표현을 스스로 적는다.
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: popleft()"
     starter: 'from collections import deque
 
@@ -69,10 +69,10 @@ exercises:
       work = deque(["first", "second"])
 
       print(work.popleft())'
-    hint: 힌트 문장을 완전하게 읽으면 `first가 먼저 들어왔습니다` 단계에 필요한 표현이 `popleft()`입니다.
+    hint: 필요한 표현은 처리 순서에 맞는 구조 선택 동작을 잇는 popleft()입니다.
     explanation:
-      빈칸에 들어갈 표현은 'popleft()'입니다. `print(work.popleft())` 줄을 완성해야 `처리 순서에 맞는 구조 선택` 동작이 이어져 실행 결과 'first'가
-      됩니다. 힌트의 첫 단계 `first가 먼저 들어왔습니다`이 바로 이 줄입니다. 이어서 second가 뒤에 있습니다 popleft가 first를 처리합니다 순서로 진행됩니다.
+      빈칸에 들어갈 표현은 'popleft()'입니다. 이 표현이 없으면 실행 결과는 달라집니다. 1. first가 먼저 들어왔습니다. 2. second가 뒤에 있습니다. 3. popleft가
+      first를 처리합니다. `first 대기 → second 대기 → first 처리` 흐름으로 실제 출력 `first`가 됩니다. 핵심 `popleft()`는 접수 순서를 지키는 자리에 쓰입니다.
     commonMistakes:
       - 최근 항목 pop을 써서 접수 순서를 뒤집음
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -82,7 +82,7 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 첫 문자열을 'first'에서 'first!'로. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
+    prompt: 예시를 직접 타이핑한 뒤 첫 문자열을 'first'에서 'first!'로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
     starter: 'from collections import deque
 
       work = deque(["first", "second"])
@@ -93,11 +93,10 @@ exercises:
       work = deque(["first!", "second"])
 
       print(work.popleft())'
-    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 첫 문자열을 'first'에서 'first!'로."
+    hint: 첫 문자열을 'first'에서 'first!'로 바꾼 뒤 실행 결과를 먼저 적어 보세요. 원본 출력 'first'와 비교해 달라지는 첫 중간 값을 찾으면 됩니다.
     explanation:
-      바꾼 뒤 출력은 'first!'입니다. 원본 출력 'first'에서 달라졌습니다. 바뀐 줄은 `work = deque(["first", "second"])`에서 `work =
-      deque(["first!", "second"])`로 바뀌었습니다. 바뀐 프로그램은 `first 대기` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져 최종
-      `first!`가 됩니다. 원본 추적 `first 대기  →  second 대기  →  first 처리`와 바뀐 줄 이후를 순서대로 비교하면 처음 달라지는 곳이 보입니다.
+      바꾼 뒤 출력은 'first!'입니다. 원본은 `first`, 수정본은 `first!`이다. 첫 변경 줄 `work = deque(["first", "second"])`에서
+      `work = deque(["first!", "second"])`로 첫 값을 바꾸면, 앞에서 꺼내는 값이 그대로 달라진다.
     commonMistakes:
       - 최근 항목 pop을 써서 접수 순서를 뒤집음
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -118,11 +117,11 @@ exercises:
       work = deque(["first", "second"])
 
       print(work.popleft())'
-    hint: 접수 순서 보존이 불변식이라면 앞에서 꺼내는 큐가 맞습니다. 설명과 어긋나는 줄을 찾으세요. `최근 항목 pop을 써서 접수 순서를 뒤집음` 상황이 단서가 됩니다.
+    hint: 최근 항목 pop을 써서 접수 순서를 뒤집음 상황에서 어긋나는 줄을 접수 순서 보존이 불변식이라면 앞에서 꺼내는 큐가 맞습니다. 설명과 대조해 보세요.
     explanation:
-      틀린 줄은 `print(work.pop())`입니다. 여기서는 `pop()`을 써서 `popleft()` 동작이 깨집니다. 이대로 실행하면 `최근 항목 pop을 써서 접수 순서를
-      뒤집음` 문제가 생겨 원본 추적 `first 대기  →  second 대기  →  first 처리`대로 'first'가 나오지 않습니다. 고친 줄 `print(work.popleft())`에서는
-      `popleft()`가 `처리 순서에 맞는 구조 선택` 동작을 지켜 'first'까지 도달합니다.
+      틀린 줄은 `print(work.pop())`입니다. 맨 뒤의 second를 꺼내므로 실행은 되지만 결과는 `second`가 됩니다. 오류 분류는 잘못된 출력입니다. 접수 순서가
+      뒤집히는 첫 순간은 꺼내는 쪽입니다. 고친 줄 `print(work.popleft())`에서는 `처리 순서에 맞는 구조 선택` 동작이 지켜집니다. 정상 코드는 접수 순서 저장→맨 앞 처리→출력의
+      순서로 `first`를 출력합니다.
     commonMistakes:
       - 최근 항목 pop을 써서 접수 순서를 뒤집음
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -132,17 +131,17 @@ exercises:
     title: 예시를 가리고 다시 구현하기
     kind: independent
     objective: 설명 없이 같은 개념을 작은 프로그램으로 재현한다.
-    prompt: 예시를 가리고 '자료구조 선택 회상' 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
+    prompt: 예시를 가리고 자료구조 선택 회상 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
     starter: "# 자료구조 선택 회상: 직접 구현"
     answer: 'from collections import deque
 
       work = deque(["first", "second"])
 
       print(work.popleft())'
-    hint: 접수 순서 보존이 불변식이라면 앞에서 꺼내는 큐가 맞습니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
+    hint: A,B,C가 접수됐는데 C가 먼저 처리되면 규칙 위반입니다. 답 모양보다 유지할 규칙을 먼저 정하세요. 예상 출력과 경계 조건도 함께 적어 보세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. `popleft()` 부분이 `처리 순서에 맞는 구조 선택` 동작을 지켜 실행 결과 'first'가 됩니다. 같은 개념을 다른 입력으로
-      바꿔도 `popleft()`부터 `first 처리`까지 추적할 수 있으면 정답입니다. `최근 항목 pop을 써서 접수 순서를 뒤집음` 상황과 빈 입력 같은 경계도 함께 설명해 보세요.
+      입력·처리·출력·경계 조건을 스스로 설계하세요. A,B,C가 접수됐는데 C가 먼저 처리되면 규칙 위반입니다. 답 모양보다 유지할 규칙을 먼저 정하세요. 같은 처리 순서에 맞는
+      구조 선택 동작을 구현하고 실행 결과 'first'와 대조할 수 있으면, 예시 답안과 달라도 정답입니다.
     commonMistakes:
       - 최근 항목 pop을 써서 접수 순서를 뒤집음
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -157,8 +156,8 @@ quiz:
       - 아무것도 출력하지 않는다
     answerIndex: 1
     explanation:
-      first 대기  →  second 대기  →  first 처리 순서로 실행되어 출력은 'first'입니다. `popleft()` 부분이 마지막 단계를 확정하므로 다른 선택지는
-      이 추적과 맞지 않습니다.
+      먼저 first와 second가 순서대로 들어 있습니다. 이어서 popleft가 first를 꺼내 출력하므로 `first`가 됩니다. `실행 전에 반드시 오류가 난다`는 틀린
+      선택지인데 덱 연산이 모두 정상이기 때문입니다. `아무것도 출력하지 않는다`도 틀린 선택지인데 print가 실제로 호출되기 때문입니다. 다른 선택지는 이 추적과 맞지 않습니다.
   - id: quiz-day-70-structures-review-model
     question: "'자료구조 선택 회상' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -167,8 +166,8 @@ quiz:
       - 접수 순서 보존이 불변식이라면 앞에서 꺼내는 큐가 맞습니다.
     answerIndex: 2
     explanation:
-      접수 순서 보존이 불변식이라면 앞에서 꺼내는 큐가 맞습니다. 이 설명이 맞는 이유는 `처리 순서에 맞는 구조 선택` 동작을 지키는 조건과 같기 때문입니다. `최근 항목 pop을
-      써서 접수 순서를 뒤집음` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
+      접수 순서 보존이 불변식이라면 앞에서 꺼내는 큐가 맞다는 뜻은, 규칙이 구조를 정한다는 뜻입니다. `최근 항목 pop을 써서 접수 순서를 뒤집음`은 반대 사례인데, 맨 뒤를
+      꺼내면 규칙을 어기기 때문입니다.
   - id: quiz-day-70-structures-review-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -177,8 +176,8 @@ quiz:
       - 변경된 입력을 다시 추적하여 결과를 확인함
     answerIndex: 0
     explanation:
-      최근 항목 pop을 써서 접수 순서를 뒤집음. 이 실수가 나오면 원본 추적 `first 대기 → second 대기 → first 처리`대로 'first'가 나오지 않으므로 먼저
-      확인해야 합니다.
+      먼저 확인할 실수는 `최근 항목 pop을 써서 접수 순서를 뒤집음`입니다. 잘못된 코드는 실행은 되지만 `second`라는 잘못된 출력을 냅니다. 무엇을 먼저 꺼내야 하는지
+      먼저 물으세요.
   - id: quiz-day-70-structures-review-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -186,7 +185,9 @@ quiz:
       - 처리 순서에 맞는 구조 선택라는 동작과 경계 조건
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 1
-    explanation: 문법은 달라도 `처리 순서에 맞는 구조 선택` 목적과 입력·출력은 유지합니다. 실행 결과 'first'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
+    explanation:
+      세 언어로 옮길 때 보존해야 하는 것은 `처리 순서에 맞는 구조 선택`이라는 의미와 입력·출력 계약입니다. 스택·사전·집합 후보와 비교해 같은 동작을 구현하고, 실행 결과 `first`로
+      대조하면 옮김이 맞는지 확인할 수 있습니다.
 playgroundSource: 'from collections import deque
 
   work = deque(["first", "second"])
@@ -218,6 +219,10 @@ first 대기  →  second 대기  →  first 처리
 
 예를 들어 A,B,C가 접수됐는데 C가 먼저 처리되면 접수 순서 규칙을 어긴 것입니다. A를 먼저 꺼내는 큐의 동작을 손으로 확인하세요. 답을 저장하는 모양보다 **유지해야 하는 규칙**이 자료구조 선택의 근거입니다.
 
+자료구조를 고를 때는 무엇을 먼저 꺼내야 하는가로 시작하세요. 접수 순서라면 큐, 마지막 편집 취소라면 스택, 이름으로 빠르게 합계를 찾는다면 사전, 중복 없는 방문 기록이라면 집합입니다.
+
+예를 들어 A,B,C가 접수됐는데 C가 먼저 처리되면 접수 순서 규칙을 어긴 것입니다. A를 먼저 꺼내는 큐의 동작을 손으로 확인하세요. 답을 저장하는 모양보다 유지해야 하는 규칙이 자료구조 선택의 근거입니다.
+
 ## 문법을 예제로 보기
 
 아래 Python 코드는 Day 70 "`자료구조 선택 회상`"의 독립 예제입니다. 전체 3줄 가운데 핵심 부분은 `popleft()`이며, 실행 결과는 `first`입니다.
@@ -238,7 +243,7 @@ first
 
 ## 핵심 줄 따라 읽기
 
-예제의 핵심 표현은 `popleft()`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄을 찾으세요.
+예제의 핵심 표현은 `popleft()`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄 번호를 말하고, 그 줄이 읽는 값과 바꾸는 값을 적어 보세요.
 
 ```python
  1 | from collections import deque
@@ -272,7 +277,7 @@ first
 
 ## 결과 예측과 작은 변경
 
-원본 실행 결과는 `first`입니다. 아래 코드에서 원본과 다른 줄을 먼저 찾으세요.
+원본 실행 결과는 `first`입니다. 아래 코드에서 원본과 달라지는 첫 줄을 표시하고, 그 줄의 변경 전후 값을 적어 보세요.
 
 ```python
 from collections import deque
@@ -288,7 +293,7 @@ print(work.popleft())
 first!
 ```
 
-원본 출력은 `first`이고, 바뀐 코드의 실행 결과는 `first!`입니다. 바뀐 줄은 `work = deque(["first", "second"])`에서 `work = deque(["first!", "second"])`로 바뀌었습니다. 바뀐 프로그램은 `first 대기` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `first!`가 됩니다. 원본 추적 `first 대기  →  second 대기  →  first 처리`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
+원본은 `first`, 수정본은 `first!`이다. 첫 변경 줄 `work = deque(["first", "second"])`에서 `work = deque(["first!", "second"])`로 첫 값을 바꾸면, 앞에서 꺼내는 값이 그대로 달라진다.
 
 ## 자주 틀리는 지점
 

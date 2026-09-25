@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-e
+contentVersion: 2026.10-f
 id: day-92-capstone-release
 courseId: crp-92
 phaseId: phase-08
@@ -47,10 +47,11 @@ exercises:
 
       print("Study Log Analyzer 완료:", total)'
     answer: "Study Log Analyzer 완료: 60"
-    hint: 공통 명세가 참인지 테스트로 고정한 후 선호 언어에서 ASCII 시각화 한 가지를 추가합니다. 설명을 떠올리고 `C30 + Python20 + Rust10` 단계부터 순서대로 적어 보세요.
+    hint: C30 + Python20 + Rust10에서 시작해 테스트 통과까지 순서대로 적어 보세요. 공통 명세가 참인지 테스트로 고정한 후 선호 언어에서 ASCII 시각화 한 가지를 추가합니다.
     explanation:
-      "C30 + Python20 + Rust10  →  60  →  테스트 통과 순서로 실행됩니다. `assert total == 60` 부분이 `테스트 통과` 단계를 확정해 최종
-      출력 'Study Log Analyzer 완료: 60'가 됩니다. 이 흐름을 떠올리면 `동일 입력·출력 명세와 테스트 완료` 동작이 왜 필요한지 알 수 있습니다."
+      "1. 세 기록의 시간을 합해 60을 구합니다. 2. assert로 공통 기대값을 확인합니다. 3. 완료 메시지를 출력합니다. `C30 + Python20 + Rust10 →
+      60 → 테스트 통과` 흐름으로 실제 출력 `Study Log Analyzer 완료: 60`이 됩니다. 핵심 `assert total == 60`은 기대값을 검증하고 통과해야 다음으로 가는 자리에
+      쓰입니다."
     commonMistakes:
       - 한 언어의 결과만 보고 나머지 구현도 같다고 가정함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -59,7 +60,7 @@ exercises:
   - id: ex-day-92-capstone-release-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: "'완성 프로젝트 검증과 확장' 개념의 핵심 표현을 스스로 적는다."
+    objective: 완성 프로젝트 검증과 확장의 핵심 표현을 스스로 적는다.
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: assert total == 60"
     starter: 'sessions = [("C", 30), ("Python", 20), ("Rust", 10)]
 
@@ -75,11 +76,11 @@ exercises:
       assert total == 60
 
       print("Study Log Analyzer 완료:", total)'
-    hint: 힌트 문장을 완전하게 읽으면 `세 기록의 시간을 합해 60을 구합니다` 단계에 필요한 표현이 `assert total == 60`입니다.
+    hint: 필요한 표현은 동일 입력·출력 명세와 테스트 완료 동작을 잇는 assert total == 60입니다.
     explanation:
-      "빈칸에 들어갈 표현은 'assert total == 60'입니다. `assert total == 60` 줄을 완성해야 `동일 입력·출력 명세와 테스트 완료` 동작이 이어져
-      실행 결과 'Study Log Analyzer 완료: 60'가 됩니다. 힌트의 첫 단계 `세 기록의 시간을 합해 60을 구합니다`이 바로 이 줄입니다. 이어서 assert로 공통 기대값을 확인합니다
-      완료 메시지를 출력합니다 순서로 진행됩니다."
+      "빈칸에 들어갈 표현은 'assert total == 60'입니다. 이 표현이 없으면 실행 중 오류로 멈춥니다. 1. 세 기록의 시간을 합해 60을 구합니다. 2. assert로
+      공통 기대값을 확인합니다. 3. 완료 메시지를 출력합니다. `C30 + Python20 + Rust10 → 60 → 테스트 통과` 흐름으로 실제 출력 `Study Log Analyzer 완료:
+      60`이 됩니다. 핵심 `assert total == 60`은 기대값을 검증하고 통과해야 다음으로 가는 자리에 쓰입니다."
     commonMistakes:
       - 한 언어의 결과만 보고 나머지 구현도 같다고 가정함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -90,8 +91,8 @@ exercises:
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
     prompt:
-      "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 'assert total == 60' → 'assert total == 60 + 다음 줄 assert len(sessions) ==
-      3'. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
+      예시를 직접 타이핑한 뒤 'assert total == 60' → 'assert total == 60 + 다음 줄 assert len(sessions) == 3' 바꿔 보세요. 출력이
+      바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
     starter: 'sessions = [("C", 30), ("Python", 20), ("Rust", 10)]
 
       total = sum(minutes for _, minutes in sessions)
@@ -109,13 +110,12 @@ exercises:
 
       print("Study Log Analyzer 완료:", total)'
     hint:
-      '다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: ''assert total == 60'' → ''assert total == 60\nassert len(sessions)
-      == 3''.'
+      '''assert total == 60'' → ''assert total == 60\nassert len(sessions) == 3'' 바꾼 뒤 실행 결과를 먼저 적어 보세요. 원본 출력
+      ''Study Log Analyzer 완료: 60''와 비교해 달라지는 첫 중간 값을 찾으면 됩니다.'
     explanation:
-      "바꾼 뒤 출력은 'Study Log Analyzer 완료: 60'입니다. 원본 출력 'Study Log Analyzer 완료: 60'와 같습니다. 바뀐 줄은 `assert
-      len(sessions) == 3`입니다. 바뀐 프로그램도 `C30 + Python20 + Rust10` 단계에서 시작해 바뀐 줄을 지나 최종 `Study Log Analyzer 완료: 60`로
-      끝납니다. 추가된 assert도 통과하므로 print까지 도달합니다. assert는 기대값을 검증할 뿐 출력값 계산과 표시에는 관여하지 않습니다. 출력은 같지만 바뀐 줄 부분의 중간 값은 달라졌다가
-      같은 최종 값으로 이어진다는 점을 위 추적 순서와 대조해 확인할 수 있습니다."
+      "바꾼 뒤 출력은 'Study Log Analyzer 완료: 60'입니다. 원본과 수정본 모두 `Study Log Analyzer 완료: 60`을 출력한다. 추가된 assert도
+      통과하므로 print까지 도달합니다. assert는 기대값을 검증할 뿐 출력값 계산과 표시에는 관여하지 않습니다. 계산값 total은 계속 60이고, 새 assert는 길이 3을 검사하여 통과
+      여부만 결정하므로 출력이 같다. 값이 실제로 바뀌지 않았으므로 중간 값이 달라졌다고 쓰지 않는다."
     commonMistakes:
       - 한 언어의 결과만 보고 나머지 구현도 같다고 가정함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -140,14 +140,11 @@ exercises:
       assert total == 60
 
       print("Study Log Analyzer 완료:", total)'
-    hint:
-      공통 명세가 참인지 테스트로 고정한 후 선호 언어에서 ASCII 시각화 한 가지를 추가합니다. 설명과 어긋나는 줄을 찾으세요. `한 언어의 결과만 보고 나머지 구현도 같다고 가정함` 상황이
-      단서가 됩니다.
+    hint: 한 언어의 결과만 보고 나머지 구현도 같다고 가정함 상황에서 어긋나는 줄을 공통 명세가 참인지 테스트로 고정한 후 선호 언어에서 ASCII 시각화 한 가지를 추가합니다. 설명과 대조해 보세요.
     explanation:
-      "틀린 줄은 `assert total == 0`입니다. 여기서는 `assert total == 0`을 써서 `assert total == 60` 동작이 깨집니다. 이대로 실행하면
-      `한 언어의 결과만 보고 나머지 구현도 같다고 가정함` 문제가 생겨 원본 추적 `C30 + Python20 + Rust10  →  60  →  테스트 통과`대로 'Study Log Analyzer
-      완료: 60'가 나오지 않습니다. 고친 줄 `assert total == 60`에서는 `assert total == 60`가 `동일 입력·출력 명세와 테스트 완료` 동작을 지켜 'Study
-      Log Analyzer 완료: 60'까지 도달합니다."
+      "틀린 줄은 `assert total == 0`입니다. 실제 합 60과 기대 0이 달라 단언이 실패하므로 AssertionError라는 런타임 오류가 나고 프로그램이 멈춰 완료
+      메시지가 출력되지 않습니다. 오류 분류는 런타임 오류입니다. 흐름이 깨지는 첫 순간은 기대값 비교입니다. 고친 줄 `assert total == 60`에서는 `동일 입력·출력 명세와 테스트 완료`
+      동작이 지켜집니다. 정상 코드는 합산→기대값 검증→완료 표시의 순서로 `Study Log Analyzer 완료: 60`을 출력합니다."
     commonMistakes:
       - 한 언어의 결과만 보고 나머지 구현도 같다고 가정함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -157,7 +154,7 @@ exercises:
     title: 예시를 가리고 다시 구현하기
     kind: independent
     objective: 설명 없이 같은 개념을 작은 프로그램으로 재현한다.
-    prompt: 예시를 가리고 '완성 프로젝트 검증과 확장' 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
+    prompt: 예시를 가리고 완성 프로젝트 검증과 확장 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
     starter: "# 완성 프로젝트 검증과 확장: 직접 구현"
     answer: 'sessions = [("C", 30), ("Python", 20), ("Rust", 10)]
 
@@ -166,11 +163,10 @@ exercises:
       assert total == 60
 
       print("Study Log Analyzer 완료:", total)'
-    hint: 공통 명세가 참인지 테스트로 고정한 후 선호 언어에서 ASCII 시각화 한 가지를 추가합니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
+    hint: 0분, 큰 값, 빈 입력에서는 어떻게 표시할지 정하고 원래 합계가 바뀌지 않았는지 다시 검증하세요. 계산과 그리기를 분리하세요. 예상 출력과 경계 조건도 함께 적어 보세요.
     explanation:
-      "한 가지 예시 해법은 위 코드입니다. `assert total == 60` 부분이 `동일 입력·출력 명세와 테스트 완료` 동작을 지켜 실행 결과 'Study Log Analyzer
-      완료: 60'가 됩니다. 같은 개념을 다른 입력으로 바꿔도 `assert total == 60`부터 `테스트 통과`까지 추적할 수 있으면 정답입니다. `한 언어의 결과만 보고 나머지 구현도 같다고
-      가정함` 상황과 빈 입력 같은 경계도 함께 설명해 보세요."
+      "입력·처리·출력·경계 조건을 스스로 설계하세요. 0분, 큰 값, 빈 입력에서는 어떻게 표시할지 정하고 원래 합계가 바뀌지 않았는지 다시 검증하세요. 계산과 그리기를 분리하세요.
+      같은 동일 입력·출력 명세와 테스트 완료 동작을 구현하고 실행 결과 'Study Log Analyzer 완료: 60'와 대조할 수 있으면, 예시 답안과 달라도 정답입니다."
     commonMistakes:
       - 한 언어의 결과만 보고 나머지 구현도 같다고 가정함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -185,8 +181,9 @@ quiz:
       - "Study Log Analyzer 완료: 60"
     answerIndex: 2
     explanation:
-      "C30 + Python20 + Rust10  →  60  →  테스트 통과 순서로 실행되어 출력은 'Study Log Analyzer 완료: 60'입니다. `assert
-      total == 60` 부분이 마지막 단계를 확정하므로 다른 선택지는 이 추적과 맞지 않습니다."
+      "먼저 세 기록의 시간을 합해 60을 구합니다. 이어서 assert가 공통 기대값을 확인하고 통과하므로 완료 메시지가 출력되어 `Study Log Analyzer 완료: 60`이
+      됩니다. `실행 전에 반드시 오류가 난다`는 틀린 선택지인데 합산과 검증이 모두 정상이기 때문입니다. `아무것도 출력하지 않는다`도 틀린 선택지인데 print가 실제로 호출되기 때문입니다. 다른
+      선택지는 이 추적과 맞지 않습니다."
   - id: quiz-day-92-capstone-release-model
     question: "'완성 프로젝트 검증과 확장' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -195,8 +192,8 @@ quiz:
       - 코드가 짧다면 상태 추적은 필요 없다
     answerIndex: 0
     explanation:
-      공통 명세가 참인지 테스트로 고정한 후 선호 언어에서 ASCII 시각화 한 가지를 추가합니다. 이 설명이 맞는 이유는 `동일 입력·출력 명세와 테스트 완료` 동작을 지키는 조건과
-      같기 때문입니다. `한 언어의 결과만 보고 나머지 구현도 같다고 가정함` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
+      공통 명세가 참인지 테스트로 고정한 후 선호 언어에서 ASCII 시각화 한 가지를 추가한다는 뜻은, 약속을 먼저 코드로 묶는다는 뜻입니다. `한 언어의 결과만 보고 나머지 구현도
+      같다고 가정함`은 반대 사례인데, 한쪽만 보면 다른 쪽 위반을 놓치기 때문입니다.
   - id: quiz-day-92-capstone-release-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -205,8 +202,8 @@ quiz:
       - 변경된 입력을 다시 추적하여 결과를 확인함
     answerIndex: 1
     explanation:
-      "한 언어의 결과만 보고 나머지 구현도 같다고 가정함. 이 실수가 나오면 원본 추적 `C30 + Python20 + Rust10 → 60 → 테스트 통과`대로 'Study
-      Log Analyzer 완료: 60'가 나오지 않으므로 먼저 확인해야 합니다."
+      먼저 확인할 실수는 `한 언어의 결과만 보고 나머지 구현도 같다고 가정함`입니다. 잘못된 코드는 기대값이 어긋나 AssertionError로 멈춥니다. 입력 건수와 필터 결과도
+      별도로 확인하세요.
   - id: quiz-day-92-capstone-release-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -215,8 +212,8 @@ quiz:
       - 동일 입력·출력 명세와 테스트 완료라는 동작과 경계 조건
     answerIndex: 2
     explanation:
-      "문법은 달라도 `동일 입력·출력 명세와 테스트 완료` 목적과 입력·출력은 유지합니다. 실행 결과 'Study Log Analyzer 완료: 60'로 대조하면 옮김이 맞는지
-      확인할 수 있습니다."
+      "세 언어로 옮길 때 보존해야 하는 것은 `동일 입력·출력 명세와 테스트 완료`라는 의미와 입력·출력 계약입니다. 세 언어의 같은 명세 테스트로 동작을 구현하고, 실행 결과
+      `Study Log Analyzer 완료: 60`으로 대조하면 옮김이 맞는지 확인할 수 있습니다."
 playgroundSource: 'sessions = [("C", 30), ("Python", 20), ("Rust", 10)]
 
   total = sum(minutes for _, minutes in sessions)
@@ -250,6 +247,10 @@ C30 + Python20 + Rust10  →  60  →  테스트 통과
 
 표시 기능을 추가하더라도 계산된 데이터와 화면에 그리는 동작을 분리하세요. 예를 들어 10분당 막대 하나라면 30분은 막대 3개입니다. 0분, 큰 값, 빈 입력에서는 어떻게 표시할지도 정하고, 원래 합계가 바뀌지 않았는지 다시 검증하세요.
 
+완성 확인은 작은 예제의 출력 하나로 끝나지 않습니다. 세 언어 구현이 같은 CSV에서 총 학습 시간과 언어별 합계를 같게 계산하는지 검증하세요. `assert total == 60`은 총합 60이라는 계약을 검사합니다. 입력 건수, 필터 결과, 잘못된 행 처리도 별도 사례로 확인해야 합니다.
+
+표시 기능을 추가하더라도 계산된 데이터와 화면에 그리는 동작을 분리하세요. 예를 들어 10분당 막대 하나라면 30분은 막대 3개입니다. 0분, 큰 값, 빈 입력에서는 어떻게 표시할지도 정하고, 원래 합계가 바뀌지 않았는지 다시 검증하세요.
+
 ## 문법을 예제로 보기
 
 아래 Python 코드는 Day 92 "`완성 프로젝트 검증과 확장`"의 독립 예제입니다. 전체 4줄 가운데 핵심 부분은 `assert total == 60`이며, 실행 결과는 `Study Log Analyzer 완료: 60`입니다.
@@ -271,7 +272,7 @@ Study Log Analyzer 완료: 60
 
 ## 핵심 줄 따라 읽기
 
-예제의 핵심 표현은 `assert total == 60`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄을 찾으세요.
+예제의 핵심 표현은 `assert total == 60`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄 번호를 말하고, 그 줄이 읽는 값과 바꾸는 값을 적어 보세요.
 
 ```python
  1 | sessions = [("C", 30), ("Python", 20), ("Rust", 10)]
@@ -302,7 +303,7 @@ Study Log Analyzer 완료: 60
 
 ## 결과 예측과 작은 변경
 
-원본 실행 결과는 `Study Log Analyzer 완료: 60`입니다. 아래 코드에서 원본과 다른 줄을 먼저 찾으세요.
+원본 실행 결과는 `Study Log Analyzer 완료: 60`입니다. 아래 코드에서 원본과 달라지는 첫 줄을 표시하고, 그 줄의 변경 전후 값을 적어 보세요.
 
 ```python
 sessions = [("C", 30), ("Python", 20), ("Rust", 10)]
@@ -320,7 +321,7 @@ print("Study Log Analyzer 완료:", total)
 Study Log Analyzer 완료: 60
 ```
 
-바꾼 뒤 출력도 `Study Log Analyzer 완료: 60`입니다. 추가된 assert도 통과하므로 print까지 도달합니다. assert는 기대값을 검증할 뿐 출력값 계산과 표시에는 관여하지 않습니다. 바뀐 프로그램도 `C30 + Python20 + Rust10` 단계에서 시작해 `assert len(sessions) == 3` 줄을 지나 최종 `Study Log Analyzer 완료: 60`로 끝납니다. 원본 추적 `C30 + Python20 + Rust10  →  60  →  테스트 통과`와 바뀐 줄 이후를 순서대로 놓으면 출력은 같아도 중간 값이 어디서 달라졌다가 합쳐지는지 확인할 수 있습니다.
+원본과 수정본 모두 `Study Log Analyzer 완료: 60`을 출력한다. 추가된 assert도 통과하므로 print까지 도달합니다. assert는 기대값을 검증할 뿐 출력값 계산과 표시에는 관여하지 않습니다. 계산값 total은 계속 60이고, 새 assert는 길이 3을 검사하여 통과 여부만 결정하므로 출력이 같다. 값이 실제로 바뀌지 않았으므로 중간 값이 달라졌다고 쓰지 않는다.
 
 ## 자주 틀리는 지점
 

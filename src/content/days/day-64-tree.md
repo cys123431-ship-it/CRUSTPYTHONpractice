@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-e
+contentVersion: 2026.10-f
 id: day-64-tree
 courseId: crp-92
 phaseId: phase-06
@@ -43,10 +43,10 @@ exercises:
       "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 0 if node is\
       \ None else 1 + count(node[1]) + count(node[2])\nprint(count(tree))"
     answer: "3"
-    hint: 빈 자식은 0개, 실제 노드는 자신 1개와 왼쪽·오른쪽 하위 트리 개수를 더합니다. 설명을 떠올리고 `B=1` 단계부터 순서대로 적어 보세요.
+    hint: B=1에서 시작해 A=1+1+1=3까지 순서대로 적어 보세요. 빈 자식은 0개, 실제 노드는 자신 1개와 왼쪽·오른쪽 하위 트리 개수를 더합니다.
     explanation:
-      B=1  →  C=1  →  A=1+1+1=3 순서로 실행됩니다. `node is None` 부분이 `A=1+1+1=3` 단계를 확정해 최종 출력 '3'가 됩니다. 이 흐름을
-      떠올리면 `하위 트리 결과를 합산` 동작이 왜 필요한지 알 수 있습니다.
+      1. A가 자신 1을 셉니다. 2. B와 C가 각각 1을 셉니다. 3. 빈 자식들은 0이므로 합계 3입니다. `B=1 → C=1 → A=1+1+1=3` 흐름으로 실제 출력 `3`이
+      됩니다. 핵심 `node is None`은 빈 자식에서 멈추는 바닥을 정하는 자리에 쓰입니다.
     commonMistakes:
       - 빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -55,7 +55,7 @@ exercises:
   - id: ex-day-64-tree-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: "'트리의 부모·자식 순회' 개념의 핵심 표현을 스스로 적는다."
+    objective: 트리의 부모·자식 순회의 핵심 표현을 스스로 적는다.
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: node is None"
     starter:
       "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 0 if _____ else\
@@ -63,11 +63,10 @@ exercises:
     answer:
       "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 0 if node is None\
       \ else 1 + count(node[1]) + count(node[2])\nprint(count(tree))"
-    hint: 힌트 문장을 완전하게 읽으면 `A가 자신 1을 셉니다` 단계에 필요한 표현이 `node is None`입니다.
+    hint: 필요한 표현은 하위 트리 결과를 합산 동작을 잇는 node is None입니다.
     explanation:
-      빈칸에 들어갈 표현은 'node is None'입니다. `return 0 if node is None else 1 + count(node[1]) + count(node[2])`
-      줄을 완성해야 `하위 트리 결과를 합산` 동작이 이어져 실행 결과 '3'가 됩니다. 힌트의 첫 단계 `A가 자신 1을 셉니다`이 바로 이 줄입니다. 이어서 B와 C가 각각 1을 셉니다 빈 자식들은
-      0이므로 합계 3입니다 순서로 진행됩니다.
+      빈칸에 들어갈 표현은 'node is None'입니다. 이 표현이 없으면 실행 중 오류로 멈춥니다. 1. A가 자신 1을 셉니다. 2. B와 C가 각각 1을 셉니다. 3. 빈
+      자식들은 0이므로 합계 3입니다. `B=1 → C=1 → A=1+1+1=3` 흐름으로 실제 출력 `3`이 됩니다. 핵심 `node is None`은 빈 자식에서 멈추는 바닥을 정하는 자리에 쓰입니다.
     commonMistakes:
       - 빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -77,19 +76,17 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 처음 등장하는 숫자를 0에서 1로. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
+    prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 0에서 1로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
     starter:
       "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 0 if node is\
       \ None else 1 + count(node[1]) + count(node[2])\nprint(count(tree))"
     answer:
       "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 1 if node is None\
       \ else 1 + count(node[1]) + count(node[2])\nprint(count(tree))"
-    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 처음 등장하는 숫자를 0에서 1로."
+    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 실행 결과를 먼저 적어 보세요. 원본 출력 '3'와 비교해 달라지는 첫 중간 값을 찾으면 됩니다.
     explanation:
-      바꾼 뒤 출력은 '7'입니다. 원본 출력 '3'에서 달라졌습니다. 바뀐 줄은 `return 0 if node is None else 1 + count(node[1]) + count(node[2])`에서
-      `return 1 if node is None else 1 + count(node[1]) + count(node[2])`로 바뀌었습니다. 바뀐 프로그램은 `B=1` 단계에서 시작해 바뀐 줄에서
-      다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져 최종 `7`가 됩니다. 원본 추적 `B=1  →  C=1  →  A=1+1+1=3`와 바뀐 줄 이후를 순서대로 비교하면 처음 달라지는 곳이
-      보입니다.
+      바꾼 뒤 출력은 '7'입니다. 원본은 `3`, 수정본은 `7`이다. 첫 변경 줄의 `return 0`에서 `return 1`로 빈 자식의 값을 바꾸면, 네 군데 빈 자식이 각각
+      1씩 더해져 3에서 7이 된다.
     commonMistakes:
       - 빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -106,12 +103,12 @@ exercises:
     answer:
       "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 0 if node is None\
       \ else 1 + count(node[1]) + count(node[2])\nprint(count(tree))"
-    hint: 빈 자식은 0개, 실제 노드는 자신 1개와 왼쪽·오른쪽 하위 트리 개수를 더합니다. 설명과 어긋나는 줄을 찾으세요. `빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함` 상황이 단서가 됩니다.
+    hint: 빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함 상황에서 어긋나는 줄을 빈 자식은 0개, 실제 노드는 자신 1개와 왼쪽·오른쪽 하위 트리 개수를 더합니다. 설명과 대조해 보세요.
     explanation:
-      틀린 줄은 `return 0 if node == 0 else 1 + count(node[1]) + count(node[2])`입니다. 여기서는 `node == 0`을 써서 `node
-      is None` 동작이 깨집니다. 이대로 실행하면 `빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함` 문제가 생겨 원본 추적 `B=1  →  C=1  →  A=1+1+1=3`대로 '3'가 나오지
-      않습니다. 고친 줄 `return 0 if node is None else 1 + count(node[1]) + count(node[2])`에서는 `node is None`가 `하위 트리 결과를
-      합산` 동작을 지켜 '3'까지 도달합니다.
+      틀린 줄은 `return 0 if node == 0 else 1 + count(node[1]) + count(node[2])`입니다. 트리의 노드는 튜플이거나 `None`이라
+      `== 0`이 참이 되는 경우가 없으므로, 빈 자식에서도 멈추지 않고 `None[1]`을 읽으려다 TypeError라는 런타임 오류가 나고 프로그램이 멈춥니다. 오류 분류는 런타임 오류입니다.
+      흐름이 깨지는 첫 순간은 빈 자식의 종료 조건입니다. 고친 줄 `return 0 if node is None else 1 + count(node[1]) + count(node[2])`에서는 `하위
+      트리 결과를 합산` 동작이 지켜집니다. 정상 코드는 바닥 판정→하위 합산→돌아오며 더하기의 순서로 `3`을 출력합니다.
     commonMistakes:
       - 빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -121,15 +118,15 @@ exercises:
     title: 예시를 가리고 다시 구현하기
     kind: independent
     objective: 설명 없이 같은 개념을 작은 프로그램으로 재현한다.
-    prompt: 예시를 가리고 '트리의 부모·자식 순회' 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
+    prompt: 예시를 가리고 트리의 부모·자식 순회 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
     starter: "# 트리의 부모·자식 순회: 직접 구현"
     answer:
       "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 0 if node is None\
       \ else 1 + count(node[1]) + count(node[2])\nprint(count(tree))"
-    hint: 빈 자식은 0개, 실제 노드는 자신 1개와 왼쪽·오른쪽 하위 트리 개수를 더합니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
+    hint: 자식이 한쪽만 있어도 빈 쪽을 0으로 계산합니다. 방문 전과 합산 후를 다른 순서로 적어 보세요. 예상 출력과 경계 조건도 함께 적어 보세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. `node is None` 부분이 `하위 트리 결과를 합산` 동작을 지켜 실행 결과 '3'가 됩니다. 같은 개념을 다른 입력으로 바꿔도
-      `node is None`부터 `A=1+1+1=3`까지 추적할 수 있으면 정답입니다. `빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함` 상황과 빈 입력 같은 경계도 함께 설명해 보세요.
+      입력·처리·출력·경계 조건을 스스로 설계하세요. 자식이 한쪽만 있어도 빈 쪽을 0으로 계산합니다. 방문 전과 합산 후를 다른 순서로 적어 보세요. 같은 하위 트리 결과를 합산
+      동작을 구현하고 실행 결과 '3'와 대조할 수 있으면, 예시 답안과 달라도 정답입니다.
     commonMistakes:
       - 빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -144,8 +141,8 @@ quiz:
       - 아무것도 출력하지 않는다
     answerIndex: 1
     explanation:
-      B=1  →  C=1  →  A=1+1+1=3 순서로 실행되어 출력은 '3'입니다. `node is None` 부분이 마지막 단계를 확정하므로 다른 선택지는 이 추적과 맞지
-      않습니다.
+      먼저 A가 자신 1을 셉니다. 이어서 B와 C가 각각 1을 세고, 빈 자식들은 0이므로 합쳐 3이 되어 출력 `3`이 됩니다. `실행 전에 반드시 오류가 난다`는 틀린 선택지인데
+      재귀와 종료가 모두 정상이기 때문입니다. `아무것도 출력하지 않는다`도 틀린 선택지인데 print가 실제로 호출되기 때문입니다. 다른 선택지는 이 추적과 맞지 않습니다.
   - id: quiz-day-64-tree-model
     question: "'트리의 부모·자식 순회' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -154,8 +151,8 @@ quiz:
       - 빈 자식은 0개, 실제 노드는 자신 1개와 왼쪽·오른쪽 하위 트리 개수를 더합니다.
     answerIndex: 2
     explanation:
-      빈 자식은 0개, 실제 노드는 자신 1개와 왼쪽·오른쪽 하위 트리 개수를 더합니다. 이 설명이 맞는 이유는 `하위 트리 결과를 합산` 동작을 지키는 조건과 같기 때문입니다.
-      `빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
+      빈 자식은 0개라는 뜻이고, 실제 노드는 자신 1개와 왼쪽·오른쪽 하위 트리 개수를 더한다는 뜻은 아래에서 올라오며 합산한다는 뜻입니다. `빈 자식의 종료 조건을 빠뜨려 None을
+      인덱싱함`은 반대 사례인데, 멈추지 않으면 없는 노드를 읽기 때문입니다.
   - id: quiz-day-64-tree-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -163,7 +160,9 @@ quiz:
       - 실제 출력과 예측한 출력이 일치함
       - 변경된 입력을 다시 추적하여 결과를 확인함
     answerIndex: 0
-    explanation: 빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함. 이 실수가 나오면 원본 추적 `B=1 → C=1 → A=1+1+1=3`대로 '3'가 나오지 않으므로 먼저 확인해야 합니다.
+    explanation:
+      먼저 확인할 실수는 `빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함`입니다. 잘못된 코드는 빈 자식에서 멈추지 못해 TypeError로 멈춥니다. `is None` 판정을
+      먼저 확인하세요.
   - id: quiz-day-64-tree-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -171,7 +170,9 @@ quiz:
       - 하위 트리 결과를 합산라는 동작과 경계 조건
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 1
-    explanation: 문법은 달라도 `하위 트리 결과를 합산` 목적과 입력·출력은 유지합니다. 실행 결과 '3'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
+    explanation:
+      세 언어로 옮길 때 보존해야 하는 것은 `하위 트리 결과를 합산`이라는 의미와 입력·출력 계약입니다. C의 재귀 순회와 Rust의 재귀 매칭으로 같은 동작을 구현하고, 실행
+      결과 `3`으로 대조하면 옮김이 맞는지 확인할 수 있습니다.
 playgroundSource:
   "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 0 if node\
   \ is None else 1 + count(node[1]) + count(node[2])\nprint(count(tree))"
@@ -201,6 +202,10 @@ B=1  →  C=1  →  A=1+1+1=3
 
 자식이 한쪽만 있어도 빈 쪽을 0으로 계산합니다. `None`에서 멈추지 않으면 없는 노드의 자식을 계속 읽으려 합니다. 실제 노드를 방문하기 전과 하위 노드의 수가 돌아온 후를 다른 순서로 적어 보세요.
 
+트리는 하나의 부모에서 자식으로 뻗는 구조입니다. 노드 수를 세는 재귀 함수는 `None`이면 0, 실제 노드이면 `1 + 왼쪽 수 + 오른쪽 수`를 돌려줍니다. 뿌리 A에 자식 B와 C가 있으면 B=1, C=1, A=1+1+1=3으로 돌아옵니다.
+
+자식이 한쪽만 있어도 빈 쪽을 0으로 계산합니다. `None`에서 멈추지 않으면 없는 노드의 자식을 계속 읽으려 합니다. 실제 노드를 방문하기 전과 하위 노드의 수가 돌아온 후를 다른 순서로 적어 보세요.
+
 ## 문법을 예제로 보기
 
 아래 Python 코드는 Day 64 "`트리의 부모·자식 순회`"의 독립 예제입니다. 전체 4줄 가운데 핵심 부분은 `node is None`이며, 실행 결과는 `3`입니다.
@@ -222,7 +227,7 @@ print(count(tree))
 
 ## 핵심 줄 따라 읽기
 
-예제의 핵심 표현은 `node is None`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄을 찾으세요.
+예제의 핵심 표현은 `node is None`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄 번호를 말하고, 그 줄이 읽는 값과 바꾸는 값을 적어 보세요.
 
 ```python
  1 | tree = ("A", ("B", None, None), ("C", None, None))
@@ -257,7 +262,7 @@ print(count(tree))
 
 ## 결과 예측과 작은 변경
 
-원본 실행 결과는 `3`입니다. 아래 코드에서 원본과 다른 줄을 먼저 찾으세요.
+원본 실행 결과는 `3`입니다. 아래 코드에서 원본과 달라지는 첫 줄을 표시하고, 그 줄의 변경 전후 값을 적어 보세요.
 
 ```python
 tree = ("A", ("B", None, None), ("C", None, None))
@@ -274,7 +279,7 @@ print(count(tree))
 7
 ```
 
-원본 출력은 `3`이고, 바뀐 코드의 실행 결과는 `7`입니다. 바뀐 줄은 `return 0 if node is None else 1 + count(node[1]) + count(node[2])`에서 `return 1 if node is None else 1 + count(node[1]) + count(node[2])`로 바뀌었습니다. 바뀐 프로그램은 `B=1` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `7`가 됩니다. 원본 추적 `B=1  →  C=1  →  A=1+1+1=3`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
+원본은 `3`, 수정본은 `7`이다. 첫 변경 줄의 `return 0`에서 `return 1`로 빈 자식의 값을 바꾸면, 네 군데 빈 자식이 각각 1씩 더해져 3에서 7이 된다.
 
 ## 자주 틀리는 지점
 

@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-e
+contentVersion: 2026.10-f
 id: day-69-bfs
 courseId: crp-92
 phaseId: phase-06
@@ -44,10 +44,10 @@ exercises:
       A\"]); seen = {\"A\"}\nwhile q:\n    node = q.popleft()\n    for next_node in graph[node]:\n        if next_node\
       \ not in seen: seen.add(next_node); q.append(next_node)\nprint(sorted(seen))"
     answer: "['A', 'B', 'C']"
-    hint: 큐는 현재 거리의 정점을 먼저 처리하고 seen은 순환 간선에서 같은 정점을 다시 넣지 않게 합니다. 설명을 떠올리고 `q=[A]` 단계부터 순서대로 적어 보세요.
+    hint: q=[A]에서 시작해 seen={A,B,C}까지 순서대로 적어 보세요. 큐는 현재 거리의 정점을 먼저 처리하고 seen은 순환 간선에서 같은 정점을 다시 넣지 않게 합니다.
     explanation:
-      q=[A]  →  q=[B,C]  →  q=[]  →  seen={A,B,C} 순서로 실행됩니다. `q.popleft()` 부분이 `seen={A,B,C}` 단계를 확정해 최종
-      출력 "['A', 'B', 'C']"가 됩니다. 이 흐름을 떠올리면 `가까운 정점부터 탐색` 동작이 왜 필요한지 알 수 있습니다.
+      1. A를 꺼냅니다. 2. 새 이웃 B,C를 방문 표시 후 큐에 넣습니다. 3. 둘을 처리하고 seen을 정렬해 출력합니다. `q=[A] → q=[B,C] → q=[] → seen={A,B,C}`
+      흐름으로 실제 출력 `["A", "B", "C"]`가 됩니다. 핵심 `q.popleft()`는 먼저 발견한 정점부터 꺼내는 자리에 쓰입니다.
     commonMistakes:
       - 방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -56,7 +56,7 @@ exercises:
   - id: ex-day-69-bfs-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: "'너비 우선 탐색과 방문 집합' 개념의 핵심 표현을 스스로 적는다."
+    objective: 너비 우선 탐색과 방문 집합의 핵심 표현을 스스로 적는다.
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: q.popleft()"
     starter:
       "from collections import deque\ngraph = {\"A\": [\"B\", \"C\"], \"B\": [], \"C\": []}\nq = deque([\"\
@@ -66,10 +66,11 @@ exercises:
       "from collections import deque\ngraph = {\"A\": [\"B\", \"C\"], \"B\": [], \"C\": []}\nq = deque([\"A\"\
       ]); seen = {\"A\"}\nwhile q:\n    node = q.popleft()\n    for next_node in graph[node]:\n        if next_node\
       \ not in seen: seen.add(next_node); q.append(next_node)\nprint(sorted(seen))"
-    hint: 힌트 문장을 완전하게 읽으면 `A를 꺼냅니다` 단계에 필요한 표현이 `q.popleft()`입니다.
+    hint: 필요한 표현은 가까운 정점부터 탐색 동작을 잇는 q.popleft()입니다.
     explanation:
-      빈칸에 들어갈 표현은 'q.popleft()'입니다. `node = q.popleft()` 줄을 완성해야 `가까운 정점부터 탐색` 동작이 이어져 실행 결과 "['A', 'B',
-      'C']"가 됩니다. 힌트의 첫 단계 `A를 꺼냅니다`이 바로 이 줄입니다. 이어서 새 이웃 B,C를 방문 표시 후 큐에 넣습니다 둘을 처리하고 seen을 정렬해 출력합니다 순서로 진행됩니다.
+      빈칸에 들어갈 표현은 'q.popleft()'입니다. 이 표현이 없어도 이번 화면 출력은 같을 수 있으나 숨은 계약을 어깁니다. 1. A를 꺼냅니다. 2. 새 이웃 B,C를
+      방문 표시 후 큐에 넣습니다. 3. 둘을 처리하고 seen을 정렬해 출력합니다. `q=[A] → q=[B,C] → q=[] → seen={A,B,C}` 흐름으로 실제 출력 `["A", "B",
+      "C"]`가 됩니다. 핵심 `q.popleft()`는 먼저 발견한 정점부터 꺼내는 자리에 쓰입니다.
     commonMistakes:
       - 방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -79,9 +80,7 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt:
-      "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 'print(sorted(seen))' → 'print(len(seen))'. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도
-      설명하세요."
+    prompt: 예시를 직접 타이핑한 뒤 'print(sorted(seen))' → 'print(len(seen))' 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
     starter:
       "from collections import deque\ngraph = {\"A\": [\"B\", \"C\"], \"B\": [], \"C\": []}\nq = deque([\"\
       A\"]); seen = {\"A\"}\nwhile q:\n    node = q.popleft()\n    for next_node in graph[node]:\n        if next_node\
@@ -90,11 +89,12 @@ exercises:
       "from collections import deque\ngraph = {\"A\": [\"B\", \"C\"], \"B\": [], \"C\": []}\nq = deque([\"A\"\
       ]); seen = {\"A\"}\nwhile q:\n    node = q.popleft()\n    for next_node in graph[node]:\n        if next_node\
       \ not in seen: seen.add(next_node); q.append(next_node)\nprint(len(seen))"
-    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 'print(sorted(seen))' → 'print(len(seen))'."
+    hint:
+      '''print(sorted(seen))'' → ''print(len(seen))'' 바꾼 뒤 실행 결과를 먼저 적어 보세요. 원본 출력 "[''A'', ''B'', ''C'']"와 비교해
+      달라지는 첫 중간 값을 찾으면 됩니다.'
     explanation:
-      바꾼 뒤 출력은 '3'입니다. 원본 출력 "['A', 'B', 'C']"에서 달라졌습니다. 바뀐 줄은 `print(sorted(seen))`에서 `print(len(seen))`로
-      바뀌었습니다. 바뀐 프로그램은 `q=[A]` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져 최종 `3`가 됩니다. 원본 추적 `q=[A]  →  q=[B,C]  →  q=[]  →  seen={A,B,C}`와
-      바뀐 줄 이후를 순서대로 비교하면 처음 달라지는 곳이 보입니다.
+      바꾼 뒤 출력은 '3'입니다. 원본은 `["A", "B", "C"]`, 수정본은 `3`이다. 첫 변경 줄 `print(sorted(seen))`에서 `print(len(seen))`로
+      보여 줄 값을 바꾸면, 같은 집합에서 목록 대신 개수가 출력된다.
     commonMistakes:
       - 방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -114,12 +114,13 @@ exercises:
       ]); seen = {\"A\"}\nwhile q:\n    node = q.popleft()\n    for next_node in graph[node]:\n        if next_node\
       \ not in seen: seen.add(next_node); q.append(next_node)\nprint(sorted(seen))"
     hint:
-      큐는 현재 거리의 정점을 먼저 처리하고 seen은 순환 간선에서 같은 정점을 다시 넣지 않게 합니다. 설명과 어긋나는 줄을 찾으세요. `방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감`
-      상황이 단서가 됩니다.
+      방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감 상황에서 어긋나는 줄을 큐는 현재 거리의 정점을 먼저 처리하고 seen은 순환 간선에서 같은 정점을 다시 넣지 않게 합니다. 설명과 대조해
+      보세요.
     explanation:
-      틀린 줄은 `node = q.pop()`입니다. 여기서는 `q.pop()`을 써서 `q.popleft()` 동작이 깨집니다. 이대로 실행하면 `방문 표시를 늦춰 같은 노드가
-      큐에 여러 번 들어감` 문제가 생겨 원본 추적 `q=[A]  →  q=[B,C]  →  q=[]  →  seen={A,B,C}`대로 "['A', 'B', 'C']"가 나오지 않습니다. 고친 줄
-      `node = q.popleft()`에서는 `q.popleft()`가 `가까운 정점부터 탐색` 동작을 지켜 "['A', 'B', 'C']"까지 도달합니다.
+      틀린 줄은 `node = q.pop()`입니다. 맨 뒤에서 꺼내므로 방문 순서가 너비가 아니라 깊이 쪽으로 바뀌지만, 이 그래프에서는 최종 집합이 같아 화면 출력이 같습니다.
+      오류 분류는 같은 출력이지만 숨은 계약 위반입니다. 층별 순서가 깨지는 첫 순간은 꺼내는 쪽입니다. 큐를 스택으로 바꾸면 층별 순서가 사라집니다. 고친 줄 `node = q.popleft()`에서는
+      `가까운 정점부터 탐색` 동작이 지켜집니다. 방문 순서를 검증하려면 순서 리스트를 출력하거나 최단 거리처럼 차이가 드러나는 결과를 쓰세요. 정상 코드는 꺼내기→이웃 발견→방문 표시의 순서로 세
+      정점을 모읍니다.
     commonMistakes:
       - 방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -129,17 +130,16 @@ exercises:
     title: 예시를 가리고 다시 구현하기
     kind: independent
     objective: 설명 없이 같은 개념을 작은 프로그램으로 재현한다.
-    prompt: 예시를 가리고 '너비 우선 탐색과 방문 집합' 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
+    prompt: 예시를 가리고 너비 우선 탐색과 방문 집합 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
     starter: "# 너비 우선 탐색과 방문 집합: 직접 구현"
     answer:
       "from collections import deque\ngraph = {\"A\": [\"B\", \"C\"], \"B\": [], \"C\": []}\nq = deque([\"A\"\
       ]); seen = {\"A\"}\nwhile q:\n    node = q.popleft()\n    for next_node in graph[node]:\n        if next_node\
       \ not in seen: seen.add(next_node); q.append(next_node)\nprint(sorted(seen))"
-    hint: 큐는 현재 거리의 정점을 먼저 처리하고 seen은 순환 간선에서 같은 정점을 다시 넣지 않게 합니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
+    hint: BFS가 최단 간선 수를 구하는 것은 모든 간선의 비용이 같을 때입니다. 큐에 넣는 순간 표시하세요. 예상 출력과 경계 조건도 함께 적어 보세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. `q.popleft()` 부분이 `가까운 정점부터 탐색` 동작을 지켜 실행 결과 "['A', 'B', 'C']"가 됩니다. 같은 개념을
-      다른 입력으로 바꿔도 `q.popleft()`부터 `seen={A,B,C}`까지 추적할 수 있으면 정답입니다. `방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감` 상황과 빈 입력 같은 경계도
-      함께 설명해 보세요.
+      입력·처리·출력·경계 조건을 스스로 설계하세요. BFS가 최단 간선 수를 구하는 것은 모든 간선의 비용이 같을 때입니다. 큐에 넣는 순간 표시하세요. 같은 가까운 정점부터 탐색
+      동작을 구현하고 실행 결과 "['A', 'B', 'C']"와 대조할 수 있으면, 예시 답안과 달라도 정답입니다.
     commonMistakes:
       - 방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -154,8 +154,9 @@ quiz:
       - 아무것도 출력하지 않는다
     answerIndex: 0
     explanation:
-      q=[A]  →  q=[B,C]  →  q=[]  →  seen={A,B,C} 순서로 실행되어 출력은 "['A', 'B', 'C']"입니다. `q.popleft()` 부분이
-      마지막 단계를 확정하므로 다른 선택지는 이 추적과 맞지 않습니다.
+      먼저 A를 꺼냅니다. 이어서 새 이웃 B,C를 방문 표시 후 큐에 넣고, 둘을 처리한 뒤 seen을 정렬해 출력하므로 `["A", "B", "C"]`가 됩니다. `실행 전에
+      반드시 오류가 난다`는 틀린 선택지인데 큐 연산과 집합 연산이 모두 정상이기 때문입니다. `아무것도 출력하지 않는다`도 틀린 선택지인데 print가 실제로 호출되기 때문입니다. 다른 선택지는 이
+      추적과 맞지 않습니다.
   - id: quiz-day-69-bfs-model
     question: "'너비 우선 탐색과 방문 집합' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -164,8 +165,8 @@ quiz:
       - 코드가 짧다면 상태 추적은 필요 없다
     answerIndex: 1
     explanation:
-      큐는 현재 거리의 정점을 먼저 처리하고 seen은 순환 간선에서 같은 정점을 다시 넣지 않게 합니다. 이 설명이 맞는 이유는 `가까운 정점부터 탐색` 동작을 지키는 조건과 같기
-      때문입니다. `방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
+      큐는 현재 거리의 정점을 먼저 처리한다는 뜻이고, seen은 순환 간선에서 같은 정점을 다시 넣지 않게 한다는 뜻은 넣는 순간 표시한다는 뜻입니다. `방문 표시를 늦춰 같은
+      노드가 큐에 여러 번 들어감`은 반대 사례인데, 표시가 늦으면 중복 삽입이 생기기 때문입니다.
   - id: quiz-day-69-bfs-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -174,8 +175,8 @@ quiz:
       - 방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감
     answerIndex: 2
     explanation:
-      방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감. 이 실수가 나오면 원본 추적 `q=[A] → q=[B,C] → q=[] → seen={A,B,C}`대로 "['A', 'B',
-      'C']"가 나오지 않으므로 먼저 확인해야 합니다.
+      먼저 확인할 실수는 `방문 표시를 늦춰 같은 노드가 큐에 여러 번 들어감`입니다. 이번 잘못된 코드는 최종 집합이 같아 화면 출력이 같습니다. 같다고 해서 맞는 것이 아니라,
+      층별 순서가 깨진 숨은 계약 위반입니다.
   - id: quiz-day-69-bfs-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -183,7 +184,9 @@ quiz:
       - 세 언어의 표면 문법을 한 글자도 바꾸지 않는다
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 0
-    explanation: 문법은 달라도 `가까운 정점부터 탐색` 목적과 입력·출력은 유지합니다. 실행 결과 "['A', 'B', 'C']"로 대조하면 옮김이 맞는지 확인할 수 있습니다.
+    explanation:
+      세 언어로 옮길 때 보존해야 하는 것은 `가까운 정점부터 탐색`이라는 의미와 입력·출력 계약입니다. 스택 깊이 탐색과 층별 큐 탐색으로 같은 동작을 구현하고, 방문 순서로 대조하면
+      옮김이 맞는지 확인할 수 있습니다.
 playgroundSource:
   "from collections import deque\ngraph = {\"A\": [\"B\", \"C\"], \"B\": [], \"C\": []}\nq = deque([\"\
   A\"]); seen = {\"A\"}\nwhile q:\n    node = q.popleft()\n    for next_node in graph[node]:\n        if next_node\
@@ -214,6 +217,10 @@ q=[A]  →  q=[B,C]  →  q=[]  →  seen={A,B,C}
 
 `seen`은 이미 넣은 정점을 기록합니다. A→B→A처럼 다시 돌아오는 간선이 있어도 A를 두 번 넣지 않게 합니다. 큐에 넣는 순간 방문 표시를 하면 같은 정점이 여러 경로로 발견되어도 한 번만 들어갑니다. BFS가 최단 간선 수를 구하는 것은 모든 간선의 비용이 같을 때입니다.
 
+너비 우선 탐색(BFS)은 가까운 정점부터 층별로 확인합니다. A에 B와 C가 연결되어 있으면 먼저 A를 꺼내 B,C를 큐에 넣고, 그다음 B,C를 처리합니다. 큐가 먼저 발견한 정점부터 꺼내는 순서를 지켜 줍니다.
+
+`seen`은 이미 넣은 정점을 기록합니다. A→B→A처럼 다시 돌아오는 간선이 있어도 A를 두 번 넣지 않게 합니다. 큐에 넣는 순간 방문 표시를 하면 같은 정점이 여러 경로로 발견되어도 한 번만 들어갑니다. BFS가 최단 간선 수를 구하는 것은 모든 간선의 비용이 같을 때입니다.
+
 ## 문법을 예제로 보기
 
 아래 Python 코드는 Day 69 "`너비 우선 탐색과 방문 집합`"의 독립 예제입니다. 전체 8줄 가운데 핵심 부분은 `q.popleft()`이며, 실행 결과는 `['A', 'B', 'C']`입니다.
@@ -239,7 +246,7 @@ print(sorted(seen))
 
 ## 핵심 줄 따라 읽기
 
-예제의 핵심 표현은 `q.popleft()`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄을 찾으세요.
+예제의 핵심 표현은 `q.popleft()`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄 번호를 말하고, 그 줄이 읽는 값과 바꾸는 값을 적어 보세요.
 
 ```python
  1 | from collections import deque
@@ -279,7 +286,7 @@ A가 B,C를 이웃으로 갖고 B가 D를 이웃으로 갖는다면 큐는 `[A] 
 
 ## 결과 예측과 작은 변경
 
-원본 실행 결과는 `['A', 'B', 'C']`입니다. 아래 코드에서 원본과 다른 줄을 먼저 찾으세요.
+원본 실행 결과는 `['A', 'B', 'C']`입니다. 아래 코드에서 원본과 달라지는 첫 줄을 표시하고, 그 줄의 변경 전후 값을 적어 보세요.
 
 ```python
 from collections import deque
@@ -300,7 +307,7 @@ print(len(seen))
 3
 ```
 
-원본 출력은 `['A', 'B', 'C']`이고, 바뀐 코드의 실행 결과는 `3`입니다. 바뀐 줄은 `print(sorted(seen))`에서 `print(len(seen))`로 바뀌었습니다. 바뀐 프로그램은 `q=[A]` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `3`가 됩니다. 원본 추적 `q=[A]  →  q=[B,C]  →  q=[]  →  seen={A,B,C}`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
+원본은 `["A", "B", "C"]`, 수정본은 `3`이다. 첫 변경 줄 `print(sorted(seen))`에서 `print(len(seen))`로 보여 줄 값을 바꾸면, 같은 집합에서 목록 대신 개수가 출력된다.
 
 ## 자주 틀리는 지점
 

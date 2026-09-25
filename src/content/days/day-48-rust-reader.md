@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-e
+contentVersion: 2026.10-f
 id: day-48-rust-reader
 courseId: crp-92
 phaseId: phase-04
@@ -44,11 +44,11 @@ exercises:
       \ = String::new();\n    source.read_to_string(&mut text).expect(\"읽기 실패\");\n    println!(\"{text}\");\n}"
     answer: "30"
     hint:
-      Cursor는 메모리 버퍼를 파일처럼 읽게 합니다. read_to_string은 text를 변경하고 Result를 돌려줍니다. 설명을 떠올리고 `source=30` 단계부터 순서대로 적어
-      보세요.
+      source=30에서 시작해 read 성공 text=30까지 순서대로 적어 보세요. Cursor는 메모리 버퍼를 파일처럼 읽게 합니다. read_to_string은 text를 변경하고 Result를
+      돌려줍니다.
     explanation:
-      source=30  →  text 비어 있음  →  read 성공 text=30 순서로 실행됩니다. `read_to_string` 부분이 `read 성공 text=30` 단계를
-      확정해 최종 출력 '30'가 됩니다. 이 흐름을 떠올리면 `읽기 결과와 목적 버퍼를 처리함` 동작이 왜 필요한지 알 수 있습니다.
+      1. Cursor에 30을 넣습니다. 2. 가변 문자열 text에 내용을 읽습니다. 3. 성공을 확인하고 30을 출력합니다. `source=30 → text 비어 있음 → read
+      성공 text=30` 흐름으로 실제 출력 `30`이 됩니다. 핵심 `read_to_string`은 목적 버퍼에 읽은 내용을 덧붙이는 자리에 쓰입니다.
     commonMistakes:
       - 읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -57,7 +57,7 @@ exercises:
   - id: ex-day-48-rust-reader-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: "'Rust 읽기와 Result' 개념의 핵심 표현을 스스로 적는다."
+    objective: Rust 읽기와 Result의 핵심 표현을 스스로 적는다.
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: read_to_string"
     starter:
       "use std::io::{Cursor, Read};\nfn main() {\n    let mut source = Cursor::new(\"30\");\n    let mut text\
@@ -65,11 +65,11 @@ exercises:
     answer:
       "use std::io::{Cursor, Read};\nfn main() {\n    let mut source = Cursor::new(\"30\");\n    let mut text\
       \ = String::new();\n    source.read_to_string(&mut text).expect(\"읽기 실패\");\n    println!(\"{text}\");\n}"
-    hint: 힌트 문장을 완전하게 읽으면 `Cursor에 30을 넣습니다` 단계에 필요한 표현이 `read_to_string`입니다.
+    hint: 필요한 표현은 읽기 결과와 목적 버퍼를 처리함 동작을 잇는 read_to_string입니다.
     explanation:
-      빈칸에 들어갈 표현은 'read_to_string'입니다. `source.read_to_string(&mut text).expect("읽기 실패");` 줄을 완성해야 `읽기
-      결과와 목적 버퍼를 처리함` 동작이 이어져 실행 결과 '30'가 됩니다. 힌트의 첫 단계 `Cursor에 30을 넣습니다`이 바로 이 줄입니다. 이어서 가변 문자열 text에 내용을 읽습니다 성공을
-      확인하고 30을 출력합니다 순서로 진행됩니다.
+      빈칸에 들어갈 표현은 'read_to_string'입니다. 이 표현이 없으면 컴파일 단계에서 막혀 실행 자체가 되지 않습니다. 1. Cursor에 30을 넣습니다. 2. 가변
+      문자열 text에 내용을 읽습니다. 3. 성공을 확인하고 30을 출력합니다. `source=30 → text 비어 있음 → read 성공 text=30` 흐름으로 실제 출력 `30`이 됩니다.
+      핵심 `read_to_string`은 목적 버퍼에 읽은 내용을 덧붙이는 자리에 쓰입니다.
     commonMistakes:
       - 읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -79,18 +79,17 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 첫 문자열을 '30'에서 '30!'로. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
+    prompt: 예시를 직접 타이핑한 뒤 첫 문자열을 '30'에서 '30!'로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
     starter:
       "use std::io::{Cursor, Read};\nfn main() {\n    let mut source = Cursor::new(\"30\");\n    let mut text\
       \ = String::new();\n    source.read_to_string(&mut text).expect(\"읽기 실패\");\n    println!(\"{text}\");\n}"
     answer:
       "use std::io::{Cursor, Read};\nfn main() {\n    let mut source = Cursor::new(\"30!\");\n    let mut text\
       \ = String::new();\n    source.read_to_string(&mut text).expect(\"읽기 실패\");\n    println!(\"{text}\");\n}"
-    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 첫 문자열을 '30'에서 '30!'로."
+    hint: 첫 문자열을 '30'에서 '30!'로 바꾼 뒤 실행 결과를 먼저 적어 보세요. 원본 출력 '30'와 비교해 달라지는 첫 중간 값을 찾으면 됩니다.
     explanation:
-      바꾼 뒤 출력은 '30!'입니다. 원본 출력 '30'에서 달라졌습니다. 바뀐 줄은 `let mut source = Cursor::new("30");`에서 `let mut source
-      = Cursor::new("30!");`로 바뀌었습니다. 바뀐 프로그램은 `source=30` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져 최종 `30!`가
-      됩니다. 원본 추적 `source=30  →  text 비어 있음  →  read 성공 text=30`와 바뀐 줄 이후를 순서대로 비교하면 처음 달라지는 곳이 보입니다.
+      바꾼 뒤 출력은 '30!'입니다. 원본은 `30`, 수정본은 `30!`이다. 첫 변경 줄 `Cursor::new("30")`에서 `Cursor::new("30!")`로 입력
+      바이트를 바꾸면, 읽기와 표시가 그대로 이어져 느낌표가 붙는다.
     commonMistakes:
       - 읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -108,13 +107,13 @@ exercises:
       "use std::io::{Cursor, Read};\nfn main() {\n    let mut source = Cursor::new(\"30\");\n    let mut text\
       \ = String::new();\n    source.read_to_string(&mut text).expect(\"읽기 실패\");\n    println!(\"{text}\");\n}"
     hint:
-      Cursor는 메모리 버퍼를 파일처럼 읽게 합니다. read_to_string은 text를 변경하고 Result를 돌려줍니다. 설명과 어긋나는 줄을 찾으세요. `읽기 결과의 오류를 무시해
-      빈 데이터를 정상으로 취급함` 상황이 단서가 됩니다.
+      읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함 상황에서 어긋나는 줄을 Cursor는 메모리 버퍼를 파일처럼 읽게 합니다. read_to_string은 text를 변경하고 Result를
+      돌려줍니다. 설명과 대조해 보세요.
     explanation:
-      틀린 줄은 `source.read_exact(&mut text).expect("읽기 실패");`입니다. 여기서는 `read_exact`을 써서 `read_to_string`
-      동작이 깨집니다. 이대로 실행하면 `읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함` 문제가 생겨 원본 추적 `source=30  →  text 비어 있음  →  read 성공 text=30`대로
-      '30'가 나오지 않습니다. 고친 줄 `source.read_to_string(&mut text).expect("읽기 실패");`에서는 `read_to_string`가 `읽기 결과와 목적 버퍼를
-      처리함` 동작을 지켜 '30'까지 도달합니다.
+      틀린 줄은 `source.read_exact(&mut text).expect("읽기 실패");`입니다. `read_exact`는 바이트 배열을 받는 읽기인데 문자열 버퍼를 직접
+      넘겼으므로 타입이 맞지 않아 컴파일 단계에서 오류가 나고 실행 파일 자체가 만들어지지 않아 아무것도 출력되지 않습니다. 오류 분류는 컴파일 오류입니다. 흐름이 깨지는 첫 순간은 읽기 호출입니다.
+      고친 줄 `source.read_to_string(&mut text).expect("읽기 실패");`에서는 `읽기 결과와 목적 버퍼를 처리함` 동작이 지켜집니다. 정상 코드는 준비→읽어 덧붙이기→성공
+      확인→출력의 순서로 `30`을 출력합니다.
     commonMistakes:
       - 읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -124,18 +123,15 @@ exercises:
     title: 예시를 가리고 다시 구현하기
     kind: independent
     objective: 설명 없이 같은 개념을 작은 프로그램으로 재현한다.
-    prompt: 예시를 가리고 'Rust 읽기와 Result' 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
+    prompt: 예시를 가리고 Rust 읽기와 Result 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
     starter: "// Rust 읽기와 Result: 직접 구현 (Python에서는 이 안내 줄을 # 주석으로 바꾸세요)"
     answer:
       "use std::io::{Cursor, Read};\nfn main() {\n    let mut source = Cursor::new(\"30\");\n    let mut text\
       \ = String::new();\n    source.read_to_string(&mut text).expect(\"읽기 실패\");\n    println!(\"{text}\");\n}"
-    hint:
-      Cursor는 메모리 버퍼를 파일처럼 읽게 합니다. read_to_string은 text를 변경하고 Result를 돌려줍니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈
-      입력 같은 경계를 함께 적으세요.
+    hint: UTF-8이 아닌 바이트는 문자열 읽기가 실패할 수 있습니다. 읽기 전 빈 `text`와 읽기 뒤 `text`를 나눠 적어 보세요. 예상 출력과 경계 조건도 함께 적어 보세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. `read_to_string` 부분이 `읽기 결과와 목적 버퍼를 처리함` 동작을 지켜 실행 결과 '30'가 됩니다. 같은 개념을 다른 입력으로
-      바꿔도 `read_to_string`부터 `read 성공 text=30`까지 추적할 수 있으면 정답입니다. `읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함` 상황과 빈 입력 같은 경계도
-      함께 설명해 보세요.
+      입력·처리·출력·경계 조건을 스스로 설계하세요. UTF-8이 아닌 바이트는 문자열 읽기가 실패할 수 있습니다. 읽기 전 빈 `text`와 읽기 뒤 `text`를 나눠 적어 보세요.
+      같은 읽기 결과와 목적 버퍼를 처리함 동작을 구현하고 실행 결과 '30'와 대조할 수 있으면, 예시 답안과 달라도 정답입니다.
     commonMistakes:
       - 읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -150,8 +146,9 @@ quiz:
       - 아무것도 출력하지 않는다
     answerIndex: 0
     explanation:
-      source=30  →  text 비어 있음  →  read 성공 text=30 순서로 실행되어 출력은 '30'입니다. `read_to_string` 부분이 마지막 단계를 확정하므로
-      다른 선택지는 이 추적과 맞지 않습니다.
+      먼저 Cursor에 30 바이트가 준비됩니다. 이어서 read_to_string이 text에 내용을 읽어 덧붙이고 성공을 확인한 뒤 표시하므로 출력 `30`이 됩니다. `실행
+      전에 반드시 오류가 난다`는 틀린 선택지인데 읽기와 타입이 모두 정상이기 때문입니다. `아무것도 출력하지 않는다`도 틀린 선택지인데 println!이 실제로 호출되기 때문입니다. 다른 선택지는
+      이 추적과 맞지 않습니다.
   - id: quiz-day-48-rust-reader-model
     question: "'Rust 읽기와 Result' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -160,8 +157,8 @@ quiz:
       - 코드가 짧다면 상태 추적은 필요 없다
     answerIndex: 1
     explanation:
-      Cursor는 메모리 버퍼를 파일처럼 읽게 합니다. read_to_string은 text를 변경하고 Result를 돌려줍니다. 이 설명이 맞는 이유는 `읽기 결과와 목적 버퍼를
-      처리함` 동작을 지키는 조건과 같기 때문입니다. `읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
+      Cursor는 메모리 버퍼를 파일처럼 읽게 한다는 뜻이고, read_to_string은 text를 변경하고 Result를 돌려준다는 뜻은 읽기와 오류 처리가 한 호출에 들어있다는
+      뜻입니다. `읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함`은 반대 사례인데, 실패를 확인하지 않으면 빈 내용을 정상으로 오인하기 때문입니다.
   - id: quiz-day-48-rust-reader-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -170,8 +167,8 @@ quiz:
       - 읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함
     answerIndex: 2
     explanation:
-      읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함. 이 실수가 나오면 원본 추적 `source=30 → text 비어 있음 → read 성공 text=30`대로 '30'가
-      나오지 않으므로 먼저 확인해야 합니다.
+      먼저 확인할 실수는 `읽기 결과의 오류를 무시해 빈 데이터를 정상으로 취급함`입니다. 잘못된 코드는 타입이 맞지 않아 컴파일 오류가 나므로 화면 출력 비교 이전에 실행 파일
+      생성 자체가 막힙니다.
   - id: quiz-day-48-rust-reader-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -179,7 +176,9 @@ quiz:
       - 세 언어의 표면 문법을 한 글자도 바꾸지 않는다
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 0
-    explanation: 문법은 달라도 `읽기 결과와 목적 버퍼를 처리함` 목적과 입력·출력은 유지합니다. 실행 결과 '30'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
+    explanation:
+      세 언어로 옮길 때 보존해야 하는 것은 `읽기 결과와 목적 버퍼를 처리함`이라는 의미와 입력·출력 계약입니다. C의 버퍼 읽기와 Python의 스트림 읽기로 같은 동작을 구현하고,
+      실행 결과 `30`으로 대조하면 옮김이 맞는지 확인할 수 있습니다.
 ---
 
 ## 오늘 배울 이유
@@ -206,6 +205,10 @@ source=30  →  text 비어 있음  →  read 성공 text=30
 
 UTF-8이 아닌 바이트를 문자열로 읽으려 할 때는 실패할 수 있습니다. `.unwrap()`은 연습용 예제에서는 간단하지만 실제 입력에서는 오류를 사용자에게 알려 주거나 `?`로 호출자에게 전달하는 편이 낫습니다. 읽기 전 빈 `text`와 읽기 뒤 `text`를 나눠 적어 보세요.
 
+`Cursor`는 메모리 속 바이트를 파일처럼 읽을 수 있게 합니다. `read_to_string(&mut text)`는 읽은 글자를 `text`에 덧붙이려 시도하고 성공 또는 오류를 `Result`로 돌려줍니다. 성공했다면 몇 바이트를 읽었는지도 알 수 있습니다.
+
+UTF-8이 아닌 바이트를 문자열로 읽으려 할 때는 실패할 수 있습니다. `.unwrap()`은 연습용 예제에서는 간단하지만 실제 입력에서는 오류를 사용자에게 알려 주거나 물음표 연산자로 호출자에게 전달하는 편이 낫습니다. 읽기 전 빈 `text`와 읽기 뒤 `text`를 나눠 적어 보세요.
+
 ## 문법을 예제로 보기
 
 아래 Rust 코드는 Day 48 "`Rust 읽기와 Result`"의 독립 예제입니다. 전체 7줄 가운데 핵심 부분은 `read_to_string`이며, 실행 결과는 `30`입니다.
@@ -230,7 +233,7 @@ Rust는 `rustc --edition=2024` 또는 Cargo로 실행하면 실행 결과는 `30
 
 ## 핵심 줄 따라 읽기
 
-예제의 핵심 표현은 `read_to_string`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄을 찾으세요.
+예제의 핵심 표현은 `read_to_string`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄 번호를 말하고, 그 줄이 읽는 값과 바꾸는 값을 적어 보세요.
 
 ```rust
  1 | use std::io::{Cursor, Read};
@@ -264,7 +267,7 @@ Rust는 `rustc --edition=2024` 또는 Cargo로 실행하면 실행 결과는 `30
 
 ## 결과 예측과 작은 변경
 
-원본 실행 결과는 `30`입니다. 아래 코드에서 원본과 다른 줄을 먼저 찾으세요.
+원본 실행 결과는 `30`입니다. 아래 코드에서 원본과 달라지는 첫 줄을 표시하고, 그 줄의 변경 전후 값을 적어 보세요.
 
 ```rust
 use std::io::{Cursor, Read};
@@ -284,7 +287,7 @@ fn main() {
 30!
 ```
 
-원본 출력은 `30`이고, 바뀐 코드의 실행 결과는 `30!`입니다. 바뀐 줄은 `let mut source = Cursor::new("30");`에서 `let mut source = Cursor::new("30!");`로 바뀌었습니다. 바뀐 프로그램은 `source=30` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `30!`가 됩니다. 원본 추적 `source=30  →  text 비어 있음  →  read 성공 text=30`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
+원본은 `30`, 수정본은 `30!`이다. 첫 변경 줄 `Cursor::new("30")`에서 `Cursor::new("30!")`로 입력 바이트를 바꾸면, 읽기와 표시가 그대로 이어져 느낌표가 붙는다.
 
 ## 자주 틀리는 지점
 
