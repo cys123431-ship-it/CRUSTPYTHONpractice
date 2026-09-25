@@ -16,6 +16,7 @@ import yaml
 from curriculum_blueprints import DAYS, Day
 from teaching_notes import NOTES
 from second_examples import MORE
+from modified_outputs import MODIFIED_OUTPUT, SAME_REASON
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -88,6 +89,7 @@ def exercise_rows(day: Day, id_: str) -> list[dict]:
     base = f"ex-{id_}"
     common = [day.pitfall, "실행 전에 출력과 중간 상태를 손으로 확인하지 않음"]
     modified, change = day.modified
+    change_display = change.replace(chr(92) + "n", " + 다음 줄 ")
     return [
         dict(id=f"{base}-predict", title="결과를 먼저 예측하기", kind="predict",
              objective="코드를 실행하지 않고 상태와 출력을 순서대로 추적한다.",
@@ -103,7 +105,7 @@ def exercise_rows(day: Day, id_: str) -> list[dict]:
              commonMistakes=common, language=day.anchor, verification="run"),
         dict(id=f"{base}-guided", title="값을 바꿔 다시 추적하기", kind="modify",
              objective="입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.",
-             prompt=f"예시를 직접 타이핑한 뒤 {change} 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.",
+             prompt=f"예시를 직접 타이핑한 뒤 {change_display} 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.",
              starter=day.code, answer=modified, hint=f"{change} 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.",
              explanation=("배열의 값은 10·20·30 그대로이고 읽는 인덱스가 1에서 2로 바뀌었습니다. 그래서 기존 출력 20 대신 마지막 원소 30을 출력합니다. 인덱스 3은 범위 밖이라 사용하면 안 됩니다."
                           if day.number == 26 else
@@ -186,7 +188,10 @@ def markdown(day: Day) -> str:
     prev_no = day.number - 1
     prev_link = entity_id(day.number - 1) if day.number > 1 else None
     complexity_note = COMPLEXITY.get(day.number, "")
-    run_how = f"하단 Python 실행 영역에 같은 코드가 들어 있습니다. 먼저 `{day.output}`을(를) 가리고 예측한 뒤 실행해 비교하세요." if day.anchor == "python" else (f"C17은 `gcc -std=c17 -Wall -Wextra`로 컴파일해 실행하면 `{day.output}`이(가) 나옵니다. 브라우저에서는 임의 컴파일 대신 하단 실습 칸의 답안 비교를 사용하세요." if day.anchor == "c" else f"Rust는 `rustc --edition=2024` 또는 Cargo로 실행하면 `{day.output}`이(가) 나옵니다. 브라우저에서는 임의 컴파일 대신 하단 실습 칸의 답안 비교를 사용하세요.")
+    modified_output = MODIFIED_OUTPUT[day.number]
+    output_inline = day.output.strip().replace("\n", " / ")
+    modified_inline = modified_output.strip().replace("\n", " / ")
+    run_how = f"하단 Python 실행 영역에 같은 코드가 들어 있습니다. 먼저 실행 결과(`{output_inline}`)를 가리고 예측한 뒤 실행해 비교하세요." if day.anchor == "python" else (f"C17은 `gcc -std=c17 -Wall -Wextra`로 컴파일해 실행하면 실행 결과는 `{output_inline}`입니다. 브라우저에서는 임의 컴파일 대신 하단 실습 칸의 답안 비교를 사용하세요." if day.anchor == "c" else f"Rust는 `rustc --edition=2024` 또는 Cargo로 실행하면 실행 결과는 `{output_inline}`입니다. 브라우저에서는 임의 컴파일 대신 하단 실습 칸의 답안 비교를 사용하세요.")
     code_lines = "\n".join(f"{i + 1:2d} | {line}" for i, line in enumerate(day.code.splitlines()))
     buggy_line = ""
     fixed_line = ""
@@ -202,23 +207,42 @@ def markdown(day: Day) -> str:
     if complexity_note:
         complexity_block = "## 시간과 공간 복잡도\n\n" + complexity_note + f" Day {day.number:02d}의 핵심 연산을 위 기준으로 직접 세어 보세요."
     trace_first = day.trace.split("\u2192")[0].strip() if "\u2192" in day.trace else day.trace.strip()
+    is_same = modified_output.strip() == day.output.strip()
+    same_reason = SAME_REASON.get(day.number, "")
+    change_display = change.replace(chr(92) + "n", " + 다음 줄 ")
+    orig_lines = day.code.splitlines()
+    mod_lines = modified_code.splitlines()
+    diff_old = ""
+    diff_new = ""
+    for a, b in zip(orig_lines, mod_lines):
+        if a != b:
+            diff_old = a.strip()
+            diff_new = b.strip()
+            break
+    if not diff_old and len(mod_lines) > len(orig_lines):
+        diff_old = "(원본에는 없는 추가 줄)"
+        diff_new = " / ".join(line.strip() for line in mod_lines[len(orig_lines):] if line.strip())
+    if is_same:
+        modified_reason = f"`{output_inline}`로 같습니다. {same_reason} 출력이 같다고 해서 중간 상태까지 같은 것은 아닙니다. 다른 줄(`{diff_new}`)부터 원본 추적과 비교해 보세요."
+    else:
+        modified_reason = f"원본(`{output_inline}`)과 달라졌습니다. 다른 줄(`{diff_old}` → `{diff_new}`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`{trace_first}` → …)과 바뀐 줄부터 대조해 보세요."
     body = f"---\n{head}---\n\n" + f"""## 오늘 배울 이유
 
-{day.why} Day {day.number:02d} "`{day.title}`"에서는 {lang} 코드가 `{day.output}`을(를) 만드는 과정을 따라가며, {day.transfer} 동작이 왜 필요한지 확인합니다. {day.transfer}을(를) 빠뜨리면 `{day.pitfall}` 같은 문제가 생깁니다.
+{day.why} Day {day.number:02d} "`{day.title}`"에서는 {lang} 코드의 실행 결과(`{output_inline}`)를 따라가며, `{day.transfer}` 동작이 왜 필요한지 확인합니다. 이 동작이 빠지면 "`{day.pitfall}`" 같은 문제가 생깁니다.
 
 ## 시작 전에 확인할 것
 
-바로 앞선 [Day {prev_no:02d}](/learn/{prev_link})에서는 "{prev}"을(를) 배웠습니다. "{prev}"의 핵심 결과를 한 문장으로 말해 보고, 이번 "`{day.title}`"에서 새로 달라지는 조건을 찾아보세요. Day {day.number:02d}의 답은 `{day.output}`이며, 핵심 표현은 `{day.focus}`입니다.
+바로 앞선 [Day {prev_no:02d}](/learn/{prev_link})에서 배운 "{prev}" 내용을 한 문장으로 말해 보세요. 이번 "`{day.title}`"에서 새로 달라지는 조건을 찾아보세요. 핵심 표현은 `{day.focus}`입니다.
 
 ## 머릿속 그림
 
-{day.model} Day {day.number:02d}에서는 아래 흐름 순서대로 상태가 바뀌며, `{day.focus}`이(가) 결과를 가릅니다.
+{day.model} Day {day.number:02d}에서는 아래 흐름 순서대로 상태가 바뀌고, 결과를 가르는 부분은 `{day.focus}`입니다.
 
 ```text
 {day.trace.replace('→', ' → ')}
 ```
 
-위 흐름에서 `{day.focus}`이(가) 실행되는 지점을 찾으면 읽는 값과 바뀌는 값이 나뉘어 보입니다. 마지막 출력은 `{day.output}`입니다.
+위 흐름에서 `{day.focus}` 부분이 실행되는 지점을 찾으면 읽는 값과 바뀌는 값이 나뉘어 보입니다. 마지막 출력은 `{output_inline}`입니다.
 
 ## 천천히 풀어보기
 
@@ -226,7 +250,7 @@ def markdown(day: Day) -> str:
 
 ## 문법을 예제로 보기
 
-아래 {lang} 코드는 Day {day.number:02d} "`{day.title}`"의 독립 예제입니다. 전체 {len(day.code.splitlines())}줄에서 `{day.focus}`이(가) 핵심이며, 실행 결과는 `{day.output}`입니다.
+아래 {lang} 코드는 Day {day.number:02d} "`{day.title}`"의 독립 예제입니다. 전체 {len(day.code.splitlines())}줄 가운데 핵심 부분은 `{day.focus}`이며, 실행 결과는 `{output_inline}`입니다.
 
 ```{day.anchor}
 {day.code}
@@ -250,7 +274,7 @@ def markdown(day: Day) -> str:
 
 {steps}
 
-위 단계에서 `{day.focus}`이(가) 빠지면 `{day.output}`이(가) 나오지 않습니다. `{change}` 실험에서 어느 줄부터 달라지는지 직접 확인하세요.
+`{day.focus}` 부분이 실행될 때 읽는 값과 바뀌는 값을 한 줄씩 적어 보세요. 다음 `결과 예측과 작은 변경`에서는 이 부분이 달라집니다.
 
 ## 실행 추적
 
@@ -258,7 +282,7 @@ def markdown(day: Day) -> str:
 | ---: | --- |
 {trace_rows}
 
-위 순서대로 실행하면 최종 출력 `{day.output}`이(가) 됩니다. `{trace_first}` 단계와 마지막 단계를 비교하면 입력과 출력의 관계가 보입니다.
+위 순서대로 실행한 최종 출력은 `{output_inline}`입니다. `{trace_first}` 단계와 마지막 단계를 비교하면 입력과 출력의 관계가 보입니다.
 
 ## 다른 예제로 다시 이해하기
 
@@ -268,17 +292,25 @@ def markdown(day: Day) -> str:
 
 ## 결과 예측과 작은 변경
 
-원본 코드에서 `{change}` 바꾸면 아래와 같이 됩니다.
+원본 실행 결과는 `{output_inline}`입니다. 아래 코드에서 원본과 다른 줄을 먼저 찾으세요.
 
 ```{day.anchor}
 {modified_code}
 ```
 
-원본 출력은 `{day.output}`입니다. 바꾼 코드를 실행하기 전에 출력이 어떻게 달라질지 먼저 적어 보세요. 출력이 같았다면 `{day.focus}`이(가) 결과에 영향을 주지 않은 이유를, 달라졌다면 처음 달라진 중간 값을 설명하세요. Day {day.number:02d}의 `{day.title}`에서 바뀐 줄부터 다시 추적하세요.
+찾은 줄을 적용했을 때의 실행 결과를 먼저 예측해 보세요.
+
+해설: 바뀐 코드의 실행 결과는 아래와 같습니다.
+
+```text
+{modified_output}
+```
+
+{modified_reason}
 
 ## 자주 틀리는 지점
 
-**확인할 실수: {day.pitfall}.** 정상 코드에서는 `{day.output}`이(가) 출력됩니다.
+**확인할 실수: {day.pitfall}.** 정상 코드의 실행 결과는 `{output_inline}`입니다.
 
 - 정상 줄: `{fixed_line}`
 - 잘못된 줄: `{buggy_line}`
@@ -287,28 +319,28 @@ def markdown(day: Day) -> str:
 
 ## 다른 언어로 옮기기
 
-핵심 동작 **{day.transfer}**은(는) 세 언어에서 같은 입력과 출력(`{day.output}`)으로 유지됩니다. 선언과 오류 처리는 언어마다 다릅니다.
+세 언어에서 지켜야 할 핵심 동작은 `{day.transfer}`입니다. 목표는 같은 입력에 같은 결과를 내는 것으로, 각 언어의 규칙에 맞게 옮겼는지 실행 결과로 대조하세요.
 
 | 언어 | 옮길 때 확인할 표현과 규칙 |
 | --- | --- |
 {comparison}
 
-C17에서는 `{forms_c}` 규칙으로 "`{day.title}`"의 `{day.output}`을(를) 확인하고, 범위를 벗어난 접근은 직접 막아야 합니다. Python에서는 `{forms_python}` 규칙을 따르고, 실패나 빈 입력은 예외로 드러내 조용히 넘기지 마세요. Rust에서는 `{forms_rust}` 규칙을 따르고, 빌림과 범위 검사를 컴파일 때 확인하세요.
+C17에서는 `{forms_c}` 규칙을 적용합니다. "`{day.title}`" 수업의 실행 결과(`{output_inline}`)를 기준으로 삼고, C는 범위와 널 검사를 자동으로 해 주지 않으므로, 코드에 사용된 접근마다 유효 범위를 직접 확인해야 합니다. Python에서는 `{forms_python}` 규칙을 따릅니다. 실패나 빈 입력은 예외로 드러내며 조용히 넘기지 마세요. Rust에서는 `{forms_rust}` 규칙을 따릅니다. 실행 결과가 다르면 컴파일 오류(타입, 소유권, 빌림)와 실행 때 패닉(인덱스 범위 등) 중 어느 쪽인지 메시지부터 구분하세요.
 
 ## 실습 순서
 
-예측(`{day.output}` 맞히기) → 빈칸(`{day.focus}` 채우기) → 변경(`{change}`) → 오류 수정(`{day.pitfall}` 찾기) → 독립 구현(`{day.task}` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `{day.output}` 및 `{day.focus}` 설명과 대조하세요.
+예측(`{output_inline}` 맞히기) → 빈칸(`{day.focus}` 채우기) → 변경(`{change_display}`) → 오류 수정(`{day.pitfall}` 찾기) → 독립 구현(`{day.task}` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `{output_inline}` 및 `{day.focus}` 설명과 대조하세요.
 
 ## 스스로 설명하기
 
-- "`{day.title}`"이(가) 필요한 상황을 `{day.transfer}` 동작으로 설명해 보세요.
-- 예제에서 `{day.focus}`이(가) 실행되기 직전의 상태와 직후의 출력 `{day.output}`을(를) 말해 보세요.
+- "`{day.title}`" 수업이 필요한 이유는 `{day.transfer}` 동작으로 설명해 보세요.
+- 예제에서 `{day.focus}` 부분 실행 직전의 상태와 직후의 출력(`{output_inline}`)을 말해 보세요.
 - "`{day.pitfall}`" 상황에서 어떤 입력과 출력이 어긋나는지 말해 보세요.
 - 같은 `{day.transfer}` 동작을 나머지 두 언어의 어떤 표현으로 옮길지 말해 보세요.
 
 ## 핵심 요약과 복습
 
-{day.model} Day {day.number:02d} "`{day.title}`"의 예제는 `{day.focus}`을(를) 실행해 `{day.output}`을(를) 출력합니다. "`{day.pitfall}`" 여부를 확인하고 Day {day.number:02d}을(를) 완료하세요.
+{day.model} Day {day.number:02d} "`{day.title}`" 예제의 핵심 부분은 `{day.focus}`이며, 실행 결과는 `{output_inline}`입니다. "`{day.pitfall}`" 여부를 확인하고 Day {day.number:02d} 수업을 완료하세요.
 """
     if day.number >= 83:
         body += f"""

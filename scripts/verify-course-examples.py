@@ -14,12 +14,15 @@ import sys
 import tempfile
 
 from curriculum_blueprints import DAYS
+from modified_outputs import MODIFIED_OUTPUT
 
 
 def verify() -> None:
     languages = {d.anchor for d in DAYS.values()}
     if languages != {"c", "python", "rust"}:
         raise AssertionError(f"Unexpected languages: {languages}")
+    if set(MODIFIED_OUTPUT) != set(DAYS):
+        raise AssertionError("modified-output data is missing days")
     if os.getenv("CI") and not shutil.which("rustc"):
         raise RuntimeError("CI must provide rustc to verify all Rust lessons")
     missing = set()
@@ -45,9 +48,10 @@ def verify() -> None:
                         raise AssertionError(f"Day {day.number} {label} compile: {built.stderr}")
                     command = [str(executable)]
                 result = subprocess.run(command, text=True, capture_output=True, timeout=5)
-                if result.returncode or (label == "original" and result.stdout.strip() != day.output.strip()):
+                want = day.output.strip() if label == "original" else MODIFIED_OUTPUT[day.number].strip()
+                if result.returncode or result.stdout.strip() != want:
                     raise AssertionError(
-                        f"Day {day.number} {day.anchor} {label}: expected {day.output!r}, "
+                        f"Day {day.number} {day.anchor} {label}: expected {want!r}, "
                         f"got {result.stdout!r}; stderr={result.stderr!r}; exit={result.returncode}"
                     )
                 checked += 1
