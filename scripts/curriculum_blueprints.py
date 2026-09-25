@@ -56,7 +56,7 @@ class Day:
             return self.code.replace('let raw = "30";', 'let raw = "31";'), '입력 문자열 30을 31로'
         if self.number in overrides:
             before, after = overrides[self.number]
-            return self.code.replace(before, after, 1), f"{before!r}을 {after!r}로"
+            return self.code.replace(before, after, 1), f"{before!r} → {after!r}"
         strings = [m.span() for m in re.finditer(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'', self.code)]
         number = next((m for m in re.finditer(r"(?<![A-Za-z_0-9])(\d+)(?![A-Za-z_0-9])", self.code)
                        if not any(start <= m.start() < end for start, end in strings)
@@ -78,7 +78,7 @@ def D(number, slug, title, anchor, code, output, focus, wrong, why, model,
     return Day(number, slug, title, anchor, code, output, focus, wrong, why,
                model, walk, trace, pitfall, transfer, forms or {},
                change or "예시의 첫 입력 값을 하나",
-               task or f"{title}을 보여 주는")
+               task or f"'{title}' 개념을 보여주는 작은 프로그램")
 
 
 DAYS = {d.number: d for d in [

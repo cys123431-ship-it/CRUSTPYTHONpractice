@@ -51,12 +51,12 @@ exercises:
   - id: ex-day-55-module-test-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: Python 모듈화와 assert의 핵심 표현을 스스로 적는다.
+    objective: "'Python 모듈화와 assert' 개념의 핵심 표현을 스스로 적는다."
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: assert"
     starter: "def total(values):\n    return sum(values)\n_____ total([10, 20]) == 30\nprint(\"검증 완료\")"
     answer: "def total(values):\n    return sum(values)\nassert total([10, 20]) == 30\nprint(\"검증 완료\")"
     hint: total에 두 값을 전달합니다
-    explanation: 빈칸에는 'assert'이 들어갑니다. total에 두 값을 전달합니다 sum 결과 30을 기대값과 비교합니다 참이므로 검증 완료를 출력합니다
+    explanation: 빈칸에 들어갈 표현은 'assert'입니다. total에 두 값을 전달합니다 sum 결과 30을 기대값과 비교합니다 참이므로 검증 완료를 출력합니다
     commonMistakes:
       - assert가 실패해도 다음 print가 실행된다고 생각함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -67,14 +67,14 @@ exercises:
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
     prompt:
-      예시를 직접 타이핑한 뒤 'assert total([10, 20]) == 30'을 'assert total([11, 20]) == 31'로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고,
-      그대로라면 그 이유도 설명하세요.
+      "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 'assert total([10, 20]) == 30' → 'assert total([11, 20]) == 31'. 출력이 바뀌는지
+      먼저 예측하고, 그대로라면 그 이유도 설명하세요."
     starter: "def total(values):\n    return sum(values)\nassert total([10, 20]) == 30\nprint(\"검증 완료\")"
     answer: "def total(values):\n    return sum(values)\nassert total([11, 20]) == 31\nprint(\"검증 완료\")"
-    hint: "'assert total([10, 20]) == 30'을 'assert total([11, 20]) == 31'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요."
+    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 'assert total([10, 20]) == 30' → 'assert total([11, 20]) == 31'."
     explanation:
-      예시 답안에서는 'assert total([10, 20]) == 30'을 'assert total([11, 20]) == 31'로 바꿨습니다. 원래 출력은 '검증 완료'입니다.
-      바꾼 줄에서 시작해 중간 값과 마지막 출력을 다시 추적하세요. 출력이 같더라도 입력·조건·중간 상태가 달라졌는지 확인해야 합니다.
+      바꾼 뒤 출력은 '검증 완료'입니다. 원본 출력과 같습니다('검증 완료'). 기대값을 함께 31로 바꿨으므로 assert가 통과해 출력까지 도달합니다. 출력이 같아도 바뀐 줄(assert
+      total([11, 20]) == 31) 이후의 중간 상태가 같은지는 원본 추적과 대조해야 합니다.
     commonMistakes:
       - assert가 실패해도 다음 print가 실행된다고 생각함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -118,9 +118,9 @@ quiz:
       - 검증 완료
       - 아무것도 출력하지 않는다
     answerIndex: 1
-    explanation: "[10,20]  →  total=30  →  조건 참  →  출력 순서로 실행되어 '검증 완료'을 출력합니다."
+    explanation: "[10,20]  →  total=30  →  조건 참  →  출력 순서로 실행되어 출력은 '검증 완료'입니다."
   - id: quiz-day-55-module-test-model
-    question: Python 모듈화와 assert을 이해하는 데 맞는 설명은?
+    question: "'Python 모듈화와 assert' 개념을 이해하는 데 맞는 설명은?"
     choices:
       - assert가 실패해도 다음 print가 실행된다고 생각함(이것이 정상적인 사용법이다)
       - 코드가 짧다면 상태 추적은 필요 없다
@@ -240,7 +240,7 @@ print("검증 완료")
 검증 완료
 ```
 
-`검증 완료`로 같습니다. 기대값을 함께 31로 바꿨으므로 assert가 통과해 출력까지 도달합니다. 출력이 같다고 해서 중간 상태까지 같은 것은 아닙니다. 다른 줄(`assert total([11, 20]) == 31`)부터 원본 추적과 비교해 보세요.
+바꾼 뒤 출력도 `검증 완료`입니다. 기대값을 함께 31로 바꿨으므로 assert가 통과해 출력까지 도달합니다. 출력이 같다고 해서 중간 상태까지 같은 것은 아닙니다. 다른 줄(`assert total([11, 20]) == 31`)부터 원본 추적과 비교해 보세요.
 
 ## 자주 틀리는 지점
 
@@ -265,7 +265,7 @@ C17에서는 `테스트 main과 return 상태 검사` 규칙을 적용합니다.
 
 ## 실습 순서
 
-예측(`검증 완료` 맞히기) → 빈칸(`assert` 채우기) → 변경(`'assert total([10, 20]) == 30'을 'assert total([11, 20]) == 31'로`) → 오류 수정(`assert가 실패해도 다음 print가 실행된다고 생각함` 찾기) → 독립 구현(`Python 모듈화와 assert을 보여 주는` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `검증 완료` 및 `assert` 설명과 대조하세요.
+예측(`검증 완료` 맞히기) → 빈칸(`assert` 채우기) → 변경(`'assert total([10, 20]) == 30' → 'assert total([11, 20]) == 31'`) → 오류 수정(`assert가 실패해도 다음 print가 실행된다고 생각함` 찾기) → 독립 구현(`'Python 모듈화와 assert' 개념을 보여주는 작은 프로그램` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `검증 완료` 및 `assert` 설명과 대조하세요.
 
 ## 스스로 설명하기
 

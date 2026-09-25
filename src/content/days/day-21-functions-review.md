@@ -53,7 +53,7 @@ exercises:
   - id: ex-day-21-functions-review-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: 반복과 함수 회상의 핵심 표현을 스스로 적는다.
+    objective: "'반복과 함수 회상' 개념의 핵심 표현을 스스로 적는다."
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: result += value"
     starter:
       "def total(values):\n    result = 0\n    for value in values:\n        _____\n    return result\nprint(total([10,\
@@ -62,7 +62,9 @@ exercises:
       "def total(values):\n    result = 0\n    for value in values:\n        result += value\n    return result\n\
       print(total([10, 20]))"
     hint: 호출 시 값 [10,20]을 전달합니다
-    explanation: 빈칸에는 'result += value'이 들어갑니다. 호출 시 값 [10,20]을 전달합니다 result가 0→10→30으로 바뀝니다 return 30을 print가 받습니다
+    explanation:
+      빈칸에 들어갈 표현은 'result += value'입니다. 호출 시 값 [10,20]을 전달합니다 result가 0→10→30으로 바뀝니다 return 30을 print가
+      받습니다
     commonMistakes:
       - 반복 안에서 result를 덮어써 마지막 값만 반환함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -72,17 +74,15 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 0에서 1로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
+    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 처음 등장하는 숫자를 0에서 1로. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
     starter:
       "def total(values):\n    result = 0\n    for value in values:\n        result += value\n    return result\n\
       print(total([10, 20]))"
     answer:
       "def total(values):\n    result = 1\n    for value in values:\n        result += value\n    return result\n\
       print(total([10, 20]))"
-    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
-    explanation:
-      예시 답안에서는 처음 등장하는 숫자를 0에서 1로 바꿨습니다. 원래 출력은 '30'입니다. 바꾼 줄에서 시작해 중간 값과 마지막 출력을 다시 추적하세요. 출력이 같더라도 입력·조건·중간
-      상태가 달라졌는지 확인해야 합니다.
+    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 처음 등장하는 숫자를 0에서 1로."
+    explanation: 바꾼 뒤 출력은 '31'입니다. 원본 출력 '30'에서 달라졌습니다. 다른 줄(result = 0 → result = 1)에서 시작한 차이가 최종 출력에 반영되었습니다.
     commonMistakes:
       - 반복 안에서 result를 덮어써 마지막 값만 반환함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -132,9 +132,9 @@ quiz:
       - 실행 전에 반드시 오류가 난다
       - 아무것도 출력하지 않는다
     answerIndex: 0
-    explanation: 입력 [10,20]  →  result=10  →  result=30  →  출력 순서로 실행되어 '30'을 출력합니다.
+    explanation: 입력 [10,20]  →  result=10  →  result=30  →  출력 순서로 실행되어 출력은 '30'입니다.
   - id: quiz-day-21-functions-review-model
-    question: 반복과 함수 회상을 이해하는 데 맞는 설명은?
+    question: "'반복과 함수 회상' 개념을 이해하는 데 맞는 설명은?"
     choices:
       - 반복 안에서 result를 덮어써 마지막 값만 반환함(이것이 정상적인 사용법이다)
       - 함수 내부 result는 호출마다 새로 시작하며 return이 최종 합계를 호출자에게 전달합니다.
@@ -262,7 +262,7 @@ print(total([10, 20]))
 31
 ```
 
-원본(`30`)과 달라졌습니다. 다른 줄(`result = 0` → `result = 1`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`입력 [10,20]` → …)과 바뀐 줄부터 대조해 보세요.
+원본과 달라졌습니다. 원본 출력은 `30`입니다. 다른 줄(`result = 0` → `result = 1`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`입력 [10,20]` → …)과 바뀐 줄부터 대조해 보세요.
 
 ## 자주 틀리는 지점
 
@@ -287,7 +287,7 @@ C17에서는 `배열과 길이를 인자로 받는 함수` 규칙을 적용합�
 
 ## 실습 순서
 
-예측(`30` 맞히기) → 빈칸(`result += value` 채우기) → 변경(`처음 등장하는 숫자를 0에서 1로`) → 오류 수정(`반복 안에서 result를 덮어써 마지막 값만 반환함` 찾기) → 독립 구현(`반복과 함수 회상을 보여 주는` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `30` 및 `result += value` 설명과 대조하세요.
+예측(`30` 맞히기) → 빈칸(`result += value` 채우기) → 변경(`처음 등장하는 숫자를 0에서 1로`) → 오류 수정(`반복 안에서 result를 덮어써 마지막 값만 반환함` 찾기) → 독립 구현(`'반복과 함수 회상' 개념을 보여주는 작은 프로그램` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `30` 및 `result += value` 설명과 대조하세요.
 
 ## 스스로 설명하기
 

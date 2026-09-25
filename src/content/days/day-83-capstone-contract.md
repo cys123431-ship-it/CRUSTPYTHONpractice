@@ -55,7 +55,7 @@ exercises:
   - id: ex-day-83-capstone-contract-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: "프로젝트 계약: 공통 CSV 입력의 핵심 표현을 스스로 적는다."
+    objective: "'프로젝트 계약: 공통 CSV 입력' 개념의 핵심 표현을 스스로 적는다."
     prompt: '빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: split(",")'
     starter: 'header = "date,language,topic,minutes,result"
 
@@ -68,7 +68,7 @@ exercises:
 
       print(len(fields), fields[3])'
     hint: 헤더 문자열을 쉼표로 나눕니다
-    explanation: 빈칸에는 'split(",")'이 들어갑니다. 헤더 문자열을 쉼표로 나눕니다 다섯 항목을 얻습니다 인덱스 3의 minutes를 출력합니다
+    explanation: 빈칸에 들어갈 표현은 'split(",")'입니다. 헤더 문자열을 쉼표로 나눕니다 다섯 항목을 얻습니다 인덱스 3의 minutes를 출력합니다
     commonMistakes:
       - 쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -78,7 +78,7 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: 예시를 직접 타이핑한 뒤 'fields[3]'을 'fields[2]'로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
+    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 'fields[3]' → 'fields[2]'. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
     starter: 'header = "date,language,topic,minutes,result"
 
       fields = header.split(",")
@@ -89,10 +89,10 @@ exercises:
       fields = header.split(",")
 
       print(len(fields), fields[2])'
-    hint: "'fields[3]'을 'fields[2]'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요."
+    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 'fields[3]' → 'fields[2]'."
     explanation:
-      예시 답안에서는 'fields[3]'을 'fields[2]'로 바꿨습니다. 원래 출력은 '5 minutes'입니다. 바꾼 줄에서 시작해 중간 값과 마지막 출력을 다시 추적하세요.
-      출력이 같더라도 입력·조건·중간 상태가 달라졌는지 확인해야 합니다.
+      바꾼 뒤 출력은 '5 topic'입니다. 원본 출력 '5 minutes'에서 달라졌습니다. 다른 줄(print(len(fields), fields[3]) → print(len(fields),
+      fields[2]))에서 시작한 차이가 최종 출력에 반영되었습니다.
     commonMistakes:
       - 쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -146,9 +146,9 @@ quiz:
       - 아무것도 출력하지 않는다
       - 5 minutes
     answerIndex: 2
-    explanation: 헤더  →  다섯 열  →  네 번째 minutes 순서로 실행되어 '5 minutes'을 출력합니다.
+    explanation: 헤더  →  다섯 열  →  네 번째 minutes 순서로 실행되어 출력은 '5 minutes'입니다.
   - id: quiz-day-83-capstone-contract-model
-    question: "프로젝트 계약: 공통 CSV 입력을 이해하는 데 맞는 설명은?"
+    question: "'프로젝트 계약: 공통 CSV 입력' 개념을 이해하는 데 맞는 설명은?"
     choices:
       - CSV 한 행은 날짜·언어·주제·분·결과의 다섯 열이고 minutes는 네 번째 열입니다.
       - 쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함(이것이 정상적인 사용법이다)
@@ -268,7 +268,7 @@ print(len(fields), fields[2])
 5 topic
 ```
 
-원본(`5 minutes`)과 달라졌습니다. 다른 줄(`print(len(fields), fields[3])` → `print(len(fields), fields[2])`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`헤더` → …)과 바뀐 줄부터 대조해 보세요.
+원본과 달라졌습니다. 원본 출력은 `5 minutes`입니다. 다른 줄(`print(len(fields), fields[3])` → `print(len(fields), fields[2])`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`헤더` → …)과 바뀐 줄부터 대조해 보세요.
 
 ## 자주 틀리는 지점
 
@@ -293,7 +293,7 @@ C17에서는 `CSV 파서에 열 개수·인용 규칙 전달` 규칙을 적용�
 
 ## 실습 순서
 
-예측(`5 minutes` 맞히기) → 빈칸(`split(",")` 채우기) → 변경(`'fields[3]'을 'fields[2]'로`) → 오류 수정(`쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함` 찾기) → 독립 구현(`프로젝트 계약: 공통 CSV 입력을 보여 주는` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `5 minutes` 및 `split(",")` 설명과 대조하세요.
+예측(`5 minutes` 맞히기) → 빈칸(`split(",")` 채우기) → 변경(`'fields[3]' → 'fields[2]'`) → 오류 수정(`쉼표가 포함된 인용 필드를 단순 split으로 실제 CSV처럼 처리함` 찾기) → 독립 구현(`'프로젝트 계약: 공통 CSV 입력' 개념을 보여주는 작은 프로그램` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `5 minutes` 및 `split(",")` 설명과 대조하세요.
 
 ## 스스로 설명하기
 

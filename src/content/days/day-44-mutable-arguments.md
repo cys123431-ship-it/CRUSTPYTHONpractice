@@ -51,12 +51,12 @@ exercises:
   - id: ex-day-44-mutable-arguments-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: Python 함수의 가변 인자의 핵심 표현을 스스로 적는다.
+    objective: "'Python 함수의 가변 인자' 개념의 핵심 표현을 스스로 적는다."
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: items.append(30)"
     starter: "def add_session(items):\n    _____\nvalues = [10]\nadd_session(values)\nprint(values)"
     answer: "def add_session(items):\n    items.append(30)\nvalues = [10]\nadd_session(values)\nprint(values)"
     hint: values가 [10]을 참조합니다
-    explanation: 빈칸에는 'items.append(30)'이 들어갑니다. values가 [10]을 참조합니다 items가 같은 객체를 가리킵니다 append 뒤 [10,30]이 됩니다
+    explanation: 빈칸에 들어갈 표현은 'items.append(30)'입니다. values가 [10]을 참조합니다 items가 같은 객체를 가리킵니다 append 뒤 [10,30]이 됩니다
     commonMistakes:
       - 매개변수 대입과 객체 내부 수정을 같은 동작으로 혼동함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -66,13 +66,13 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 30에서 31로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
+    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 처음 등장하는 숫자를 30에서 31로. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
     starter: "def add_session(items):\n    items.append(30)\nvalues = [10]\nadd_session(values)\nprint(values)"
     answer: "def add_session(items):\n    items.append(31)\nvalues = [10]\nadd_session(values)\nprint(values)"
-    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
+    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 처음 등장하는 숫자를 30에서 31로."
     explanation:
-      예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원래 출력은 '[10, 30]'입니다. 바꾼 줄에서 시작해 중간 값과 마지막 출력을 다시 추적하세요. 출력이
-      같더라도 입력·조건·중간 상태가 달라졌는지 확인해야 합니다.
+      바꾼 뒤 출력은 '[10, 31]'입니다. 원본 출력 '[10, 30]'에서 달라졌습니다. 다른 줄(items.append(30) → items.append(31))에서 시작한
+      차이가 최종 출력에 반영되었습니다.
     commonMistakes:
       - 매개변수 대입과 객체 내부 수정을 같은 동작으로 혼동함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -116,9 +116,9 @@ quiz:
       - 아무것도 출력하지 않는다
       - "[10, 30]"
     answerIndex: 2
-    explanation: values → [10]  →  items → 같은 객체  →  append  →  [10,30] 순서로 실행되어 '[10, 30]'을 출력합니다.
+    explanation: values → [10]  →  items → 같은 객체  →  append  →  [10,30] 순서로 실행되어 출력은 '[10, 30]'입니다.
   - id: quiz-day-44-mutable-arguments-model
-    question: Python 함수의 가변 인자을 이해하는 데 맞는 설명은?
+    question: "'Python 함수의 가변 인자' 개념을 이해하는 데 맞는 설명은?"
     choices:
       - 함수 매개변수 items와 호출자 values가 같은 가변 리스트를 참조합니다. append는 객체를 바꿉니다.
       - 매개변수 대입과 객체 내부 수정을 같은 동작으로 혼동함(이것이 정상적인 사용법이다)
@@ -243,7 +243,7 @@ print(values)
 [10, 31]
 ```
 
-원본(`[10, 30]`)과 달라졌습니다. 다른 줄(`items.append(30)` → `items.append(31)`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`values` → …)과 바뀐 줄부터 대조해 보세요.
+원본과 달라졌습니다. 원본 출력은 `[10, 30]`입니다. 다른 줄(`items.append(30)` → `items.append(31)`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`values` → …)과 바뀐 줄부터 대조해 보세요.
 
 ## 자주 틀리는 지점
 
@@ -268,7 +268,7 @@ C17에서는 `int *와 명시적 포인터 전달` 규칙을 적용합니다. "`
 
 ## 실습 순서
 
-예측(`[10, 30]` 맞히기) → 빈칸(`items.append(30)` 채우기) → 변경(`처음 등장하는 숫자를 30에서 31로`) → 오류 수정(`매개변수 대입과 객체 내부 수정을 같은 동작으로 혼동함` 찾기) → 독립 구현(`Python 함수의 가변 인자을 보여 주는` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `[10, 30]` 및 `items.append(30)` 설명과 대조하세요.
+예측(`[10, 30]` 맞히기) → 빈칸(`items.append(30)` 채우기) → 변경(`처음 등장하는 숫자를 30에서 31로`) → 오류 수정(`매개변수 대입과 객체 내부 수정을 같은 동작으로 혼동함` 찾기) → 독립 구현(`'Python 함수의 가변 인자' 개념을 보여주는 작은 프로그램` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `[10, 30]` 및 `items.append(30)` 설명과 대조하세요.
 
 ## 스스로 설명하기
 

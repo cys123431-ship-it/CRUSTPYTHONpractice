@@ -11,8 +11,9 @@ const dir = resolve(process.cwd(), "src/content/days");
 const generated = (f: string) =>
   !/day-01-variables-types|day-29-references-borrowing|day-57-stack/.test(f);
 const files = readdirSync(dir).filter((f) => f.endsWith(".md") && generated(f));
+const fullOf = (f: string) => readFileSync(join(dir, f), "utf8");
 const bodyOf = (f: string) => {
-  const s = readFileSync(join(dir, f), "utf8");
+  const s = fullOf(f);
   return s.slice(s.indexOf("---", 3) + 3);
 };
 const sectionOf = (body: string, head: string) => {
@@ -52,6 +53,20 @@ describe("lesson prose regressions", () => {
     const bad = files.filter((f) =>
       /같은 입력과 출력[\s\S]{0,30}유지됩니다/.test(bodyOf(f)),
     );
+    expect(bad).toEqual([]);
+  });
+  it("attaches josa to fixed nouns, not raw titles", () => {
+    const spaced = files.filter((f) => /을 보여 주는/.test(fullOf(f)));
+    expect(spaced).toEqual([]);
+    const bareTitleJosa = files.filter(
+      (f) =>
+        /을 이해하는 데 맞는 설명은\?/.test(fullOf(f)) &&
+        !/개념을 이해하는 데 맞는 설명은\?/.test(fullOf(f)),
+    );
+    expect(bareTitleJosa).toEqual([]);
+  });
+  it("gives every guided exercise a concrete changed output", () => {
+    const bad = files.filter((f) => !/바꾼 뒤 출력은/.test(fullOf(f)));
     expect(bad).toEqual([]);
   });
   it("gives every what-if a modified program, a prediction prompt, and a solution", () => {

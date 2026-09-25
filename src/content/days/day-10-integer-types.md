@@ -53,7 +53,7 @@ exercises:
   - id: ex-day-10-integer-types-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: C 정수 타입과 범위의 핵심 표현을 스스로 적는다.
+    objective: "'C 정수 타입과 범위' 개념의 핵심 표현을 스스로 적는다."
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: INT_MAX"
     starter:
       "#include <stdio.h>\n#include <limits.h>\nint main(void) {\n    printf(\"%d\\n\", _____ > 0);\n    return\
@@ -62,7 +62,7 @@ exercises:
       "#include <stdio.h>\n#include <limits.h>\nint main(void) {\n    printf(\"%d\\n\", INT_MAX > 0);\n    return\
       \ 0;\n}"
     hint: limits.h가 범위 매크로를 제공합니다
-    explanation: 빈칸에는 'INT_MAX'이 들어갑니다. limits.h가 범위 매크로를 제공합니다 INT_MAX가 0보다 큰지 비교합니다 참을 1로 출력합니다
+    explanation: 빈칸에 들어갈 표현은 'INT_MAX'입니다. limits.h가 범위 매크로를 제공합니다 INT_MAX가 0보다 큰지 비교합니다 참을 1로 출력합니다
     commonMistakes:
       - int 최대치에 1을 더해도 안전하게 감싼다고 단정함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -72,17 +72,17 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 0에서 1로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
+    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 처음 등장하는 숫자를 0에서 1로. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
     starter:
       "#include <stdio.h>\n#include <limits.h>\nint main(void) {\n    printf(\"%d\\n\", INT_MAX > 0);\n   \
       \ return 0;\n}"
     answer:
       "#include <stdio.h>\n#include <limits.h>\nint main(void) {\n    printf(\"%d\\n\", INT_MAX > 1);\n    return\
       \ 0;\n}"
-    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
+    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 처음 등장하는 숫자를 0에서 1로."
     explanation:
-      예시 답안에서는 처음 등장하는 숫자를 0에서 1로 바꿨습니다. 원래 출력은 '1'입니다. 바꾼 줄에서 시작해 중간 값과 마지막 출력을 다시 추적하세요. 출력이 같더라도 입력·조건·중간
-      상태가 달라졌는지 확인해야 합니다.
+      바꾼 뒤 출력은 '1'입니다. 원본 출력과 같습니다('1').  출력이 같아도 바뀐 줄(printf("%d\n", INT_MAX > 1);) 이후의 중간 상태가 같은지는 원본
+      추적과 대조해야 합니다.
     commonMistakes:
       - int 최대치에 1을 더해도 안전하게 감싼다고 단정함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -132,9 +132,9 @@ quiz:
       - "1"
       - 아무것도 출력하지 않는다
     answerIndex: 1
-    explanation: INT_MAX는 양수  →  비교 결과 참  →  1 출력 순서로 실행되어 '1'을 출력합니다.
+    explanation: INT_MAX는 양수  →  비교 결과 참  →  1 출력 순서로 실행되어 출력은 '1'입니다.
   - id: quiz-day-10-integer-types-model
-    question: C 정수 타입과 범위을 이해하는 데 맞는 설명은?
+    question: "'C 정수 타입과 범위' 개념을 이해하는 데 맞는 설명은?"
     choices:
       - int 최대치에 1을 더해도 안전하게 감싼다고 단정함(이것이 정상적인 사용법이다)
       - 코드가 짧다면 상태 추적은 필요 없다
@@ -258,7 +258,7 @@ int main(void) {
 1
 ```
 
-`1`로 같습니다. 출력이 같다고 해서 중간 상태까지 같은 것은 아닙니다. 다른 줄(`printf("%d\n", INT_MAX > 1);`)부터 원본 추적과 비교해 보세요.
+바꾼 뒤 출력도 `1`입니다. 출력이 같다고 해서 중간 상태까지 같은 것은 아닙니다. 다른 줄(`printf("%d\n", INT_MAX > 1);`)부터 원본 추적과 비교해 보세요.
 
 ## 자주 틀리는 지점
 
@@ -283,7 +283,7 @@ C17에서는 `INT_MAX 확인 후 덧셈 전 경계 검사` 규칙을 적용합�
 
 ## 실습 순서
 
-예측(`1` 맞히기) → 빈칸(`INT_MAX` 채우기) → 변경(`처음 등장하는 숫자를 0에서 1로`) → 오류 수정(`int 최대치에 1을 더해도 안전하게 감싼다고 단정함` 찾기) → 독립 구현(`C 정수 타입과 범위을 보여 주는` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `1` 및 `INT_MAX` 설명과 대조하세요.
+예측(`1` 맞히기) → 빈칸(`INT_MAX` 채우기) → 변경(`처음 등장하는 숫자를 0에서 1로`) → 오류 수정(`int 최대치에 1을 더해도 안전하게 감싼다고 단정함` 찾기) → 독립 구현(`'C 정수 타입과 범위' 개념을 보여주는 작은 프로그램` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `1` 및 `INT_MAX` 설명과 대조하세요.
 
 ## 스스로 설명하기
 

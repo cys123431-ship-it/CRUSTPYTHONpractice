@@ -53,7 +53,7 @@ exercises:
   - id: ex-day-64-tree-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: 트리의 부모·자식 순회의 핵심 표현을 스스로 적는다.
+    objective: "'트리의 부모·자식 순회' 개념의 핵심 표현을 스스로 적는다."
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: node is None"
     starter:
       "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 0 if _____ else\
@@ -62,7 +62,7 @@ exercises:
       "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 0 if node is None\
       \ else 1 + count(node[1]) + count(node[2])\nprint(count(tree))"
     hint: A가 자신 1을 셉니다
-    explanation: 빈칸에는 'node is None'이 들어갑니다. A가 자신 1을 셉니다 B와 C가 각각 1을 셉니다 빈 자식들은 0이므로 합계 3입니다
+    explanation: 빈칸에 들어갈 표현은 'node is None'입니다. A가 자신 1을 셉니다 B와 C가 각각 1을 셉니다 빈 자식들은 0이므로 합계 3입니다
     commonMistakes:
       - 빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -72,17 +72,17 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 0에서 1로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
+    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 처음 등장하는 숫자를 0에서 1로. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
     starter:
       "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 0 if node is\
       \ None else 1 + count(node[1]) + count(node[2])\nprint(count(tree))"
     answer:
       "tree = (\"A\", (\"B\", None, None), (\"C\", None, None))\ndef count(node):\n    return 1 if node is None\
       \ else 1 + count(node[1]) + count(node[2])\nprint(count(tree))"
-    hint: 처음 등장하는 숫자를 0에서 1로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
+    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 처음 등장하는 숫자를 0에서 1로."
     explanation:
-      예시 답안에서는 처음 등장하는 숫자를 0에서 1로 바꿨습니다. 원래 출력은 '3'입니다. 바꾼 줄에서 시작해 중간 값과 마지막 출력을 다시 추적하세요. 출력이 같더라도 입력·조건·중간
-      상태가 달라졌는지 확인해야 합니다.
+      바꾼 뒤 출력은 '7'입니다. 원본 출력 '3'에서 달라졌습니다. 다른 줄(return 0 if node is None else 1 + count(node[1]) + count(node[2])
+      → return 1 if node is None else 1 + count(node[1]) + count(node[2]))에서 시작한 차이가 최종 출력에 반영되었습니다.
     commonMistakes:
       - 빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -130,9 +130,9 @@ quiz:
       - "3"
       - 아무것도 출력하지 않는다
     answerIndex: 1
-    explanation: B=1  →  C=1  →  A=1+1+1=3 순서로 실행되어 '3'을 출력합니다.
+    explanation: B=1  →  C=1  →  A=1+1+1=3 순서로 실행되어 출력은 '3'입니다.
   - id: quiz-day-64-tree-model
-    question: 트리의 부모·자식 순회을 이해하는 데 맞는 설명은?
+    question: "'트리의 부모·자식 순회' 개념을 이해하는 데 맞는 설명은?"
     choices:
       - 빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함(이것이 정상적인 사용법이다)
       - 코드가 짧다면 상태 추적은 필요 없다
@@ -257,7 +257,7 @@ print(count(tree))
 7
 ```
 
-원본(`3`)과 달라졌습니다. 다른 줄(`return 0 if node is None else 1 + count(node[1]) + count(node[2])` → `return 1 if node is None else 1 + count(node[1]) + count(node[2])`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`B=1` → …)과 바뀐 줄부터 대조해 보세요.
+원본과 달라졌습니다. 원본 출력은 `3`입니다. 다른 줄(`return 0 if node is None else 1 + count(node[1]) + count(node[2])` → `return 1 if node is None else 1 + count(node[1]) + count(node[2])`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`B=1` → …)과 바뀐 줄부터 대조해 보세요.
 
 ## 자주 틀리는 지점
 
@@ -282,7 +282,7 @@ C17에서는 `Node* NULL 기저와 재귀` 규칙을 적용합니다. "`트리�
 
 ## 실습 순서
 
-예측(`3` 맞히기) → 빈칸(`node is None` 채우기) → 변경(`처음 등장하는 숫자를 0에서 1로`) → 오류 수정(`빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함` 찾기) → 독립 구현(`트리의 부모·자식 순회을 보여 주는` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `3` 및 `node is None` 설명과 대조하세요.
+예측(`3` 맞히기) → 빈칸(`node is None` 채우기) → 변경(`처음 등장하는 숫자를 0에서 1로`) → 오류 수정(`빈 자식의 종료 조건을 빠뜨려 None을 인덱싱함` 찾기) → 독립 구현(`'트리의 부모·자식 순회' 개념을 보여주는 작은 프로그램` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `3` 및 `node is None` 설명과 대조하세요.
 
 ## 스스로 설명하기
 

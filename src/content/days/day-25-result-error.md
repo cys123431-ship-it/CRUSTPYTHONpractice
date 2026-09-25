@@ -53,7 +53,7 @@ exercises:
   - id: ex-day-25-result-error-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: Rust Result와 실패 전달의 핵심 표현을 스스로 적는다.
+    objective: "'Rust Result와 실패 전달' 개념의 핵심 표현을 스스로 적는다."
     prompt: '빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: "30"'
     starter:
       "fn parse_minutes(text: &str) -> Result<u32, std::num::ParseIntError> {\n    text.parse::<u32>()\n}\n\
@@ -62,7 +62,7 @@ exercises:
       "fn parse_minutes(text: &str) -> Result<u32, std::num::ParseIntError> {\n    text.parse::<u32>()\n}\n\
       fn main() {\n    match parse_minutes(\"30\") { Ok(n) => println!(\"{n}\"), Err(_) => println!(\"오류\") }\n}"
     hint: 문자열 30을 u32로 파싱합니다
-    explanation: 빈칸에는 '"30"'이 들어갑니다. 문자열 30을 u32로 파싱합니다 Ok(30)이 생성됩니다 match의 Ok arm에서 30을 출력합니다
+    explanation: 빈칸에 들어갈 표현은 '"30"'입니다. 문자열 30을 u32로 파싱합니다 Ok(30)이 생성됩니다 match의 Ok arm에서 30을 출력합니다
     commonMistakes:
       - unwrap으로 잘못된 입력에서 프로그램을 종료시킴
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -72,17 +72,18 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: 예시를 직접 타이핑한 뒤 첫 문자열을 '30'에서 '30!'로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
+    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 첫 문자열을 '30'에서 '30!'로. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
     starter:
       "fn parse_minutes(text: &str) -> Result<u32, std::num::ParseIntError> {\n    text.parse::<u32>()\n}\n\
       fn main() {\n    match parse_minutes(\"30\") { Ok(n) => println!(\"{n}\"), Err(_) => println!(\"오류\") }\n}"
     answer:
       "fn parse_minutes(text: &str) -> Result<u32, std::num::ParseIntError> {\n    text.parse::<u32>()\n}\n\
       fn main() {\n    match parse_minutes(\"30!\") { Ok(n) => println!(\"{n}\"), Err(_) => println!(\"오류\") }\n}"
-    hint: 첫 문자열을 '30'에서 '30!'로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
+    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 첫 문자열을 '30'에서 '30!'로."
     explanation:
-      예시 답안에서는 첫 문자열을 '30'에서 '30!'로 바꿨습니다. 원래 출력은 '30'입니다. 바꾼 줄에서 시작해 중간 값과 마지막 출력을 다시 추적하세요. 출력이 같더라도
-      입력·조건·중간 상태가 달라졌는지 확인해야 합니다.
+      바꾼 뒤 출력은 '오류'입니다. 원본 출력 '30'에서 달라졌습니다. 다른 줄(match parse_minutes("30") { Ok(n) => println!("{n}"),
+      Err(_) => println!("오류") } → match parse_minutes("30!") { Ok(n) => println!("{n}"), Err(_) => println!("오류")
+      })에서 시작한 차이가 최종 출력에 반영되었습니다.
     commonMistakes:
       - unwrap으로 잘못된 입력에서 프로그램을 종료시킴
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -132,9 +133,9 @@ quiz:
       - "30"
       - 아무것도 출력하지 않는다
     answerIndex: 1
-    explanation: 문자열 30  →  Ok(30)  →  30 출력 순서로 실행되어 '30'을 출력합니다.
+    explanation: 문자열 30  →  Ok(30)  →  30 출력 순서로 실행되어 출력은 '30'입니다.
   - id: quiz-day-25-result-error-model
-    question: Rust Result와 실패 전달을 이해하는 데 맞는 설명은?
+    question: "'Rust Result와 실패 전달' 개념을 이해하는 데 맞는 설명은?"
     choices:
       - unwrap으로 잘못된 입력에서 프로그램을 종료시킴(이것이 정상적인 사용법이다)
       - 코드가 짧다면 상태 추적은 필요 없다
@@ -258,7 +259,7 @@ fn main() {
 오류
 ```
 
-원본(`30`)과 달라졌습니다. 다른 줄(`match parse_minutes("30") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }` → `match parse_minutes("30!") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`문자열 30` → …)과 바뀐 줄부터 대조해 보세요.
+원본과 달라졌습니다. 원본 출력은 `30`입니다. 다른 줄(`match parse_minutes("30") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }` → `match parse_minutes("30!") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`문자열 30` → …)과 바뀐 줄부터 대조해 보세요.
 
 ## 자주 틀리는 지점
 
@@ -283,7 +284,7 @@ C17에서는 `strtoul와 endptr/errno 검증` 규칙을 적용합니다. "`Rust 
 
 ## 실습 순서
 
-예측(`30` 맞히기) → 빈칸(`"30"` 채우기) → 변경(`첫 문자열을 '30'에서 '30!'로`) → 오류 수정(`unwrap으로 잘못된 입력에서 프로그램을 종료시킴` 찾기) → 독립 구현(`Rust Result와 실패 전달을 보여 주는` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `30` 및 `"30"` 설명과 대조하세요.
+예측(`30` 맞히기) → 빈칸(`"30"` 채우기) → 변경(`첫 문자열을 '30'에서 '30!'로`) → 오류 수정(`unwrap으로 잘못된 입력에서 프로그램을 종료시킴` 찾기) → 독립 구현(`'Rust Result와 실패 전달' 개념을 보여주는 작은 프로그램` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `30` 및 `"30"` 설명과 대조하세요.
 
 ## 스스로 설명하기
 

@@ -53,13 +53,13 @@ exercises:
   - id: ex-day-51-python-class-fill
     title: 핵심 표현 빈칸 채우기
     kind: fill
-    objective: Python 클래스와 인스턴스의 핵심 표현을 스스로 적는다.
+    objective: "'Python 클래스와 인스턴스' 개념의 핵심 표현을 스스로 적는다."
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: self.minutes"
     starter: "class Session:\n    def __init__(self, minutes):\n        _____ = minutes\ns = Session(30)\nprint(s.minutes)"
     answer: "class Session:\n    def __init__(self, minutes):\n        self.minutes = minutes\ns = Session(30)\nprint(s.minutes)"
     hint: Session(30)이 새 인스턴스를 만듭니다
     explanation:
-      빈칸에는 'self.minutes'이 들어갑니다. Session(30)이 새 인스턴스를 만듭니다 __init__에서 그 객체의 minutes에 30을 저장합니다 s.minutes로
+      빈칸에 들어갈 표현은 'self.minutes'입니다. Session(30)이 새 인스턴스를 만듭니다 __init__에서 그 객체의 minutes에 30을 저장합니다 s.minutes로
       읽습니다
     commonMistakes:
       - self를 빼고 지역 변수만 저장해 객체에 값이 남지 않음
@@ -70,15 +70,13 @@ exercises:
     title: 값을 바꿔 다시 추적하기
     kind: modify
     objective: 입력이 바뀌었을 때 코드의 상태와 출력이 어떻게 변하는지 설명한다.
-    prompt: 예시를 직접 타이핑한 뒤 처음 등장하는 숫자를 30에서 31로 바꿔 보세요. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요.
+    prompt: "예시를 직접 타이핑한 뒤 다음을 바꾸세요: 처음 등장하는 숫자를 30에서 31로. 출력이 바뀌는지 먼저 예측하고, 그대로라면 그 이유도 설명하세요."
     starter:
       "class Session:\n    def __init__(self, minutes):\n        self.minutes = minutes\ns = Session(30)\n\
       print(s.minutes)"
     answer: "class Session:\n    def __init__(self, minutes):\n        self.minutes = minutes\ns = Session(31)\nprint(s.minutes)"
-    hint: 처음 등장하는 숫자를 30에서 31로 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요.
-    explanation:
-      예시 답안에서는 처음 등장하는 숫자를 30에서 31로 바꿨습니다. 원래 출력은 '30'입니다. 바꾼 줄에서 시작해 중간 값과 마지막 출력을 다시 추적하세요. 출력이 같더라도
-      입력·조건·중간 상태가 달라졌는지 확인해야 합니다.
+    hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 처음 등장하는 숫자를 30에서 31로."
+    explanation: 바꾼 뒤 출력은 '31'입니다. 원본 출력 '30'에서 달라졌습니다. 다른 줄(s = Session(30) → s = Session(31))에서 시작한 차이가 최종 출력에 반영되었습니다.
     commonMistakes:
       - self를 빼고 지역 변수만 저장해 객체에 값이 남지 않음
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -124,9 +122,9 @@ quiz:
       - 실행 전에 반드시 오류가 난다
       - 아무것도 출력하지 않는다
     answerIndex: 0
-    explanation: 클래스 정의  →  s 생성  →  s.minutes=30  →  출력 순서로 실행되어 '30'을 출력합니다.
+    explanation: 클래스 정의  →  s 생성  →  s.minutes=30  →  출력 순서로 실행되어 출력은 '30'입니다.
   - id: quiz-day-51-python-class-model
-    question: Python 클래스와 인스턴스을 이해하는 데 맞는 설명은?
+    question: "'Python 클래스와 인스턴스' 개념을 이해하는 데 맞는 설명은?"
     choices:
       - self를 빼고 지역 변수만 저장해 객체에 값이 남지 않음(이것이 정상적인 사용법이다)
       - 클래스는 객체의 설계도이고 self는 지금 만들고 있는 바로 그 객체입니다.
@@ -251,7 +249,7 @@ print(s.minutes)
 31
 ```
 
-원본(`30`)과 달라졌습니다. 다른 줄(`s = Session(30)` → `s = Session(31)`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`클래스 정의` → …)과 바뀐 줄부터 대조해 보세요.
+원본과 달라졌습니다. 원본 출력은 `30`입니다. 다른 줄(`s = Session(30)` → `s = Session(31)`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`클래스 정의` → …)과 바뀐 줄부터 대조해 보세요.
 
 ## 자주 틀리는 지점
 
@@ -276,7 +274,7 @@ C17에서는 `struct와 초기화 함수` 규칙을 적용합니다. "`Python �
 
 ## 실습 순서
 
-예측(`30` 맞히기) → 빈칸(`self.minutes` 채우기) → 변경(`처음 등장하는 숫자를 30에서 31로`) → 오류 수정(`self를 빼고 지역 변수만 저장해 객체에 값이 남지 않음` 찾기) → 독립 구현(`Python 클래스와 인스턴스을 보여 주는` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `30` 및 `self.minutes` 설명과 대조하세요.
+예측(`30` 맞히기) → 빈칸(`self.minutes` 채우기) → 변경(`처음 등장하는 숫자를 30에서 31로`) → 오류 수정(`self를 빼고 지역 변수만 저장해 객체에 값이 남지 않음` 찾기) → 독립 구현(`'Python 클래스와 인스턴스' 개념을 보여주는 작은 프로그램` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `30` 및 `self.minutes` 설명과 대조하세요.
 
 ## 스스로 설명하기
 
