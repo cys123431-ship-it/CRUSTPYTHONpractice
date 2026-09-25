@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-d
+contentVersion: 2026.10-e
 id: day-81-dfs
 courseId: crp-92
 phaseId: phase-07
@@ -43,8 +43,10 @@ exercises:
       "graph = {\"A\": [\"B\"], \"B\": [\"C\"], \"C\": [\"A\"]}\nseen = set()\ndef dfs(node):\n    if node\
       \ in seen: return\n    seen.add(node)\n    for nxt in graph[node]: dfs(nxt)\ndfs(\"A\")\nprint(len(seen))"
     answer: "3"
-    hint: DFS는 이웃을 재귀적으로 끝까지 따라가고 이미 방문한 정점은 즉시 반환합니다.
-    explanation: A 방문  →  B 방문  →  C 방문  →  A 재방문 차단. 따라서 출력은 '3'입니다.
+    hint: DFS는 이웃을 재귀적으로 끝까지 따라가고 이미 방문한 정점은 즉시 반환합니다. 설명을 떠올리고 `A 방문` 단계부터 순서대로 적어 보세요.
+    explanation:
+      A 방문  →  B 방문  →  C 방문  →  A 재방문 차단 순서로 실행됩니다. `seen.add(node)` 부분이 `A 재방문 차단` 단계를 확정해 최종 출력 '3'가
+      됩니다. 이 흐름을 떠올리면 `사이클을 차단하며 깊이 탐색` 동작이 왜 필요한지 알 수 있습니다.
     commonMistakes:
       - 방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -61,8 +63,10 @@ exercises:
     answer:
       "graph = {\"A\": [\"B\"], \"B\": [\"C\"], \"C\": [\"A\"]}\nseen = set()\ndef dfs(node):\n    if node in\
       \ seen: return\n    seen.add(node)\n    for nxt in graph[node]: dfs(nxt)\ndfs(\"A\")\nprint(len(seen))"
-    hint: A를 표시하고 B로 갑니다
-    explanation: 빈칸에 들어갈 표현은 'seen.add(node)'입니다. A를 표시하고 B로 갑니다 B를 표시하고 C로 갑니다 C의 다음 A는 이미 방문해 돌아옵니다
+    hint: 힌트 문장을 완전하게 읽으면 `A를 표시하고 B로 갑니다` 단계에 필요한 표현이 `seen.add(node)`입니다.
+    explanation:
+      빈칸에 들어갈 표현은 'seen.add(node)'입니다. `seen.add(node)` 줄을 완성해야 `사이클을 차단하며 깊이 탐색` 동작이 이어져 실행 결과 '3'가 됩니다.
+      힌트의 첫 단계 `A를 표시하고 B로 갑니다`이 바로 이 줄입니다. 이어서 B를 표시하고 C로 갑니다 C의 다음 A는 이미 방문해 돌아옵니다 순서로 진행됩니다.
     commonMistakes:
       - 방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -81,8 +85,9 @@ exercises:
       \ seen: return\n    seen.add(node)\n    for nxt in graph[node]: dfs(nxt)\ndfs(\"B\")\nprint(len(seen))"
     hint: '다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: ''dfs("A")'' → ''dfs("B")''.'
     explanation:
-      바꾼 뒤 출력은 '3'입니다. 원본 출력과 같습니다('3'). 순환 구조라 시작점이 달라도 방문 집합은 같은 3개라 결과가 같습니다. 출력이 같아도 바뀐 줄(dfs("B"))
-      이후의 중간 상태가 같은지는 원본 추적과 대조해야 합니다.
+      바꾼 뒤 출력은 '3'입니다. 원본 출력 '3'와 같습니다. 바뀐 줄은 `dfs("B")`입니다. 바뀐 프로그램도 `A 방문` 단계에서 시작해 바뀐 줄을 지나 최종 `3`로
+      끝납니다. 순환 구조라 시작점이 달라도 방문 집합은 같은 3개라 결과가 같습니다. 출력은 같지만 바뀐 줄 부분의 중간 값은 달라졌다가 같은 최종 값으로 이어진다는 점을 위 추적 순서와 대조해 확인할
+      수 있습니다.
     commonMistakes:
       - 방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -99,8 +104,13 @@ exercises:
     answer:
       "graph = {\"A\": [\"B\"], \"B\": [\"C\"], \"C\": [\"A\"]}\nseen = set()\ndef dfs(node):\n    if node in\
       \ seen: return\n    seen.add(node)\n    for nxt in graph[node]: dfs(nxt)\ndfs(\"A\")\nprint(len(seen))"
-    hint: DFS는 이웃을 재귀적으로 끝까지 따라가고 이미 방문한 정점은 즉시 반환합니다.
-    explanation: 원래 예시와 비교하여 잘못된 줄을 찾으세요. A를 표시하고 B로 갑니다 B를 표시하고 C로 갑니다 C의 다음 A는 이미 방문해 돌아옵니다
+    hint:
+      DFS는 이웃을 재귀적으로 끝까지 따라가고 이미 방문한 정점은 즉시 반환합니다. 설명과 어긋나는 줄을 찾으세요. `방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함` 상황이 단서가
+      됩니다.
+    explanation:
+      틀린 줄은 `seen.remove(node)`입니다. 여기서는 `seen.remove(node)`을 써서 `seen.add(node)` 동작이 깨집니다. 이대로 실행하면 `방문
+      표시를 빼고 A→B→C→A 사이클에서 무한 재귀함` 문제가 생겨 원본 추적 `A 방문  →  B 방문  →  C 방문  →  A 재방문 차단`대로 '3'가 나오지 않습니다. 고친 줄 `seen.add(node)`에서는
+      `seen.add(node)`가 `사이클을 차단하며 깊이 탐색` 동작을 지켜 '3'까지 도달합니다.
     commonMistakes:
       - 방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -115,8 +125,11 @@ exercises:
     answer:
       "graph = {\"A\": [\"B\"], \"B\": [\"C\"], \"C\": [\"A\"]}\nseen = set()\ndef dfs(node):\n    if node in\
       \ seen: return\n    seen.add(node)\n    for nxt in graph[node]: dfs(nxt)\ndfs(\"A\")\nprint(len(seen))"
-    hint: DFS는 이웃을 재귀적으로 끝까지 따라가고 이미 방문한 정점은 즉시 반환합니다.
-    explanation: 한 가지 예시 해법은 위 코드입니다. 핵심은 A를 표시하고 B로 갑니다 B를 표시하고 C로 갑니다 C의 다음 A는 이미 방문해 돌아옵니다 다른 코드도 결과와 근거가 맞으면 가능합니다.
+    hint: DFS는 이웃을 재귀적으로 끝까지 따라가고 이미 방문한 정점은 즉시 반환합니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
+    explanation:
+      한 가지 예시 해법은 위 코드입니다. `seen.add(node)` 부분이 `사이클을 차단하며 깊이 탐색` 동작을 지켜 실행 결과 '3'가 됩니다. 같은 개념을 다른 입력으로
+      바꿔도 `seen.add(node)`부터 `A 재방문 차단`까지 추적할 수 있으면 정답입니다. `방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함` 상황과 빈 입력 같은 경계도 함께 설명해
+      보세요.
     commonMistakes:
       - 방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -130,7 +143,9 @@ quiz:
       - 실행 전에 반드시 오류가 난다
       - 아무것도 출력하지 않는다
     answerIndex: 0
-    explanation: A 방문  →  B 방문  →  C 방문  →  A 재방문 차단 순서로 실행되어 출력은 '3'입니다.
+    explanation:
+      A 방문  →  B 방문  →  C 방문  →  A 재방문 차단 순서로 실행되어 출력은 '3'입니다. `seen.add(node)` 부분이 마지막 단계를 확정하므로 다른 선택지는
+      이 추적과 맞지 않습니다.
   - id: quiz-day-81-dfs-model
     question: "'깊이 우선 탐색과 순환' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -138,7 +153,9 @@ quiz:
       - DFS는 이웃을 재귀적으로 끝까지 따라가고 이미 방문한 정점은 즉시 반환합니다.
       - 코드가 짧다면 상태 추적은 필요 없다
     answerIndex: 1
-    explanation: DFS는 이웃을 재귀적으로 끝까지 따라가고 이미 방문한 정점은 즉시 반환합니다.
+    explanation:
+      DFS는 이웃을 재귀적으로 끝까지 따라가고 이미 방문한 정점은 즉시 반환합니다. 이 설명이 맞는 이유는 `사이클을 차단하며 깊이 탐색` 동작을 지키는 조건과 같기 때문입니다.
+      `방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
   - id: quiz-day-81-dfs-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -146,7 +163,9 @@ quiz:
       - 변경된 입력을 다시 추적하여 결과를 확인함
       - 방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함
     answerIndex: 2
-    explanation: 방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함. 입력과 중간 상태를 차례로 확인하세요.
+    explanation:
+      방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함. 이 실수가 나오면 원본 추적 `A 방문 → B 방문 → C 방문 → A 재방문 차단`대로 '3'가 나오지 않으므로 먼저
+      확인해야 합니다.
   - id: quiz-day-81-dfs-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -154,7 +173,7 @@ quiz:
       - 세 언어의 표면 문법을 한 글자도 바꾸지 않는다
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 0
-    explanation: 문법은 달라도 사이클을 차단하며 깊이 탐색라는 목적과 입력·출력은 유지합니다.
+    explanation: 문법은 달라도 `사이클을 차단하며 깊이 탐색` 목적과 입력·출력은 유지합니다. 실행 결과 '3'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
 playgroundSource:
   "graph = {\"A\": [\"B\"], \"B\": [\"C\"], \"C\": [\"A\"]}\nseen = set()\ndef dfs(node):\n    if\
   \ node in seen: return\n    seen.add(node)\n    for nxt in graph[node]: dfs(nxt)\ndfs(\"A\")\nprint(len(seen))"
@@ -270,7 +289,7 @@ print(len(seen))
 3
 ```
 
-바꾼 뒤 출력도 `3`입니다. 순환 구조라 시작점이 달라도 방문 집합은 같은 3개라 결과가 같습니다. 출력이 같다고 해서 중간 상태까지 같은 것은 아닙니다. 다른 줄(`dfs("B")`)부터 원본 추적과 비교해 보세요.
+바꾼 뒤 출력도 `3`입니다. 순환 구조라 시작점이 달라도 방문 집합은 같은 3개라 결과가 같습니다. 바뀐 프로그램도 `A 방문` 단계에서 시작해 `dfs("B")` 줄을 지나 최종 `3`로 끝납니다. 원본 추적 `A 방문  →  B 방문  →  C 방문  →  A 재방문 차단`와 바뀐 줄 이후를 순서대로 놓으면 출력은 같아도 중간 값이 어디서 달라졌다가 합쳐지는지 확인할 수 있습니다.
 
 ## 자주 틀리는 지점
 
@@ -279,7 +298,7 @@ print(len(seen))
 - 정상 줄: `seen.add(node)`
 - 잘못된 줄: `seen.remove(node)`
 
-두 줄을 나란히 놓고 `DFS는 이웃을 재귀적으로 끝까지 따라가고 이미 방문한 정점은 즉시 반환합니다.` 기준으로 어느 쪽이 맞는지 설명하세요. 결과가 예상과 다르면 `A 방문`부터 `3`까지 처음 어긋난 곳을 찾습니다.
+두 줄을 나란히 놓으면 정상 줄 `seen.add(node)`이 `DFS는 이웃을 재귀적으로 끝까지 따라가고 이미 방문한 정점은 즉시 반환합니다.` 설명과 맞고, 잘못된 줄은 `방문 표시를 빼고 A→B→C→A 사이클에서 무한 재귀함` 쪽으로 어긋납니다. 결과가 예상과 다르면 `A 방문`부터 `3`까지 처음 어긋난 곳을 찾습니다.
 
 ## 다른 언어로 옮기기
 

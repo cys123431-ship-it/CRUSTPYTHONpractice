@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-d
+contentVersion: 2026.10-e
 id: day-39-string-slice
 courseId: crp-92
 phaseId: phase-04
@@ -43,8 +43,10 @@ exercises:
       "fn main() {\n    let mut topic = String::from(\"C\");\n    topic.push_str(\" Rust\");\n    let view:\
       \ &str = &topic;\n    println!(\"{view}\");\n}"
     answer: C Rust
-    hint: String은 가변 힙 데이터를 소유하고 &str은 그 문자열의 유효 구간을 빌립니다.
-    explanation: topic=C  →  topic=C Rust  →  view=C Rust. 따라서 출력은 'C Rust'입니다.
+    hint: String은 가변 힙 데이터를 소유하고 &str은 그 문자열의 유효 구간을 빌립니다. 설명을 떠올리고 `topic=C` 단계부터 순서대로 적어 보세요.
+    explanation:
+      topic=C  →  topic=C Rust  →  view=C Rust 순서로 실행됩니다. `push_str` 부분이 `view=C Rust` 단계를 확정해 최종 출력 'C
+      Rust'가 됩니다. 이 흐름을 떠올리면 `소유 문자열을 수정하고 읽기 전용 뷰 사용` 동작이 왜 필요한지 알 수 있습니다.
     commonMistakes:
       - "&str 참조로 원본의 크기를 바꿀 수 있다고 생각함"
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -61,8 +63,11 @@ exercises:
     answer:
       "fn main() {\n    let mut topic = String::from(\"C\");\n    topic.push_str(\" Rust\");\n    let view:\
       \ &str = &topic;\n    println!(\"{view}\");\n}"
-    hint: topic이 C를 소유합니다
-    explanation: 빈칸에 들어갈 표현은 'push_str'입니다. topic이 C를 소유합니다 push_str이 공백과 Rust를 덧붙입니다 view로 전체를 빌려 출력합니다
+    hint: 힌트 문장을 완전하게 읽으면 `topic이 C를 소유합니다` 단계에 필요한 표현이 `push_str`입니다.
+    explanation:
+      빈칸에 들어갈 표현은 'push_str'입니다. `topic.push_str(" Rust");` 줄을 완성해야 `소유 문자열을 수정하고 읽기 전용 뷰 사용` 동작이 이어져 실행
+      결과 'C Rust'가 됩니다. 힌트의 첫 단계 `topic이 C를 소유합니다`이 바로 이 줄입니다. 이어서 push_str이 공백과 Rust를 덧붙입니다 view로 전체를 빌려 출력합니다 순서로
+      진행됩니다.
     commonMistakes:
       - "&str 참조로 원본의 크기를 바꿀 수 있다고 생각함"
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -81,8 +86,9 @@ exercises:
       \ &str = &topic;\n    println!(\"{view}\");\n}"
     hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 첫 문자열을 'C'에서 'C!'로."
     explanation:
-      바꾼 뒤 출력은 'C! Rust'입니다. 원본 출력 'C Rust'에서 달라졌습니다. 다른 줄(let mut topic = String::from("C"); → let mut
-      topic = String::from("C!");)에서 시작한 차이가 최종 출력에 반영되었습니다.
+      바꾼 뒤 출력은 'C! Rust'입니다. 원본 출력 'C Rust'에서 달라졌습니다. 바뀐 줄은 `let mut topic = String::from("C");`에서 `let
+      mut topic = String::from("C!");`로 바뀌었습니다. 바뀐 프로그램은 `topic=C` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져
+      최종 `C! Rust`가 됩니다. 원본 추적 `topic=C  →  topic=C Rust  →  view=C Rust`와 바뀐 줄 이후를 순서대로 비교하면 처음 달라지는 곳이 보입니다.
     commonMistakes:
       - "&str 참조로 원본의 크기를 바꿀 수 있다고 생각함"
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -99,8 +105,13 @@ exercises:
     answer:
       "fn main() {\n    let mut topic = String::from(\"C\");\n    topic.push_str(\" Rust\");\n    let view:\
       \ &str = &topic;\n    println!(\"{view}\");\n}"
-    hint: String은 가변 힙 데이터를 소유하고 &str은 그 문자열의 유효 구간을 빌립니다.
-    explanation: 원래 예시와 비교하여 잘못된 줄을 찾으세요. topic이 C를 소유합니다 push_str이 공백과 Rust를 덧붙입니다 view로 전체를 빌려 출력합니다
+    hint:
+      String은 가변 힙 데이터를 소유하고 &str은 그 문자열의 유효 구간을 빌립니다. 설명과 어긋나는 줄을 찾으세요. `&str 참조로 원본의 크기를 바꿀 수 있다고 생각함` 상황이 단서가
+      됩니다.
+    explanation:
+      틀린 줄은 `topic.push(" Rust");`입니다. 여기서는 `push`을 써서 `push_str` 동작이 깨집니다. 이대로 실행하면 `&str 참조로 원본의 크기를
+      바꿀 수 있다고 생각함` 문제가 생겨 원본 추적 `topic=C  →  topic=C Rust  →  view=C Rust`대로 'C Rust'가 나오지 않습니다. 고친 줄 `topic.push_str("
+      Rust");`에서는 `push_str`가 `소유 문자열을 수정하고 읽기 전용 뷰 사용` 동작을 지켜 'C Rust'까지 도달합니다.
     commonMistakes:
       - "&str 참조로 원본의 크기를 바꿀 수 있다고 생각함"
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -115,10 +126,11 @@ exercises:
     answer:
       "fn main() {\n    let mut topic = String::from(\"C\");\n    topic.push_str(\" Rust\");\n    let view:\
       \ &str = &topic;\n    println!(\"{view}\");\n}"
-    hint: String은 가변 힙 데이터를 소유하고 &str은 그 문자열의 유효 구간을 빌립니다.
+    hint: String은 가변 힙 데이터를 소유하고 &str은 그 문자열의 유효 구간을 빌립니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. 핵심은 topic이 C를 소유합니다 push_str이 공백과 Rust를 덧붙입니다 view로 전체를 빌려 출력합니다 다른 코드도 결과와
-      근거가 맞으면 가능합니다.
+      한 가지 예시 해법은 위 코드입니다. `push_str` 부분이 `소유 문자열을 수정하고 읽기 전용 뷰 사용` 동작을 지켜 실행 결과 'C Rust'가 됩니다. 같은 개념을
+      다른 입력으로 바꿔도 `push_str`부터 `view=C Rust`까지 추적할 수 있으면 정답입니다. `&str 참조로 원본의 크기를 바꿀 수 있다고 생각함` 상황과 빈 입력 같은 경계도 함께
+      설명해 보세요.
     commonMistakes:
       - "&str 참조로 원본의 크기를 바꿀 수 있다고 생각함"
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -132,7 +144,9 @@ quiz:
       - 실행 전에 반드시 오류가 난다
       - 아무것도 출력하지 않는다
     answerIndex: 0
-    explanation: topic=C  →  topic=C Rust  →  view=C Rust 순서로 실행되어 출력은 'C Rust'입니다.
+    explanation:
+      topic=C  →  topic=C Rust  →  view=C Rust 순서로 실행되어 출력은 'C Rust'입니다. `push_str` 부분이 마지막 단계를 확정하므로 다른
+      선택지는 이 추적과 맞지 않습니다.
   - id: quiz-day-39-string-slice-model
     question: "'Rust String과 &str' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -140,7 +154,9 @@ quiz:
       - String은 가변 힙 데이터를 소유하고 &str은 그 문자열의 유효 구간을 빌립니다.
       - 코드가 짧다면 상태 추적은 필요 없다
     answerIndex: 1
-    explanation: String은 가변 힙 데이터를 소유하고 &str은 그 문자열의 유효 구간을 빌립니다.
+    explanation:
+      String은 가변 힙 데이터를 소유하고 &str은 그 문자열의 유효 구간을 빌립니다. 이 설명이 맞는 이유는 `소유 문자열을 수정하고 읽기 전용 뷰 사용` 동작을 지키는 조건과
+      같기 때문입니다. `&str 참조로 원본의 크기를 바꿀 수 있다고 생각함` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
   - id: quiz-day-39-string-slice-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -148,7 +164,9 @@ quiz:
       - 변경된 입력을 다시 추적하여 결과를 확인함
       - "&str 참조로 원본의 크기를 바꿀 수 있다고 생각함"
     answerIndex: 2
-    explanation: "&str 참조로 원본의 크기를 바꿀 수 있다고 생각함. 입력과 중간 상태를 차례로 확인하세요."
+    explanation:
+      "&str 참조로 원본의 크기를 바꿀 수 있다고 생각함. 이 실수가 나오면 원본 추적 `topic=C → topic=C Rust → view=C Rust`대로 'C Rust'가
+      나오지 않으므로 먼저 확인해야 합니다."
   - id: quiz-day-39-string-slice-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -156,7 +174,7 @@ quiz:
       - 세 언어의 표면 문법을 한 글자도 바꾸지 않는다
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 0
-    explanation: 문법은 달라도 소유 문자열을 수정하고 읽기 전용 뷰 사용라는 목적과 입력·출력은 유지합니다.
+    explanation: 문법은 달라도 `소유 문자열을 수정하고 읽기 전용 뷰 사용` 목적과 입력·출력은 유지합니다. 실행 결과 'C Rust'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
 ---
 
 ## 오늘 배울 이유
@@ -258,7 +276,7 @@ fn main() {
 C! Rust
 ```
 
-원본과 달라졌습니다. 원본 출력은 `C Rust`입니다. 다른 줄(`let mut topic = String::from("C");` → `let mut topic = String::from("C!");`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`topic=C` → …)과 바뀐 줄부터 대조해 보세요.
+원본 출력은 `C Rust`이고, 바뀐 코드의 실행 결과는 `C! Rust`입니다. 바뀐 줄은 `let mut topic = String::from("C");`에서 `let mut topic = String::from("C!");`로 바뀌었습니다. 바뀐 프로그램은 `topic=C` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `C! Rust`가 됩니다. 원본 추적 `topic=C  →  topic=C Rust  →  view=C Rust`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
 
 ## 자주 틀리는 지점
 
@@ -267,7 +285,7 @@ C! Rust
 - 정상 줄: `topic.push_str(" Rust");`
 - 잘못된 줄: `topic.push(" Rust");`
 
-두 줄을 나란히 놓고 `String은 가변 힙 데이터를 소유하고 &str은 그 문자열의 유효 구간을 빌립니다.` 기준으로 어느 쪽이 맞는지 설명하세요. 결과가 예상과 다르면 `topic=C`부터 `C Rust`까지 처음 어긋난 곳을 찾습니다.
+두 줄을 나란히 놓으면 정상 줄 `topic.push_str(" Rust");`이 `String은 가변 힙 데이터를 소유하고 &str은 그 문자열의 유효 구간을 빌립니다.` 설명과 맞고, 잘못된 줄은 `&str 참조로 원본의 크기를 바꿀 수 있다고 생각함` 쪽으로 어긋납니다. 결과가 예상과 다르면 `topic=C`부터 `C Rust`까지 처음 어긋난 곳을 찾습니다.
 
 ## 다른 언어로 옮기기
 

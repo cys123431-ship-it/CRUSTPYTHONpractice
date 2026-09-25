@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-d
+contentVersion: 2026.10-e
 id: day-25-result-error
 courseId: crp-92
 phaseId: phase-02
@@ -43,8 +43,10 @@ exercises:
       "fn parse_minutes(text: &str) -> Result<u32, std::num::ParseIntError> {\n    text.parse::<u32>()\n}\n\
       fn main() {\n    match parse_minutes(\"30\") { Ok(n) => println!(\"{n}\"), Err(_) => println!(\"오류\") }\n}"
     answer: "30"
-    hint: Result는 성공 Ok(값) 또는 실패 Err(오류) 중 하나이며 match가 양쪽을 처리합니다.
-    explanation: 문자열 30  →  Ok(30)  →  30 출력. 따라서 출력은 '30'입니다.
+    hint: Result는 성공 Ok(값) 또는 실패 Err(오류) 중 하나이며 match가 양쪽을 처리합니다. 설명을 떠올리고 `문자열 30` 단계부터 순서대로 적어 보세요.
+    explanation:
+      문자열 30  →  Ok(30)  →  30 출력 순서로 실행됩니다. `"30"` 부분이 `30 출력` 단계를 확정해 최종 출력 '30'가 됩니다. 이 흐름을 떠올리면 `파싱
+      성공과 실패를 분리함` 동작이 왜 필요한지 알 수 있습니다.
     commonMistakes:
       - unwrap으로 잘못된 입력에서 프로그램을 종료시킴
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -61,8 +63,11 @@ exercises:
     answer:
       "fn parse_minutes(text: &str) -> Result<u32, std::num::ParseIntError> {\n    text.parse::<u32>()\n}\n\
       fn main() {\n    match parse_minutes(\"30\") { Ok(n) => println!(\"{n}\"), Err(_) => println!(\"오류\") }\n}"
-    hint: 문자열 30을 u32로 파싱합니다
-    explanation: 빈칸에 들어갈 표현은 '"30"'입니다. 문자열 30을 u32로 파싱합니다 Ok(30)이 생성됩니다 match의 Ok arm에서 30을 출력합니다
+    hint: 힌트 문장을 완전하게 읽으면 `문자열 30을 u32로 파싱합니다` 단계에 필요한 표현이 `"30"`입니다.
+    explanation:
+      빈칸에 들어갈 표현은 '"30"'입니다. `match parse_minutes("30") { Ok(n) => println!("{n}"), Err(_) => println!("오류")
+      }` 줄을 완성해야 `파싱 성공과 실패를 분리함` 동작이 이어져 실행 결과 '30'가 됩니다. 힌트의 첫 단계 `문자열 30을 u32로 파싱합니다`이 바로 이 줄입니다. 이어서 Ok(30)이 생성됩니다
+      match의 Ok arm에서 30을 출력합니다 순서로 진행됩니다.
     commonMistakes:
       - unwrap으로 잘못된 입력에서 프로그램을 종료시킴
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -81,9 +86,10 @@ exercises:
       fn main() {\n    match parse_minutes(\"30!\") { Ok(n) => println!(\"{n}\"), Err(_) => println!(\"오류\") }\n}"
     hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 첫 문자열을 '30'에서 '30!'로."
     explanation:
-      바꾼 뒤 출력은 '오류'입니다. 원본 출력 '30'에서 달라졌습니다. 다른 줄(match parse_minutes("30") { Ok(n) => println!("{n}"),
-      Err(_) => println!("오류") } → match parse_minutes("30!") { Ok(n) => println!("{n}"), Err(_) => println!("오류")
-      })에서 시작한 차이가 최종 출력에 반영되었습니다.
+      바꾼 뒤 출력은 '오류'입니다. 원본 출력 '30'에서 달라졌습니다. 바뀐 줄은 `match parse_minutes("30") { Ok(n) => println!("{n}"),
+      Err(_) => println!("오류") }`에서 `match parse_minutes("30!") { Ok(n) => println!("{n}"), Err(_) => println!("오류")
+      }`로 바뀌었습니다. 바뀐 프로그램은 `문자열 30` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져 최종 `오류`가 됩니다. 원본 추적 `문자열 30  →  Ok(30)  →  30
+      출력`와 바뀐 줄 이후를 순서대로 비교하면 처음 달라지는 곳이 보입니다.
     commonMistakes:
       - unwrap으로 잘못된 입력에서 프로그램을 종료시킴
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -100,8 +106,14 @@ exercises:
     answer:
       "fn parse_minutes(text: &str) -> Result<u32, std::num::ParseIntError> {\n    text.parse::<u32>()\n}\n\
       fn main() {\n    match parse_minutes(\"30\") { Ok(n) => println!(\"{n}\"), Err(_) => println!(\"오류\") }\n}"
-    hint: Result는 성공 Ok(값) 또는 실패 Err(오류) 중 하나이며 match가 양쪽을 처리합니다.
-    explanation: 원래 예시와 비교하여 잘못된 줄을 찾으세요. 문자열 30을 u32로 파싱합니다 Ok(30)이 생성됩니다 match의 Ok arm에서 30을 출력합니다
+    hint:
+      Result는 성공 Ok(값) 또는 실패 Err(오류) 중 하나이며 match가 양쪽을 처리합니다. 설명과 어긋나는 줄을 찾으세요. `unwrap으로 잘못된 입력에서 프로그램을 종료시킴`
+      상황이 단서가 됩니다.
+    explanation:
+      틀린 줄은 `match parse_minutes("x") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }`입니다. 여기서는
+      `"x"`을 써서 `"30"` 동작이 깨집니다. 이대로 실행하면 `unwrap으로 잘못된 입력에서 프로그램을 종료시킴` 문제가 생겨 원본 추적 `문자열 30  →  Ok(30)  →  30 출력`대로
+      '30'가 나오지 않습니다. 고친 줄 `match parse_minutes("30") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }`에서는 `"30"`가
+      `파싱 성공과 실패를 분리함` 동작을 지켜 '30'까지 도달합니다.
     commonMistakes:
       - unwrap으로 잘못된 입력에서 프로그램을 종료시킴
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -116,10 +128,10 @@ exercises:
     answer:
       "fn parse_minutes(text: &str) -> Result<u32, std::num::ParseIntError> {\n    text.parse::<u32>()\n}\n\
       fn main() {\n    match parse_minutes(\"30\") { Ok(n) => println!(\"{n}\"), Err(_) => println!(\"오류\") }\n}"
-    hint: Result는 성공 Ok(값) 또는 실패 Err(오류) 중 하나이며 match가 양쪽을 처리합니다.
+    hint: Result는 성공 Ok(값) 또는 실패 Err(오류) 중 하나이며 match가 양쪽을 처리합니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. 핵심은 문자열 30을 u32로 파싱합니다 Ok(30)이 생성됩니다 match의 Ok arm에서 30을 출력합니다 다른 코드도 결과와 근거가
-      맞으면 가능합니다.
+      한 가지 예시 해법은 위 코드입니다. `"30"` 부분이 `파싱 성공과 실패를 분리함` 동작을 지켜 실행 결과 '30'가 됩니다. 같은 개념을 다른 입력으로 바꿔도 `"30"`부터
+      `30 출력`까지 추적할 수 있으면 정답입니다. `unwrap으로 잘못된 입력에서 프로그램을 종료시킴` 상황과 빈 입력 같은 경계도 함께 설명해 보세요.
     commonMistakes:
       - unwrap으로 잘못된 입력에서 프로그램을 종료시킴
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -133,7 +145,7 @@ quiz:
       - "30"
       - 아무것도 출력하지 않는다
     answerIndex: 1
-    explanation: 문자열 30  →  Ok(30)  →  30 출력 순서로 실행되어 출력은 '30'입니다.
+    explanation: 문자열 30  →  Ok(30)  →  30 출력 순서로 실행되어 출력은 '30'입니다. `"30"` 부분이 마지막 단계를 확정하므로 다른 선택지는 이 추적과 맞지 않습니다.
   - id: quiz-day-25-result-error-model
     question: "'Rust Result와 실패 전달' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -141,7 +153,9 @@ quiz:
       - 코드가 짧다면 상태 추적은 필요 없다
       - Result는 성공 Ok(값) 또는 실패 Err(오류) 중 하나이며 match가 양쪽을 처리합니다.
     answerIndex: 2
-    explanation: Result는 성공 Ok(값) 또는 실패 Err(오류) 중 하나이며 match가 양쪽을 처리합니다.
+    explanation:
+      Result는 성공 Ok(값) 또는 실패 Err(오류) 중 하나이며 match가 양쪽을 처리합니다. 이 설명이 맞는 이유는 `파싱 성공과 실패를 분리함` 동작을 지키는 조건과
+      같기 때문입니다. `unwrap으로 잘못된 입력에서 프로그램을 종료시킴` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
   - id: quiz-day-25-result-error-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -149,7 +163,9 @@ quiz:
       - 실제 출력과 예측한 출력이 일치함
       - 변경된 입력을 다시 추적하여 결과를 확인함
     answerIndex: 0
-    explanation: unwrap으로 잘못된 입력에서 프로그램을 종료시킴. 입력과 중간 상태를 차례로 확인하세요.
+    explanation:
+      unwrap으로 잘못된 입력에서 프로그램을 종료시킴. 이 실수가 나오면 원본 추적 `문자열 30 → Ok(30) → 30 출력`대로 '30'가 나오지 않으므로 먼저 확인해야
+      합니다.
   - id: quiz-day-25-result-error-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -157,7 +173,7 @@ quiz:
       - 파싱 성공과 실패를 분리함라는 동작과 경계 조건
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 1
-    explanation: 문법은 달라도 파싱 성공과 실패를 분리함라는 목적과 입력·출력은 유지합니다.
+    explanation: 문법은 달라도 `파싱 성공과 실패를 분리함` 목적과 입력·출력은 유지합니다. 실행 결과 '30'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
 ---
 
 ## 오늘 배울 이유
@@ -259,7 +275,7 @@ fn main() {
 오류
 ```
 
-원본과 달라졌습니다. 원본 출력은 `30`입니다. 다른 줄(`match parse_minutes("30") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }` → `match parse_minutes("30!") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`문자열 30` → …)과 바뀐 줄부터 대조해 보세요.
+원본 출력은 `30`이고, 바뀐 코드의 실행 결과는 `오류`입니다. 바뀐 줄은 `match parse_minutes("30") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }`에서 `match parse_minutes("30!") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }`로 바뀌었습니다. 바뀐 프로그램은 `문자열 30` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `오류`가 됩니다. 원본 추적 `문자열 30  →  Ok(30)  →  30 출력`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
 
 ## 자주 틀리는 지점
 
@@ -268,7 +284,7 @@ fn main() {
 - 정상 줄: `match parse_minutes("30") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }`
 - 잘못된 줄: `match parse_minutes("x") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }`
 
-두 줄을 나란히 놓고 `Result는 성공 Ok(값) 또는 실패 Err(오류) 중 하나이며 match가 양쪽을 처리합니다.` 기준으로 어느 쪽이 맞는지 설명하세요. 결과가 예상과 다르면 `문자열 30`부터 `30`까지 처음 어긋난 곳을 찾습니다.
+두 줄을 나란히 놓으면 정상 줄 `match parse_minutes("30") { Ok(n) => println!("{n}"), Err(_) => println!("오류") }`이 `Result는 성공 Ok(값) 또는 실패 Err(오류) 중 하나이며 match가 양쪽을 처리합니다.` 설명과 맞고, 잘못된 줄은 `unwrap으로 잘못된 입력에서 프로그램을 종료시킴` 쪽으로 어긋납니다. 결과가 예상과 다르면 `문자열 30`부터 `30`까지 처음 어긋난 곳을 찾습니다.
 
 ## 다른 언어로 옮기기
 

@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-d
+contentVersion: 2026.10-e
 id: day-87-c-csv-parse
 courseId: crp-92
 phaseId: phase-08
@@ -44,8 +44,10 @@ exercises:
       \ strtol(\"30\", &end, 10);\n    if (!end || *end != '\\0' || minutes <= 0) return 1;\n    printf(\"%ld\\n\"\
       , minutes);\n    return 0;\n}"
     answer: "30"
-    hint: strtol은 숫자를 읽은 마지막 위치를 end에 넣고 *end가 널일 때만 입력 전체가 숫자입니다.
-    explanation: 입력 30  →  minutes=30  →  end는 끝  →  성공. 따라서 출력은 '30'입니다.
+    hint: strtol은 숫자를 읽은 마지막 위치를 end에 넣고 *end가 널일 때만 입력 전체가 숫자입니다. 설명을 떠올리고 `입력 30` 단계부터 순서대로 적어 보세요.
+    explanation:
+      입력 30  →  minutes=30  →  end는 끝  →  성공 순서로 실행됩니다. `*end != '\0'` 부분이 `성공` 단계를 확정해 최종 출력 '30'가 됩니다.
+      이 흐름을 떠올리면 `숫자 필드의 완전한 파싱 검사` 동작이 왜 필요한지 알 수 있습니다.
     commonMistakes:
       - atoi로 오류·남은 문자·범위를 구분하지 못함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -64,8 +66,11 @@ exercises:
       "#include <stdio.h>\n#include <stdlib.h>\nint main(void) {\n    char *end = NULL;\n    long minutes =\
       \ strtol(\"30\", &end, 10);\n    if (!end || *end != '\\0' || minutes <= 0) return 1;\n    printf(\"%ld\\n\"\
       , minutes);\n    return 0;\n}"
-    hint: 30을 10진수 30으로 바꿉니다
-    explanation: 빈칸에 들어갈 표현은 "*end != '\\0'"입니다. 30을 10진수 30으로 바꿉니다 end는 문자열 끝을 가리킵니다 양수와 종료 문자를 확인해 출력합니다
+    hint: 힌트 문장을 완전하게 읽으면 `30을 10진수 30으로 바꿉니다` 단계에 필요한 표현이 `*end != '\0'`입니다.
+    explanation:
+      빈칸에 들어갈 표현은 "*end != '\\0'"입니다. `if (!end || *end != '\0' || minutes <= 0) return 1;` 줄을 완성해야 `숫자
+      필드의 완전한 파싱 검사` 동작이 이어져 실행 결과 '30'가 됩니다. 힌트의 첫 단계 `30을 10진수 30으로 바꿉니다`이 바로 이 줄입니다. 이어서 end는 문자열 끝을 가리킵니다 양수와
+      종료 문자를 확인해 출력합니다 순서로 진행됩니다.
     commonMistakes:
       - atoi로 오류·남은 문자·범위를 구분하지 못함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -86,8 +91,9 @@ exercises:
       , minutes);\n    return 0;\n}"
     hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 처음 등장하는 숫자를 10에서 11로."
     explanation:
-      바꾼 뒤 출력은 '33'입니다. 원본 출력 '30'에서 달라졌습니다. 다른 줄(long minutes = strtol("30", &end, 10); → long minutes
-      = strtol("30", &end, 11);)에서 시작한 차이가 최종 출력에 반영되었습니다.
+      바꾼 뒤 출력은 '33'입니다. 원본 출력 '30'에서 달라졌습니다. 바뀐 줄은 `long minutes = strtol("30", &end, 10);`에서 `long minutes
+      = strtol("30", &end, 11);`로 바뀌었습니다. 바뀐 프로그램은 `입력 30` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져 최종 `33`가
+      됩니다. 원본 추적 `입력 30  →  minutes=30  →  end는 끝  →  성공`와 바뀐 줄 이후를 순서대로 비교하면 처음 달라지는 곳이 보입니다.
     commonMistakes:
       - atoi로 오류·남은 문자·범위를 구분하지 못함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -106,8 +112,14 @@ exercises:
       "#include <stdio.h>\n#include <stdlib.h>\nint main(void) {\n    char *end = NULL;\n    long minutes =\
       \ strtol(\"30\", &end, 10);\n    if (!end || *end != '\\0' || minutes <= 0) return 1;\n    printf(\"%ld\\n\"\
       , minutes);\n    return 0;\n}"
-    hint: strtol은 숫자를 읽은 마지막 위치를 end에 넣고 *end가 널일 때만 입력 전체가 숫자입니다.
-    explanation: 원래 예시와 비교하여 잘못된 줄을 찾으세요. 30을 10진수 30으로 바꿉니다 end는 문자열 끝을 가리킵니다 양수와 종료 문자를 확인해 출력합니다
+    hint:
+      strtol은 숫자를 읽은 마지막 위치를 end에 넣고 *end가 널일 때만 입력 전체가 숫자입니다. 설명과 어긋나는 줄을 찾으세요. `atoi로 오류·남은 문자·범위를 구분하지 못함`
+      상황이 단서가 됩니다.
+    explanation:
+      틀린 줄은 `if (!end || *end == '\0' || minutes <= 0) return 1;`입니다. 여기서는 `*end == '\0'`을 써서 `*end !=
+      '\0'` 동작이 깨집니다. 이대로 실행하면 `atoi로 오류·남은 문자·범위를 구분하지 못함` 문제가 생겨 원본 추적 `입력 30  →  minutes=30  →  end는 끝  →  성공`대로
+      '30'가 나오지 않습니다. 고친 줄 `if (!end || *end != '\0' || minutes <= 0) return 1;`에서는 `*end != '\0'`가 `숫자 필드의 완전한 파싱
+      검사` 동작을 지켜 '30'까지 도달합니다.
     commonMistakes:
       - atoi로 오류·남은 문자·범위를 구분하지 못함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -123,10 +135,10 @@ exercises:
       "#include <stdio.h>\n#include <stdlib.h>\nint main(void) {\n    char *end = NULL;\n    long minutes =\
       \ strtol(\"30\", &end, 10);\n    if (!end || *end != '\\0' || minutes <= 0) return 1;\n    printf(\"%ld\\n\"\
       , minutes);\n    return 0;\n}"
-    hint: strtol은 숫자를 읽은 마지막 위치를 end에 넣고 *end가 널일 때만 입력 전체가 숫자입니다.
+    hint: strtol은 숫자를 읽은 마지막 위치를 end에 넣고 *end가 널일 때만 입력 전체가 숫자입니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. 핵심은 30을 10진수 30으로 바꿉니다 end는 문자열 끝을 가리킵니다 양수와 종료 문자를 확인해 출력합니다 다른 코드도 결과와 근거가
-      맞으면 가능합니다.
+      한 가지 예시 해법은 위 코드입니다. `*end != '\0'` 부분이 `숫자 필드의 완전한 파싱 검사` 동작을 지켜 실행 결과 '30'가 됩니다. 같은 개념을 다른 입력으로
+      바꿔도 `*end != '\0'`부터 `성공`까지 추적할 수 있으면 정답입니다. `atoi로 오류·남은 문자·범위를 구분하지 못함` 상황과 빈 입력 같은 경계도 함께 설명해 보세요.
     commonMistakes:
       - atoi로 오류·남은 문자·범위를 구분하지 못함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -140,7 +152,9 @@ quiz:
       - 실행 전에 반드시 오류가 난다
       - 아무것도 출력하지 않는다
     answerIndex: 0
-    explanation: 입력 30  →  minutes=30  →  end는 끝  →  성공 순서로 실행되어 출력은 '30'입니다.
+    explanation:
+      입력 30  →  minutes=30  →  end는 끝  →  성공 순서로 실행되어 출력은 '30'입니다. `*end != '\0'` 부분이 마지막 단계를 확정하므로 다른
+      선택지는 이 추적과 맞지 않습니다.
   - id: quiz-day-87-c-csv-parse-model
     question: "'C 입력 검증과 정수 변환' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -148,7 +162,9 @@ quiz:
       - strtol은 숫자를 읽은 마지막 위치를 end에 넣고 *end가 널일 때만 입력 전체가 숫자입니다.
       - 코드가 짧다면 상태 추적은 필요 없다
     answerIndex: 1
-    explanation: strtol은 숫자를 읽은 마지막 위치를 end에 넣고 *end가 널일 때만 입력 전체가 숫자입니다.
+    explanation:
+      strtol은 숫자를 읽은 마지막 위치를 end에 넣고 *end가 널일 때만 입력 전체가 숫자입니다. 이 설명이 맞는 이유는 `숫자 필드의 완전한 파싱 검사` 동작을 지키는
+      조건과 같기 때문입니다. `atoi로 오류·남은 문자·범위를 구분하지 못함` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
   - id: quiz-day-87-c-csv-parse-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -156,7 +172,9 @@ quiz:
       - 변경된 입력을 다시 추적하여 결과를 확인함
       - atoi로 오류·남은 문자·범위를 구분하지 못함
     answerIndex: 2
-    explanation: atoi로 오류·남은 문자·범위를 구분하지 못함. 입력과 중간 상태를 차례로 확인하세요.
+    explanation:
+      atoi로 오류·남은 문자·범위를 구분하지 못함. 이 실수가 나오면 원본 추적 `입력 30 → minutes=30 → end는 끝 → 성공`대로 '30'가 나오지 않으므로 먼저
+      확인해야 합니다.
   - id: quiz-day-87-c-csv-parse-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -164,7 +182,7 @@ quiz:
       - 세 언어의 표면 문법을 한 글자도 바꾸지 않는다
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 0
-    explanation: 문법은 달라도 숫자 필드의 완전한 파싱 검사라는 목적과 입력·출력은 유지합니다.
+    explanation: 문법은 달라도 `숫자 필드의 완전한 파싱 검사` 목적과 입력·출력은 유지합니다. 실행 결과 '30'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
 ---
 
 ## 오늘 배울 이유
@@ -276,7 +294,7 @@ int main(void) {
 33
 ```
 
-원본과 달라졌습니다. 원본 출력은 `30`입니다. 다른 줄(`long minutes = strtol("30", &end, 10);` → `long minutes = strtol("30", &end, 11);`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`입력 30` → …)과 바뀐 줄부터 대조해 보세요.
+원본 출력은 `30`이고, 바뀐 코드의 실행 결과는 `33`입니다. 바뀐 줄은 `long minutes = strtol("30", &end, 10);`에서 `long minutes = strtol("30", &end, 11);`로 바뀌었습니다. 바뀐 프로그램은 `입력 30` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `33`가 됩니다. 원본 추적 `입력 30  →  minutes=30  →  end는 끝  →  성공`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
 
 ## 자주 틀리는 지점
 
@@ -285,7 +303,7 @@ int main(void) {
 - 정상 줄: `if (!end || *end != '\0' || minutes <= 0) return 1;`
 - 잘못된 줄: `if (!end || *end == '\0' || minutes <= 0) return 1;`
 
-두 줄을 나란히 놓고 `strtol은 숫자를 읽은 마지막 위치를 end에 넣고 *end가 널일 때만 입력 전체가 숫자입니다.` 기준으로 어느 쪽이 맞는지 설명하세요. 결과가 예상과 다르면 `입력 30`부터 `30`까지 처음 어긋난 곳을 찾습니다.
+두 줄을 나란히 놓으면 정상 줄 `if (!end || *end != '\0' || minutes <= 0) return 1;`이 `strtol은 숫자를 읽은 마지막 위치를 end에 넣고 *end가 널일 때만 입력 전체가 숫자입니다.` 설명과 맞고, 잘못된 줄은 `atoi로 오류·남은 문자·범위를 구분하지 못함` 쪽으로 어긋납니다. 결과가 예상과 다르면 `입력 30`부터 `30`까지 처음 어긋난 곳을 찾습니다.
 
 ## 다른 언어로 옮기기
 

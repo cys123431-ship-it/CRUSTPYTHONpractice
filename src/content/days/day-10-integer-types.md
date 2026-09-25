@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-d
+contentVersion: 2026.10-e
 id: day-10-integer-types
 courseId: crp-92
 phaseId: phase-01
@@ -43,8 +43,10 @@ exercises:
       "#include <stdio.h>\n#include <limits.h>\nint main(void) {\n    printf(\"%d\\n\", INT_MAX > 0);\n   \
       \ return 0;\n}"
     answer: "1"
-    hint: limits.h의 INT_MAX는 현재 플랫폼의 int 최댓값을 표현합니다. 양수 비교는 참이면 1입니다.
-    explanation: INT_MAX는 양수  →  비교 결과 참  →  1 출력. 따라서 출력은 '1'입니다.
+    hint: limits.h의 INT_MAX는 현재 플랫폼의 int 최댓값을 표현합니다. 양수 비교는 참이면 1입니다. 설명을 떠올리고 `INT_MAX는 양수` 단계부터 순서대로 적어 보세요.
+    explanation:
+      INT_MAX는 양수  →  비교 결과 참  →  1 출력 순서로 실행됩니다. `INT_MAX` 부분이 `1 출력` 단계를 확정해 최종 출력 '1'가 됩니다. 이 흐름을 떠올리면
+      `정수 범위를 확인함` 동작이 왜 필요한지 알 수 있습니다.
     commonMistakes:
       - int 최대치에 1을 더해도 안전하게 감싼다고 단정함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -61,8 +63,10 @@ exercises:
     answer:
       "#include <stdio.h>\n#include <limits.h>\nint main(void) {\n    printf(\"%d\\n\", INT_MAX > 0);\n    return\
       \ 0;\n}"
-    hint: limits.h가 범위 매크로를 제공합니다
-    explanation: 빈칸에 들어갈 표현은 'INT_MAX'입니다. limits.h가 범위 매크로를 제공합니다 INT_MAX가 0보다 큰지 비교합니다 참을 1로 출력합니다
+    hint: 힌트 문장을 완전하게 읽으면 `limits.h가 범위 매크로를 제공합니다` 단계에 필요한 표현이 `INT_MAX`입니다.
+    explanation:
+      빈칸에 들어갈 표현은 'INT_MAX'입니다. `printf("%d\n", INT_MAX > 0);` 줄을 완성해야 `정수 범위를 확인함` 동작이 이어져 실행 결과 '1'가
+      됩니다. 힌트의 첫 단계 `limits.h가 범위 매크로를 제공합니다`이 바로 이 줄입니다. 이어서 INT_MAX가 0보다 큰지 비교합니다 참을 1로 출력합니다 순서로 진행됩니다.
     commonMistakes:
       - int 최대치에 1을 더해도 안전하게 감싼다고 단정함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -81,8 +85,8 @@ exercises:
       \ 0;\n}"
     hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 처음 등장하는 숫자를 0에서 1로."
     explanation:
-      바꾼 뒤 출력은 '1'입니다. 원본 출력과 같습니다('1').  출력이 같아도 바뀐 줄(printf("%d\n", INT_MAX > 1);) 이후의 중간 상태가 같은지는 원본
-      추적과 대조해야 합니다.
+      바꾼 뒤 출력은 '1'입니다. 원본 출력 '1'와 같습니다. 바뀐 줄은 `printf("%d\n", INT_MAX > 1);`입니다. 바뀐 프로그램도 `INT_MAX는 양수`
+      단계에서 시작해 바뀐 줄을 지나 최종 `1`로 끝납니다.  출력은 같지만 바뀐 줄 부분의 중간 값은 달라졌다가 같은 최종 값으로 이어진다는 점을 위 추적 순서와 대조해 확인할 수 있습니다.
     commonMistakes:
       - int 최대치에 1을 더해도 안전하게 감싼다고 단정함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -99,8 +103,13 @@ exercises:
     answer:
       "#include <stdio.h>\n#include <limits.h>\nint main(void) {\n    printf(\"%d\\n\", INT_MAX > 0);\n    return\
       \ 0;\n}"
-    hint: limits.h의 INT_MAX는 현재 플랫폼의 int 최댓값을 표현합니다. 양수 비교는 참이면 1입니다.
-    explanation: 원래 예시와 비교하여 잘못된 줄을 찾으세요. limits.h가 범위 매크로를 제공합니다 INT_MAX가 0보다 큰지 비교합니다 참을 1로 출력합니다
+    hint:
+      limits.h의 INT_MAX는 현재 플랫폼의 int 최댓값을 표현합니다. 양수 비교는 참이면 1입니다. 설명과 어긋나는 줄을 찾으세요. `int 최대치에 1을 더해도 안전하게 감싼다고
+      단정함` 상황이 단서가 됩니다.
+    explanation:
+      틀린 줄은 `printf("%d\n", INT_MIN > 0);`입니다. 여기서는 `INT_MIN`을 써서 `INT_MAX` 동작이 깨집니다. 이대로 실행하면 `int 최대치에
+      1을 더해도 안전하게 감싼다고 단정함` 문제가 생겨 원본 추적 `INT_MAX는 양수  →  비교 결과 참  →  1 출력`대로 '1'가 나오지 않습니다. 고친 줄 `printf("%d\n",
+      INT_MAX > 0);`에서는 `INT_MAX`가 `정수 범위를 확인함` 동작을 지켜 '1'까지 도달합니다.
     commonMistakes:
       - int 최대치에 1을 더해도 안전하게 감싼다고 단정함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -115,10 +124,12 @@ exercises:
     answer:
       "#include <stdio.h>\n#include <limits.h>\nint main(void) {\n    printf(\"%d\\n\", INT_MAX > 0);\n    return\
       \ 0;\n}"
-    hint: limits.h의 INT_MAX는 현재 플랫폼의 int 최댓값을 표현합니다. 양수 비교는 참이면 1입니다.
+    hint:
+      limits.h의 INT_MAX는 현재 플랫폼의 int 최댓값을 표현합니다. 양수 비교는 참이면 1입니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께
+      적으세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. 핵심은 limits.h가 범위 매크로를 제공합니다 INT_MAX가 0보다 큰지 비교합니다 참을 1로 출력합니다 다른 코드도 결과와 근거가
-      맞으면 가능합니다.
+      한 가지 예시 해법은 위 코드입니다. `INT_MAX` 부분이 `정수 범위를 확인함` 동작을 지켜 실행 결과 '1'가 됩니다. 같은 개념을 다른 입력으로 바꿔도 `INT_MAX`부터
+      `1 출력`까지 추적할 수 있으면 정답입니다. `int 최대치에 1을 더해도 안전하게 감싼다고 단정함` 상황과 빈 입력 같은 경계도 함께 설명해 보세요.
     commonMistakes:
       - int 최대치에 1을 더해도 안전하게 감싼다고 단정함
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -132,7 +143,9 @@ quiz:
       - "1"
       - 아무것도 출력하지 않는다
     answerIndex: 1
-    explanation: INT_MAX는 양수  →  비교 결과 참  →  1 출력 순서로 실행되어 출력은 '1'입니다.
+    explanation:
+      INT_MAX는 양수  →  비교 결과 참  →  1 출력 순서로 실행되어 출력은 '1'입니다. `INT_MAX` 부분이 마지막 단계를 확정하므로 다른 선택지는 이 추적과 맞지
+      않습니다.
   - id: quiz-day-10-integer-types-model
     question: "'C 정수 타입과 범위' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -140,7 +153,9 @@ quiz:
       - 코드가 짧다면 상태 추적은 필요 없다
       - limits.h의 INT_MAX는 현재 플랫폼의 int 최댓값을 표현합니다. 양수 비교는 참이면 1입니다.
     answerIndex: 2
-    explanation: limits.h의 INT_MAX는 현재 플랫폼의 int 최댓값을 표현합니다. 양수 비교는 참이면 1입니다.
+    explanation:
+      limits.h의 INT_MAX는 현재 플랫폼의 int 최댓값을 표현합니다. 양수 비교는 참이면 1입니다. 이 설명이 맞는 이유는 `정수 범위를 확인함` 동작을 지키는 조건과
+      같기 때문입니다. `int 최대치에 1을 더해도 안전하게 감싼다고 단정함` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
   - id: quiz-day-10-integer-types-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -148,7 +163,9 @@ quiz:
       - 실제 출력과 예측한 출력이 일치함
       - 변경된 입력을 다시 추적하여 결과를 확인함
     answerIndex: 0
-    explanation: int 최대치에 1을 더해도 안전하게 감싼다고 단정함. 입력과 중간 상태를 차례로 확인하세요.
+    explanation:
+      int 최대치에 1을 더해도 안전하게 감싼다고 단정함. 이 실수가 나오면 원본 추적 `INT_MAX는 양수 → 비교 결과 참 → 1 출력`대로 '1'가 나오지 않으므로 먼저
+      확인해야 합니다.
   - id: quiz-day-10-integer-types-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -156,7 +173,7 @@ quiz:
       - 정수 범위를 확인함라는 동작과 경계 조건
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 1
-    explanation: 문법은 달라도 정수 범위를 확인함라는 목적과 입력·출력은 유지합니다.
+    explanation: 문법은 달라도 `정수 범위를 확인함` 목적과 입력·출력은 유지합니다. 실행 결과 '1'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
 ---
 
 ## 오늘 배울 이유
@@ -258,7 +275,7 @@ int main(void) {
 1
 ```
 
-바꾼 뒤 출력도 `1`입니다. 출력이 같다고 해서 중간 상태까지 같은 것은 아닙니다. 다른 줄(`printf("%d\n", INT_MAX > 1);`)부터 원본 추적과 비교해 보세요.
+바꾼 뒤 출력도 `1`입니다. 바뀐 프로그램도 `INT_MAX는 양수` 단계에서 시작해 `printf("%d\n", INT_MAX > 1);` 줄을 지나 최종 `1`로 끝납니다. 원본 추적 `INT_MAX는 양수  →  비교 결과 참  →  1 출력`와 바뀐 줄 이후를 순서대로 놓으면 출력은 같아도 중간 값이 어디서 달라졌다가 합쳐지는지 확인할 수 있습니다.
 
 ## 자주 틀리는 지점
 
@@ -267,7 +284,7 @@ int main(void) {
 - 정상 줄: `printf("%d\n", INT_MAX > 0);`
 - 잘못된 줄: `printf("%d\n", INT_MIN > 0);`
 
-두 줄을 나란히 놓고 `limits.h의 INT_MAX는 현재 플랫폼의 int 최댓값을 표현합니다. 양수 비교는 참이면 1입니다.` 기준으로 어느 쪽이 맞는지 설명하세요. 결과가 예상과 다르면 `INT_MAX는 양수`부터 `1`까지 처음 어긋난 곳을 찾습니다.
+두 줄을 나란히 놓으면 정상 줄 `printf("%d\n", INT_MAX > 0);`이 `limits.h의 INT_MAX는 현재 플랫폼의 int 최댓값을 표현합니다. 양수 비교는 참이면 1입니다.` 설명과 맞고, 잘못된 줄은 `int 최대치에 1을 더해도 안전하게 감싼다고 단정함` 쪽으로 어긋납니다. 결과가 예상과 다르면 `INT_MAX는 양수`부터 `1`까지 처음 어긋난 곳을 찾습니다.
 
 ## 다른 언어로 옮기기
 

@@ -97,4 +97,23 @@ describe("lesson prose regressions", () => {
       sectionOf(bodyOf("day-92-capstone-release.md"), "결과 예측과 작은 변경"),
     ).toContain("추가된 assert도 통과하므로");
   });
+  it("gives every debug exercise a pointed wrong line and fix", () => {
+    // NOTE: yaml.dump folds long scalars at width 110, so phrases can span
+    // a soft line break in the raw file; collapse whitespace before matching.
+    const bad = files.filter((f) => {
+      const flat = fullOf(f).replace(/\s+/g, " ");
+      return !flat.includes("틀린 줄은") || !flat.includes("고친 줄");
+    });
+    expect(bad).toEqual([]);
+  });
+  it("gives every output quiz a reason beyond the trace", () => {
+    // NOTE: same yaml folding as above; match against flattened text.
+    const bad = files.filter(
+      (f) =>
+        !fullOf(f)
+          .replace(/\s+/g, " ")
+          .includes("다른 선택지는 이 추적과 맞지 않습니다"),
+    );
+    expect(bad).toEqual([]);
+  });
 });

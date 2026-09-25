@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-d
+contentVersion: 2026.10-e
 id: day-16-for-loop
 courseId: crp-92
 phaseId: phase-02
@@ -41,8 +41,10 @@ exercises:
     prompt: 아래 코드를 실행하면 어떤 문장이 출력될까요? total=0에서 시작해 계산하세요.
     starter: "total = 0\nfor minutes in [10, 20, 30]:\n    total += minutes\nprint(total)"
     answer: "60"
-    hint: total은 지금까지 읽은 항목의 합이고, 매 반복 후에도 그 불변식이 유지됩니다.
-    explanation: total=0  →  10  →  30  →  60. 따라서 출력은 '60'입니다.
+    hint: total은 지금까지 읽은 항목의 합이고, 매 반복 후에도 그 불변식이 유지됩니다. 설명을 떠올리고 `total=0` 단계부터 순서대로 적어 보세요.
+    explanation:
+      total=0  →  10  →  30  →  60 순서로 실행됩니다. `total += minutes` 부분이 `60` 단계를 확정해 최종 출력 '60'가 됩니다. 이 흐름을
+      떠올리면 `반복 누적 합계` 동작이 왜 필요한지 알 수 있습니다.
     commonMistakes:
       - 반복마다 total을 새 값으로 덮어써 마지막 항목만 남김
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -55,8 +57,10 @@ exercises:
     prompt: "빈칸을 채워 예시와 같은 결과를 만드세요. 필요한 표현: total += minutes"
     starter: "total = 0\nfor minutes in [10, 20, 30]:\n    _____\nprint(total)"
     answer: "total = 0\nfor minutes in [10, 20, 30]:\n    total += minutes\nprint(total)"
-    hint: total=0에서 시작합니다
-    explanation: 빈칸에 들어갈 표현은 'total += minutes'입니다. total=0에서 시작합니다 10·20·30을 차례로 더합니다 루프가 끝나면 60을 출력합니다
+    hint: 힌트 문장을 완전하게 읽으면 `total=0에서 시작합니다` 단계에 필요한 표현이 `total += minutes`입니다.
+    explanation:
+      빈칸에 들어갈 표현은 'total += minutes'입니다. `total += minutes` 줄을 완성해야 `반복 누적 합계` 동작이 이어져 실행 결과 '60'가 됩니다.
+      힌트의 첫 단계 `total=0에서 시작합니다`이 바로 이 줄입니다. 이어서 10·20·30을 차례로 더합니다 루프가 끝나면 60을 출력합니다 순서로 진행됩니다.
     commonMistakes:
       - 반복마다 total을 새 값으로 덮어써 마지막 항목만 남김
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -70,7 +74,10 @@ exercises:
     starter: "total = 0\nfor minutes in [10, 20, 30]:\n    total += minutes\nprint(total)"
     answer: "total = 1\nfor minutes in [10, 20, 30]:\n    total += minutes\nprint(total)"
     hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 처음 등장하는 숫자를 0에서 1로."
-    explanation: 바꾼 뒤 출력은 '61'입니다. 원본 출력 '60'에서 달라졌습니다. 다른 줄(total = 0 → total = 1)에서 시작한 차이가 최종 출력에 반영되었습니다.
+    explanation:
+      바꾼 뒤 출력은 '61'입니다. 원본 출력 '60'에서 달라졌습니다. 바뀐 줄은 `total = 0`에서 `total = 1`로 바뀌었습니다. 바뀐 프로그램은 `total=0`
+      단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 그 차이가 이후 단계로 이어져 최종 `61`가 됩니다. 원본 추적 `total=0  →  10  →  30  →  60`와 바뀐 줄 이후를
+      순서대로 비교하면 처음 달라지는 곳이 보입니다.
     commonMistakes:
       - 반복마다 total을 새 값으로 덮어써 마지막 항목만 남김
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -83,8 +90,13 @@ exercises:
     prompt: 아래 코드와 본문의 정상 예제를 비교하여 잘못된 부분을 찾고 고치세요. 특히 반복마다 total을 새 값으로 덮어써 마지막 항목만 남김 상황을 확인하세요.
     starter: "total = 0\nfor minutes in [10, 20, 30]:\n    total = minutes\nprint(total)"
     answer: "total = 0\nfor minutes in [10, 20, 30]:\n    total += minutes\nprint(total)"
-    hint: total은 지금까지 읽은 항목의 합이고, 매 반복 후에도 그 불변식이 유지됩니다.
-    explanation: 원래 예시와 비교하여 잘못된 줄을 찾으세요. total=0에서 시작합니다 10·20·30을 차례로 더합니다 루프가 끝나면 60을 출력합니다
+    hint:
+      total은 지금까지 읽은 항목의 합이고, 매 반복 후에도 그 불변식이 유지됩니다. 설명과 어긋나는 줄을 찾으세요. `반복마다 total을 새 값으로 덮어써 마지막 항목만 남김` 상황이
+      단서가 됩니다.
+    explanation:
+      틀린 줄은 `total = minutes`입니다. 여기서는 `total = minutes`을 써서 `total += minutes` 동작이 깨집니다. 이대로 실행하면 `반복마다
+      total을 새 값으로 덮어써 마지막 항목만 남김` 문제가 생겨 원본 추적 `total=0  →  10  →  30  →  60`대로 '60'가 나오지 않습니다. 고친 줄 `total += minutes`에서는
+      `total += minutes`가 `반복 누적 합계` 동작을 지켜 '60'까지 도달합니다.
     commonMistakes:
       - 반복마다 total을 새 값으로 덮어써 마지막 항목만 남김
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -97,10 +109,10 @@ exercises:
     prompt: 예시를 가리고 '범위 반복과 누적' 개념을 적용한 프로그램을 처음부터 작성하세요. 예상 출력과 경계 상황도 말로 설명하세요.
     starter: "# 범위 반복과 누적: 직접 구현"
     answer: "total = 0\nfor minutes in [10, 20, 30]:\n    total += minutes\nprint(total)"
-    hint: total은 지금까지 읽은 항목의 합이고, 매 반복 후에도 그 불변식이 유지됩니다.
+    hint: total은 지금까지 읽은 항목의 합이고, 매 반복 후에도 그 불변식이 유지됩니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께 적으세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. 핵심은 total=0에서 시작합니다 10·20·30을 차례로 더합니다 루프가 끝나면 60을 출력합니다 다른 코드도 결과와 근거가 맞으면
-      가능합니다.
+      한 가지 예시 해법은 위 코드입니다. `total += minutes` 부분이 `반복 누적 합계` 동작을 지켜 실행 결과 '60'가 됩니다. 같은 개념을 다른 입력으로 바꿔도
+      `total += minutes`부터 `60`까지 추적할 수 있으면 정답입니다. `반복마다 total을 새 값으로 덮어써 마지막 항목만 남김` 상황과 빈 입력 같은 경계도 함께 설명해 보세요.
     commonMistakes:
       - 반복마다 total을 새 값으로 덮어써 마지막 항목만 남김
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -114,7 +126,9 @@ quiz:
       - "60"
       - 아무것도 출력하지 않는다
     answerIndex: 1
-    explanation: total=0  →  10  →  30  →  60 순서로 실행되어 출력은 '60'입니다.
+    explanation:
+      total=0  →  10  →  30  →  60 순서로 실행되어 출력은 '60'입니다. `total += minutes` 부분이 마지막 단계를 확정하므로 다른 선택지는 이
+      추적과 맞지 않습니다.
   - id: quiz-day-16-for-loop-model
     question: "'범위 반복과 누적' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -122,7 +136,9 @@ quiz:
       - 코드가 짧다면 상태 추적은 필요 없다
       - total은 지금까지 읽은 항목의 합이고, 매 반복 후에도 그 불변식이 유지됩니다.
     answerIndex: 2
-    explanation: total은 지금까지 읽은 항목의 합이고, 매 반복 후에도 그 불변식이 유지됩니다.
+    explanation:
+      total은 지금까지 읽은 항목의 합이고, 매 반복 후에도 그 불변식이 유지됩니다. 이 설명이 맞는 이유는 `반복 누적 합계` 동작을 지키는 조건과 같기 때문입니다. `반복마다
+      total을 새 값으로 덮어써 마지막 항목만 남김` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
   - id: quiz-day-16-for-loop-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -130,7 +146,9 @@ quiz:
       - 실제 출력과 예측한 출력이 일치함
       - 변경된 입력을 다시 추적하여 결과를 확인함
     answerIndex: 0
-    explanation: 반복마다 total을 새 값으로 덮어써 마지막 항목만 남김. 입력과 중간 상태를 차례로 확인하세요.
+    explanation:
+      반복마다 total을 새 값으로 덮어써 마지막 항목만 남김. 이 실수가 나오면 원본 추적 `total=0 → 10 → 30 → 60`대로 '60'가 나오지 않으므로 먼저 확인해야
+      합니다.
   - id: quiz-day-16-for-loop-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -138,7 +156,7 @@ quiz:
       - 반복 누적 합계라는 동작과 경계 조건
       - 타입과 오류 처리를 모두 생략한다
     answerIndex: 1
-    explanation: 문법은 달라도 반복 누적 합계라는 목적과 입력·출력은 유지합니다.
+    explanation: 문법은 달라도 `반복 누적 합계` 목적과 입력·출력은 유지합니다. 실행 결과 '60'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
 playgroundSource: "total = 0\nfor minutes in [10, 20, 30]:\n    total += minutes\nprint(total)"
 ---
 
@@ -236,7 +254,7 @@ print(total)
 61
 ```
 
-원본과 달라졌습니다. 원본 출력은 `60`입니다. 다른 줄(`total = 0` → `total = 1`)에서 시작된 차이가 이후 흐름을 타고 최종 출력에 반영되었습니다. 원본 추적(`total=0` → …)과 바뀐 줄부터 대조해 보세요.
+원본 출력은 `60`이고, 바뀐 코드의 실행 결과는 `61`입니다. 바뀐 줄은 `total = 0`에서 `total = 1`로 바뀌었습니다. 바뀐 프로그램은 `total=0` 단계에서 시작해 바뀐 줄에서 다른 중간 값을 만들고, 이후 흐름을 따라 최종 `61`가 됩니다. 원본 추적 `total=0  →  10  →  30  →  60`에서 바뀐 줄 이후 단계와 하나씩 비교하면 처음 달라지는 곳이 보입니다.
 
 ## 자주 틀리는 지점
 
@@ -245,7 +263,7 @@ print(total)
 - 정상 줄: `total += minutes`
 - 잘못된 줄: `total = minutes`
 
-두 줄을 나란히 놓고 `total은 지금까지 읽은 항목의 합이고, 매 반복 후에도 그 불변식이 유지됩니다.` 기준으로 어느 쪽이 맞는지 설명하세요. 결과가 예상과 다르면 `total=0`부터 `60`까지 처음 어긋난 곳을 찾습니다.
+두 줄을 나란히 놓으면 정상 줄 `total += minutes`이 `total은 지금까지 읽은 항목의 합이고, 매 반복 후에도 그 불변식이 유지됩니다.` 설명과 맞고, 잘못된 줄은 `반복마다 total을 새 값으로 덮어써 마지막 항목만 남김` 쪽으로 어긋납니다. 결과가 예상과 다르면 `total=0`부터 `60`까지 처음 어긋난 곳을 찾습니다.
 
 ## 다른 언어로 옮기기
 

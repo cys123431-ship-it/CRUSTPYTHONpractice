@@ -1,6 +1,6 @@
 ---
 schemaVersion: 1
-contentVersion: 2026.10-d
+contentVersion: 2026.10-e
 id: day-56-abstraction-review
 courseId: crp-92
 phaseId: phase-05
@@ -43,8 +43,10 @@ exercises:
       "struct Session { minutes: u32 }\nfn main() {\n    let s=Session{minutes:30};\n    assert_eq!(s.minutes,30);\n\
       \    println!(\"검증 완료\");\n}"
     answer: 검증 완료
-    hint: Session의 minutes는 u32이고 assert_eq!가 실제 값 30과 기대 30을 비교합니다.
-    explanation: s.minutes=30  →  기대값=30  →  통과. 따라서 출력은 '검증 완료'입니다.
+    hint: Session의 minutes는 u32이고 assert_eq!가 실제 값 30과 기대 30을 비교합니다. 설명을 떠올리고 `s.minutes=30` 단계부터 순서대로 적어 보세요.
+    explanation:
+      s.minutes=30  →  기대값=30  →  통과 순서로 실행됩니다. `assert_eq!` 부분이 `통과` 단계를 확정해 최종 출력 '검증 완료'가 됩니다. 이 흐름을
+      떠올리면 `구조화된 데이터에 회귀 테스트 추가` 동작이 왜 필요한지 알 수 있습니다.
     commonMistakes:
       - 검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -61,8 +63,10 @@ exercises:
     answer:
       "struct Session { minutes: u32 }\nfn main() {\n    let s=Session{minutes:30};\n    assert_eq!(s.minutes,30);\n\
       \    println!(\"검증 완료\");\n}"
-    hint: Session을 초기화합니다
-    explanation: 빈칸에 들어갈 표현은 'assert_eq!'입니다. Session을 초기화합니다 필드 값과 기대값이 같아 단언이 통과합니다 검증 완료를 출력합니다
+    hint: 힌트 문장을 완전하게 읽으면 `Session을 초기화합니다` 단계에 필요한 표현이 `assert_eq!`입니다.
+    explanation:
+      빈칸에 들어갈 표현은 'assert_eq!'입니다. `assert_eq!(s.minutes,30);` 줄을 완성해야 `구조화된 데이터에 회귀 테스트 추가` 동작이 이어져 실행
+      결과 '검증 완료'가 됩니다. 힌트의 첫 단계 `Session을 초기화합니다`이 바로 이 줄입니다. 이어서 필드 값과 기대값이 같아 단언이 통과합니다 검증 완료를 출력합니다 순서로 진행됩니다.
     commonMistakes:
       - 검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -81,8 +85,9 @@ exercises:
       \    println!(\"검증 완료\");\n}"
     hint: "다음을 바꾼 뒤 원본 실행 추적과 처음 달라지는 지점을 찾아보세요: 초기 minutes 값과 assert_eq!의 기대값을 함께 30에서 31로."
     explanation:
-      바꾼 뒤 출력은 '검증 완료'입니다. 원본 출력과 같습니다('검증 완료'). minutes와 기대값을 함께 바꿔 assert가 그대로 통과하므로 출력이 같습니다. 출력이 같아도
-      바뀐 줄(let s=Session{minutes:31};) 이후의 중간 상태가 같은지는 원본 추적과 대조해야 합니다.
+      바꾼 뒤 출력은 '검증 완료'입니다. 원본 출력 '검증 완료'와 같습니다. 바뀐 줄은 `let s=Session{minutes:31};`입니다. 바뀐 프로그램도 `s.minutes=30`
+      단계에서 시작해 바뀐 줄을 지나 최종 `검증 완료`로 끝납니다. minutes와 기대값을 함께 바꿔 assert가 그대로 통과하므로 출력이 같습니다. 출력은 같지만 바뀐 줄 부분의 중간 값은 달라졌다가
+      같은 최종 값으로 이어진다는 점을 위 추적 순서와 대조해 확인할 수 있습니다.
     commonMistakes:
       - 검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -99,8 +104,13 @@ exercises:
     answer:
       "struct Session { minutes: u32 }\nfn main() {\n    let s=Session{minutes:30};\n    assert_eq!(s.minutes,30);\n\
       \    println!(\"검증 완료\");\n}"
-    hint: Session의 minutes는 u32이고 assert_eq!가 실제 값 30과 기대 30을 비교합니다.
-    explanation: 원래 예시와 비교하여 잘못된 줄을 찾으세요. Session을 초기화합니다 필드 값과 기대값이 같아 단언이 통과합니다 검증 완료를 출력합니다
+    hint:
+      Session의 minutes는 u32이고 assert_eq!가 실제 값 30과 기대 30을 비교합니다. 설명과 어긋나는 줄을 찾으세요. `검사하지 않은 예시 출력만 보고 구현이 맞다고
+      결론 냄` 상황이 단서가 됩니다.
+    explanation:
+      틀린 줄은 `println!(s.minutes,30);`입니다. 여기서는 `println!`을 써서 `assert_eq!` 동작이 깨집니다. 이대로 실행하면 `검사하지 않은
+      예시 출력만 보고 구현이 맞다고 결론 냄` 문제가 생겨 원본 추적 `s.minutes=30  →  기대값=30  →  통과`대로 '검증 완료'가 나오지 않습니다. 고친 줄 `assert_eq!(s.minutes,30);`에서는
+      `assert_eq!`가 `구조화된 데이터에 회귀 테스트 추가` 동작을 지켜 '검증 완료'까지 도달합니다.
     commonMistakes:
       - 검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -115,10 +125,12 @@ exercises:
     answer:
       "struct Session { minutes: u32 }\nfn main() {\n    let s=Session{minutes:30};\n    assert_eq!(s.minutes,30);\n\
       \    println!(\"검증 완료\");\n}"
-    hint: Session의 minutes는 u32이고 assert_eq!가 실제 값 30과 기대 30을 비교합니다.
+    hint:
+      Session의 minutes는 u32이고 assert_eq!가 실제 값 30과 기대 30을 비교합니다. 흐름을 작은 입력으로 다시 만들어 보세요. 예상 출력과 빈 입력 같은 경계를 함께
+      적으세요.
     explanation:
-      한 가지 예시 해법은 위 코드입니다. 핵심은 Session을 초기화합니다 필드 값과 기대값이 같아 단언이 통과합니다 검증 완료를 출력합니다 다른 코드도 결과와 근거가 맞으면
-      가능합니다.
+      한 가지 예시 해법은 위 코드입니다. `assert_eq!` 부분이 `구조화된 데이터에 회귀 테스트 추가` 동작을 지켜 실행 결과 '검증 완료'가 됩니다. 같은 개념을 다른
+      입력으로 바꿔도 `assert_eq!`부터 `통과`까지 추적할 수 있으면 정답입니다. `검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄` 상황과 빈 입력 같은 경계도 함께 설명해 보세요.
     commonMistakes:
       - 검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄
       - 실행 전에 출력과 중간 상태를 손으로 확인하지 않음
@@ -132,7 +144,9 @@ quiz:
       - 아무것도 출력하지 않는다
       - 검증 완료
     answerIndex: 2
-    explanation: s.minutes=30  →  기대값=30  →  통과 순서로 실행되어 출력은 '검증 완료'입니다.
+    explanation:
+      s.minutes=30  →  기대값=30  →  통과 순서로 실행되어 출력은 '검증 완료'입니다. `assert_eq!` 부분이 마지막 단계를 확정하므로 다른 선택지는 이
+      추적과 맞지 않습니다.
   - id: quiz-day-56-abstraction-review-model
     question: "'구조체·enum·테스트 회상' 개념을 이해하는 데 맞는 설명은?"
     choices:
@@ -140,7 +154,9 @@ quiz:
       - 검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄(이것이 정상적인 사용법이다)
       - 코드가 짧다면 상태 추적은 필요 없다
     answerIndex: 0
-    explanation: Session의 minutes는 u32이고 assert_eq!가 실제 값 30과 기대 30을 비교합니다.
+    explanation:
+      Session의 minutes는 u32이고 assert_eq!가 실제 값 30과 기대 30을 비교합니다. 이 설명이 맞는 이유는 `구조화된 데이터에 회귀 테스트 추가` 동작을
+      지키는 조건과 같기 때문입니다. `검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄` 설명은 오히려 피해야 할 오류이므로 정답이 아닙니다.
   - id: quiz-day-56-abstraction-review-pitfall
     question: 다음 중 실습에서 먼저 확인할 오류는?
     choices:
@@ -148,7 +164,9 @@ quiz:
       - 검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄
       - 변경된 입력을 다시 추적하여 결과를 확인함
     answerIndex: 1
-    explanation: 검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄. 입력과 중간 상태를 차례로 확인하세요.
+    explanation:
+      검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄. 이 실수가 나오면 원본 추적 `s.minutes=30 → 기대값=30 → 통과`대로 '검증 완료'가 나오지 않으므로
+      먼저 확인해야 합니다.
   - id: quiz-day-56-abstraction-review-transfer
     question: 세 언어로 옮길 때 무엇을 보존해야 하나요?
     choices:
@@ -156,7 +174,7 @@ quiz:
       - 타입과 오류 처리를 모두 생략한다
       - 구조화된 데이터에 회귀 테스트 추가라는 동작과 경계 조건
     answerIndex: 2
-    explanation: 문법은 달라도 구조화된 데이터에 회귀 테스트 추가라는 목적과 입력·출력은 유지합니다.
+    explanation: 문법은 달라도 `구조화된 데이터에 회귀 테스트 추가` 목적과 입력·출력은 유지합니다. 실행 결과 '검증 완료'로 대조하면 옮김이 맞는지 확인할 수 있습니다.
 ---
 
 ## 오늘 배울 이유
@@ -258,7 +276,7 @@ fn main() {
 검증 완료
 ```
 
-바꾼 뒤 출력도 `검증 완료`입니다. minutes와 기대값을 함께 바꿔 assert가 그대로 통과하므로 출력이 같습니다. 출력이 같다고 해서 중간 상태까지 같은 것은 아닙니다. 다른 줄(`let s=Session{minutes:31};`)부터 원본 추적과 비교해 보세요.
+바꾼 뒤 출력도 `검증 완료`입니다. minutes와 기대값을 함께 바꿔 assert가 그대로 통과하므로 출력이 같습니다. 바뀐 프로그램도 `s.minutes=30` 단계에서 시작해 `let s=Session{minutes:31};` 줄을 지나 최종 `검증 완료`로 끝납니다. 원본 추적 `s.minutes=30  →  기대값=30  →  통과`와 바뀐 줄 이후를 순서대로 놓으면 출력은 같아도 중간 값이 어디서 달라졌다가 합쳐지는지 확인할 수 있습니다.
 
 ## 자주 틀리는 지점
 
@@ -267,7 +285,7 @@ fn main() {
 - 정상 줄: `assert_eq!(s.minutes,30);`
 - 잘못된 줄: `println!(s.minutes,30);`
 
-두 줄을 나란히 놓고 `Session의 minutes는 u32이고 assert_eq!가 실제 값 30과 기대 30을 비교합니다.` 기준으로 어느 쪽이 맞는지 설명하세요. 결과가 예상과 다르면 `s.minutes=30`부터 `검증 완료`까지 처음 어긋난 곳을 찾습니다.
+두 줄을 나란히 놓으면 정상 줄 `assert_eq!(s.minutes,30);`이 `Session의 minutes는 u32이고 assert_eq!가 실제 값 30과 기대 30을 비교합니다.` 설명과 맞고, 잘못된 줄은 `검사하지 않은 예시 출력만 보고 구현이 맞다고 결론 냄` 쪽으로 어긋납니다. 결과가 예상과 다르면 `s.minutes=30`부터 `검증 완료`까지 처음 어긋난 곳을 찾습니다.
 
 ## 다른 언어로 옮기기
 
