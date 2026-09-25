@@ -101,11 +101,16 @@ export default function SettingsPanel({ knownIds }: { knownIds: string[] }) {
           >
             JSON 가져오기
           </button>
+          <label className="sr-only" htmlFor="crp-import-file">
+            JSON 백업 파일 선택
+          </label>
           <input
             ref={input}
+            id="crp-import-file"
             className="sr-only"
             type="file"
             accept="application/json,.json"
+            aria-label="JSON 백업 파일 선택"
             onChange={(e) => void importData(e.target.files?.[0])}
           />
         </div>

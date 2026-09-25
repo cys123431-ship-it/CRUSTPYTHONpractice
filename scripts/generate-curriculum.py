@@ -26,6 +26,43 @@ SAMPLES = {1, 29, 57}
 LANGUAGES = ("c", "python", "rust")
 
 
+LANG_LABEL = {"c": "C", "python": "Python", "rust": "Rust"}
+SAMPLE_TITLES = {1: "변수와 자료형 — 값에 이름을 붙이고 사용하는 법", 29: "포인터 · 참조 · 빌림 — 같은 값을 바라보는 세 방식", 57: "스택 — 마지막에 넣은 것을 먼저 꺼내는 자료구조"}
+
+
+def prev_title(day):
+    no = day.number - 1
+    if no in DAYS:
+        return DAYS[no].title
+    return SAMPLE_TITLES.get(no, "이전 학습")
+
+
+COMPLEXITY = {
+    58: "실행 취소 기록을 리스트 끝에 쌓으면 추가와 되돌리기가 평균 O(1)입니다. 중간에 끼워 넣지 않고 끝에서만 다루기 때문입니다. 기록이 n개면 공간은 O(n)입니다. 빈 기록에서 되돌리기를 부르면 항목이 없으므로 먼저 비었는지 확인해야 합니다.",
+    59: "양쪽 끝에서 넣고 빼는 덱은 append와 popleft가 각각 O(1)입니다. 접수 순서 A→B→C에서 첫 popleft는 A를 돌려줍니다. 리스트의 pop(0)은 앞 원소를 모두 옮겨 O(n)이므로 큐에는 덱을 씁니다. n건을 보관하면 공간은 O(n)입니다.",
+    60: "원형 큐는 머리 위치를 (head+1)%용량으로 옮겨 빈칸 없이 돌아오므로 삽입과 제거가 O(1)입니다. 숫자 0으로 돌아왔다고 비었다는 뜻이 아닙니다. 항목 수 count로 가득 참과 빔을 구별합니다. 용량이 k이면 공간은 O(k)입니다.",
+    61: "연결 리스트에서 A의 next로 B를 찾아 값을 읽는 이동은 한 칸씩 따라가므로 위치 찾기까지 O(n)입니다. 맨 앞에 끼우는 삽입 자체는 O(1)입니다. B의 next가 NULL이면 거기서 멈추고 더 읽으면 안 됩니다. n개 노드의 공간은 O(n)입니다.",
+    62: "이웃을 아는 상태에서 가운데 C를 끼우면 네 포인터만 바꿔 O(1)입니다. A→C→B로 갔다가 B→C→A로 돌아오면 일치합니다. 한쪽만 고치면 되돌아갈 때 어긋납니다. 처음 위치를 찾는 데는 O(n)이 들 수 있습니다.",
+    63: "같은 1,2,3도 스택은 3부터, 큐는 1부터 꺼냅니다. 어느 것이 좋은지는 문제의 순서가 정합니다. 최근 작업 취소는 스택, 접수 순서 처리는 큐가 맞습니다. 끝에서 다루는 스택과 큐의 연산은 O(1), 탐색은 O(n)입니다.",
+    64: "노드 수를 셀 때는 각 노드를 한 번씩 방문해 O(n)입니다. 자식 결과를 부모로 돌려 합치므로 None 자식은 0으로 셉니다. 재귀 깊이는 트리 높이만큼 쌓여 공간 O(높이)입니다. None을 노드로 더하면 답이 부풀어 오릅니다.",
+    65: "이진 탐색 트리에서 키를 찾으면 한 번 비교할 때마다 한쪽 자식을 버려 평균 O(높이)입니다. 한쪽으로만 길어지면 O(n)까지 느려집니다. 정렬 규칙이 깨진 위치에 값이 있으면 경로 탐색이 답을 보장하지 못합니다.",
+    66: "최소 힙의 삽입과 꺼내기는 트리 높이에 비례해 O(log n)입니다. peek는 맨 위를 바로 봐 O(1)입니다. 내부 배열이 완전히 정렬된 것은 아니므로 정렬된 목록이 필요하면 하나씩 꺼내야 합니다. n개 보관 시 공간은 O(n)입니다.",
+    67: "딕셔너리 집계는 평균 O(1)로 읽고 쓰므로 전체 n개 기록을 한 번씩 훑어 O(n)입니다. 첫 등장에만 기본값 0을 씁니다. 충돌이 심하면 O(n)까지 느려질 수 있습니다. 키의 대소문자가 다르면 별도 키가 됩니다.",
+    68: "인접 목록에서 A의 이웃을 읽으면 차수만큼 걸려 O(차수)입니다. 전체 간선 보관 공간은 O(정점+간선)입니다. A→B→C 길이 2 경로와 직접 간선 A→C를 구별하세요. 적혀 있지 않은 C→A 방향으로는 갈 수 없습니다.",
+    69: "너비 우선 탐색은 각 정점과 간선을 한 번씩 처리해 O(정점+간선)입니다. 큐가 한 단계 이웃을 먼저 꺼내 층별 순서를 만듭니다. 방문 표시를 빠뜨리면 같은 곳을 반복합니다. 큐를 스택으로 바꾸면 층별 순서가 사라집니다.",
+    70: "대기 고객은 큐로 먼저 온 A부터 처리해 순서를 지키고, 작업 취소는 스택으로 최근 것부터 되돌립니다. 이름으로 찾을 때는 사전, 중복 확인은 집합이 맞습니다. 꺼내는 쪽의 연산은 O(1), 이름 탐색은 평균 O(1)입니다.",
+    72: "정렬된 배열의 이진 탐색은 절반씩 버려 O(log n)입니다. 중복된 4가 여러 개면 왼쪽 절반을 남겨 첫 위치를 찾습니다. 끝난 위치의 값이 목표와 같은지 확인해야 합니다. 정렬되지 않은 배열에는 그대로 쓸 수 없습니다.",
+    73: "삽입 정렬은 왼쪽 접두부가 이미 정렬돼 있다는 믿음으로 한 칸씩 넓혀 최악 O(n²)입니다. 거의 정렬된 입력에서는 O(n)에 가깝습니다. 큰 값을 오른쪽으로 밀어 빈자리에 끼웁니다. 전체 추가 공간은 O(1)입니다.",
+    76: "배열을 둘로 나누어 각각의 최댓값을 구한 뒤 합치면 각 원소를 한 번씩 봐 O(n)입니다. 원소 하나에서 멈추므로 재귀가 끝납니다. 빈 목록의 최댓값은 정해지지 않아 호출 전에 막아야 합니다.",
+    77: "정렬 후 위치 찾기는 정렬 O(n log n)에 index 탐색 O(n)입니다. 원본 첫 9의 위치 0과 정렬 뒤 첫 9의 위치 1은 다릅니다. 값이 궁금한지 원본 위치가 궁금한지 먼저 구별해야 정렬로 위치 정보를 잃지 않습니다.",
+    78: "동전 [4,3,1]로 6원을 만들 때 큰 것부터 고르면 4+1+1 세 개지만 3+3 두 개가 정답입니다. 탐욕 규칙이 모든 동전 체계에 맞지는 않습니다. 탐욕이 맞는지 증명하거나 작은 입력을 완전히 탐색해 검증하세요.",
+    79: "계단 오르기는 작은 답을 먼저 저장해 큰 답을 쌓으므로 O(n) 시간입니다. ways[0]=1 시작값을 틀리면 뒤가 전부 틀어집니다. 직전 두 값만 남기면 공간 O(1)입니다. 점화식의 입력 범위를 벗어난 칸은 읽으면 안 됩니다.",
+    80: "백트래킹은 선택→재귀→pop 되돌리기로 다른 선택을 시험합니다. 답을 모을 때 바뀌는 path 객체를 그대로 저장하면 나중에 비운 경로를 가리키므로 완성 순간 복사합니다. 경우에 따라 지수 시간이 걸립니다.",
+    81: "깊이 우선 탐색은 방문 집합으로 정점과 간선을 한 번씩 처리해 O(정점+간선)입니다. 순환 A→B→C→A에서 방문 표시가 없으면 다시 dfs(A)를 불러 끝나지 않습니다. 재귀 깊이는 경로 길이만큼 쌓입니다.",
+    82: "다익스트라로 B의 거리는 직접 8에서 C 경유 2+3=5로 줄어듭니다. 큐에 남은 예전 8은 꺼냈을 때 현재 거리보다 크면 건너뜁니다. 음수 비용이 있으면 이 방법을 그대로 쓰지 마세요. 힙을 쓰면 전체 O((간선+정점) log 정점)입니다.",
+}
+
+
 class NoAliasDumper(yaml.SafeDumper):
     def ignore_aliases(self, data):
         return True
@@ -116,7 +153,7 @@ def markdown(day: Day) -> str:
     transfers = [lang for lang in LANGUAGES if lang != day.anchor]
     review = day.number in REVIEWS
     previous = entity_id(day.number - 1) if day.number > 1 else None
-    data = dict(schemaVersion=1, contentVersion="2026.10-c", id=id_, courseId="crp-92",
+    data = dict(schemaVersion=1, contentVersion="2026.10-d", id=id_, courseId="crp-92",
                 phaseId=phase(day.number), dayNumber=day.number,
                 date=(date(2026, 10, 1) + timedelta(days=day.number - 1)).isoformat(),
                 title=day.title,
@@ -142,31 +179,46 @@ def markdown(day: Day) -> str:
                            for name, lang in [("C17", "c"), ("Python", "python"), ("Rust", "rust")])
     trace_steps = [s.strip() for s in day.trace.split("→")]
     trace_rows = "\n".join(f"| {i} | {s} |" for i, s in enumerate(trace_steps, 1))
-    review_note = ("이번 Day는 새 문법을 많이 추가하는 대신 앞선 개념을 떠올리고 작은 변경 실험으로 오개념을 확인합니다. "
-                   "코드를 가린 채 먼저 답하고, 모른 부분만 선행 Day로 돌아가 보세요.") if review else (
-                   "처음 읽을 때는 결과를 가리고 손으로 예상하세요. 예시를 직접 타이핑한 뒤 한 줄씩 바꾸며 상태를 확인하세요.")
-    run_note = ("아래 Python 실행 영역에 같은 코드가 미리 들어 있습니다. 먼저 예측하고 실행해 비교하세요."
-                if day.anchor == "python" else
-                "이 수업의 C/Rust 코드는 브라우저에서 임의 컴파일되지 않습니다. C17은 `gcc -std=c17 -Wall -Wextra`로, "
-                "Rust는 `rustc --edition=2024` 또는 Cargo로 로컬에서 실행하세요. 하단의 실습 칸은 예시 답안 비교입니다.")
     _, change = day.modified
+    modified_code, _change_text = day.modified
+    lang = LANG_LABEL[day.anchor]
+    prev = prev_title(day)
+    prev_no = day.number - 1
+    prev_link = entity_id(day.number - 1) if day.number > 1 else None
+    complexity_note = COMPLEXITY.get(day.number, "")
+    run_how = f"하단 Python 실행 영역에 같은 코드가 들어 있습니다. 먼저 `{day.output}`을(를) 가리고 예측한 뒤 실행해 비교하세요." if day.anchor == "python" else (f"C17은 `gcc -std=c17 -Wall -Wextra`로 컴파일해 실행하면 `{day.output}`이(가) 나옵니다. 브라우저에서는 임의 컴파일 대신 하단 실습 칸의 답안 비교를 사용하세요." if day.anchor == "c" else f"Rust는 `rustc --edition=2024` 또는 Cargo로 실행하면 `{day.output}`이(가) 나옵니다. 브라우저에서는 임의 컴파일 대신 하단 실습 칸의 답안 비교를 사용하세요.")
+    code_lines = "\n".join(f"{i + 1:2d} | {line}" for i, line in enumerate(day.code.splitlines()))
+    buggy_line = ""
+    fixed_line = ""
+    for line in day.code.splitlines():
+        if day.focus and day.focus in line:
+            fixed_line = line.strip()
+            buggy_line = line.replace(day.focus, day.wrong, 1).strip()
+            break
+    forms_c = day.forms.get("c", "이 언어의 타입과 오류 처리 규칙에 맞게 같은 동작을 구현한다.")
+    forms_python = day.forms.get("python", "이 언어의 타입과 오류 처리 규칙에 맞게 같은 동작을 구현한다.")
+    forms_rust = day.forms.get("rust", "이 언어의 타입과 오류 처리 규칙에 맞게 같은 동작을 구현한다.")
+    complexity_block = ""
+    if complexity_note:
+        complexity_block = "## 시간과 공간 복잡도\n\n" + complexity_note + f" Day {day.number:02d}의 핵심 연산을 위 기준으로 직접 세어 보세요."
+    trace_first = day.trace.split("\u2192")[0].strip() if "\u2192" in day.trace else day.trace.strip()
     body = f"---\n{head}---\n\n" + f"""## 오늘 배울 이유
 
-{day.why} {review_note}
+{day.why} Day {day.number:02d} "`{day.title}`"에서는 {lang} 코드가 `{day.output}`을(를) 만드는 과정을 따라가며, {day.transfer} 동작이 왜 필요한지 확인합니다. {day.transfer}을(를) 빠뜨리면 `{day.pitfall}` 같은 문제가 생깁니다.
 
 ## 시작 전에 확인할 것
 
-{f'바로 앞선 [Day {day.number - 1:02d}](/learn/{previous})의 핵심을 한 문장으로 설명해 보세요.' if previous else '값과 이름의 차이를 먼저 떠올려 보세요.'} 모르면 위의 선행 Day 링크에서 다시 확인할 수 있습니다.
+바로 앞선 [Day {prev_no:02d}](/learn/{prev_link})에서는 "{prev}"을(를) 배웠습니다. "{prev}"의 핵심 결과를 한 문장으로 말해 보고, 이번 "`{day.title}`"에서 새로 달라지는 조건을 찾아보세요. Day {day.number:02d}의 답은 `{day.output}`이며, 핵심 표현은 `{day.focus}`입니다.
 
 ## 머릿속 그림
 
-{day.model} 다음 흐름을 눈으로 확인하세요.
+{day.model} Day {day.number:02d}에서는 아래 흐름 순서대로 상태가 바뀌며, `{day.focus}`이(가) 결과를 가릅니다.
 
 ```text
 {day.trace.replace('→', ' → ')}
 ```
 
-현재 상태와 다음 동작을 분리해서 읽으면 결과를 외우지 않아도 설명할 수 있습니다.
+위 흐름에서 `{day.focus}`이(가) 실행되는 지점을 찾으면 읽는 값과 바뀌는 값이 나뉘어 보입니다. 마지막 출력은 `{day.output}`입니다.
 
 ## 천천히 풀어보기
 
@@ -174,7 +226,7 @@ def markdown(day: Day) -> str:
 
 ## 문법을 예제로 보기
 
-아래는 { {'c':'C', 'python':'Python', 'rust':'Rust'}[day.anchor]} 언어로 만든 독립 예제입니다. 코드를 보기 전에 오늘의 문제와 예상 출력을 먼저 떠올려 보세요.
+아래 {lang} 코드는 Day {day.number:02d} "`{day.title}`"의 독립 예제입니다. 전체 {len(day.code.splitlines())}줄에서 `{day.focus}`이(가) 핵심이며, 실행 결과는 `{day.output}`입니다.
 
 ```{day.anchor}
 {day.code}
@@ -186,15 +238,19 @@ def markdown(day: Day) -> str:
 {day.output}
 ```
 
-{run_note}
+{run_how}
 
 ## 핵심 줄 따라 읽기
 
-예제의 핵심 표현은 `{day.focus}`입니다. 전체 코드에서 이 표현을 찾아 표시하세요. 선언과 조건, 출력이 연결되는 과정을 순서대로 설명합니다.
+예제의 핵심 표현은 `{day.focus}`입니다. 아래 줄 번호가 붙은 코드에서 이 표현이 있는 줄을 찾으세요.
+
+```{day.anchor}
+{code_lines}
+```
 
 {steps}
 
-각 줄에서 **읽는 값**, **바뀌는 상태**, **출력되는 값**을 따로 표시하며 다시 읽어 보세요. 결과만 암기하면 입력이 조금만 바뀌어도 풀 수 없습니다.
+위 단계에서 `{day.focus}`이(가) 빠지면 `{day.output}`이(가) 나오지 않습니다. `{change}` 실험에서 어느 줄부터 달라지는지 직접 확인하세요.
 
 ## 실행 추적
 
@@ -202,47 +258,57 @@ def markdown(day: Day) -> str:
 | ---: | --- |
 {trace_rows}
 
-마지막 상태에서 화면에 표시되는 결과는 `{day.output}`입니다. 직접 타이핑할 때는 위의 순서와 실제 출력을 비교하세요.
+위 순서대로 실행하면 최종 출력 `{day.output}`이(가) 됩니다. `{trace_first}` 단계와 마지막 단계를 비교하면 입력과 출력의 관계가 보입니다.
 
 ## 다른 예제로 다시 이해하기
 
 {MORE[day.number]}
 
+{complexity_block}
+
 ## 결과 예측과 작은 변경
 
-1. 코드를 가리고 결과를 먼저 적으세요.
-2. 그 결과를 만든 핵심 줄을 찾아 밑줄을 그으세요.
-3. {change} 바꾼 뒤 결과가 바뀌는지 예측하고, 같다면 왜 같은지 설명하세요.
-4. 실행할 수 있는 환경에서 확인하고 틀린 예측의 이유를 한 문장으로 적으세요.
+원본 코드에서 `{change}` 바꾸면 아래와 같이 됩니다.
+
+```{day.anchor}
+{modified_code}
+```
+
+원본 출력은 `{day.output}`입니다. 바꾼 코드를 실행하기 전에 출력이 어떻게 달라질지 먼저 적어 보세요. 출력이 같았다면 `{day.focus}`이(가) 결과에 영향을 주지 않은 이유를, 달라졌다면 처음 달라진 중간 값을 설명하세요. Day {day.number:02d}의 `{day.title}`에서 바뀐 줄부터 다시 추적하세요.
 
 ## 자주 틀리는 지점
 
-**확인할 실수: {day.pitfall}.** {day.model} 결과가 예상과 다르면 입력 → 중간 상태 → 출력 중 처음 어긋난 곳을 찾습니다.
+**확인할 실수: {day.pitfall}.** 정상 코드에서는 `{day.output}`이(가) 출력됩니다.
+
+- 정상 줄: `{fixed_line}`
+- 잘못된 줄: `{buggy_line}`
+
+두 줄을 나란히 놓고 `{day.model}` 기준으로 어느 쪽이 맞는지 설명하세요. 결과가 예상과 다르면 `{trace_first}`부터 `{day.output}`까지 처음 어긋난 곳을 찾습니다.
 
 ## 다른 언어로 옮기기
 
-같은 문제를 해결하더라도 선언, 타입, 메모리 관리, 오류 처리는 다릅니다. 핵심 동작은 **{day.transfer}**입니다. 언어를 옮겨도 이 동작을 유지하세요.
+핵심 동작 **{day.transfer}**은(는) 세 언어에서 같은 입력과 출력(`{day.output}`)으로 유지됩니다. 선언과 오류 처리는 언어마다 다릅니다.
 
 | 언어 | 옮길 때 확인할 표현과 규칙 |
 | --- | --- |
 {comparison}
 
-Anchor 코드의 각 값을 다른 두 언어에서 어떤 타입으로 저장할지 적어 보고, 실패하거나 비어 있는 입력을 어떻게 처리할지도 생각하세요. 문법을 단어 단위로 번역하기보다 같은 입력에서 같은 결과가 나오는지 확인해야 합니다.
+C17에서는 `{forms_c}` 규칙으로 "`{day.title}`"의 `{day.output}`을(를) 확인하고, 범위를 벗어난 접근은 직접 막아야 합니다. Python에서는 `{forms_python}` 규칙을 따르고, 실패나 빈 입력은 예외로 드러내 조용히 넘기지 마세요. Rust에서는 `{forms_rust}` 규칙을 따르고, 빌림과 범위 검사를 컴파일 때 확인하세요.
 
 ## 실습 순서
 
-아래에서 **예측 → 빈칸 → 변경 → 오류 수정 → 독립 구현** 순으로 진행합니다. 답 확인은 예시 문자열 비교이므로 다른 풀이를 자동으로 오답 판정하지 않습니다. 마지막에는 예시를 가리고 이번 개념을 다시 구현하세요.
+예측(`{day.output}` 맞히기) → 빈칸(`{day.focus}` 채우기) → 변경(`{change}`) → 오류 수정(`{day.pitfall}` 찾기) → 독립 구현(`{day.task}` 만들기) 순으로 진행하세요. 각 단계의 답은 본문의 `{day.output}` 및 `{day.focus}` 설명과 대조하세요.
 
 ## 스스로 설명하기
 
-- 왜 이 개념이 필요한가? {day.why}
-- 예시에서 가장 먼저 확정되는 값이나 상태는 무엇인가?
-- 어떤 실수를 점검해야 하나? {day.pitfall}
-- 다른 두 언어에서는 같은 동작을 어떤 자료형과 오류 처리로 나타내는가?
+- "`{day.title}`"이(가) 필요한 상황을 `{day.transfer}` 동작으로 설명해 보세요.
+- 예제에서 `{day.focus}`이(가) 실행되기 직전의 상태와 직후의 출력 `{day.output}`을(를) 말해 보세요.
+- "`{day.pitfall}`" 상황에서 어떤 입력과 출력이 어긋나는지 말해 보세요.
+- 같은 `{day.transfer}` 동작을 나머지 두 언어의 어떤 표현으로 옮길지 말해 보세요.
 
 ## 핵심 요약과 복습
 
-{day.model} 예시의 출력은 `{day.output}`입니다. 오류를 찾을 때는 **{day.pitfall}** 여부를 확인하세요. 완료 버튼을 누르면 +1·+3·+7·+14·+30일 복습이 이 기기에 등록됩니다.
+{day.model} Day {day.number:02d} "`{day.title}`"의 예제는 `{day.focus}`을(를) 실행해 `{day.output}`을(를) 출력합니다. "`{day.pitfall}`" 여부를 확인하고 Day {day.number:02d}을(를) 완료하세요.
 """
     if day.number >= 83:
         body += f"""
