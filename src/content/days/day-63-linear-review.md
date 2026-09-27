@@ -298,6 +298,7 @@ exercises:
           return 0;
       }
     output: "7 4"
+    starterOutput: "-7 0"
     hint: '"9 2 -"에서 9가 먼저 push되고 2가 나중에 push됩니다. 스택에서 먼저 나오는 값은 어느 쪽일까요?'
     explanation: "스택은 LIFO이므로 먼저 꺼낸 값이 나중에 넣은 오른쪽 피연산자입니다. 원래 코드는 a=2, b=9로 2-9 = -7, 2/8 = 0을 계산했습니다. 덧셈과 곱셈은 순서가 바뀌어도 결과가 같아서 이 버그를 놓치기 쉽습니다."
     commonMistakes:

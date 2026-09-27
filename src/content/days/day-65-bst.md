@@ -355,6 +355,7 @@ exercises:
           return 0;
       }
     output: "노드 수: 5"
+    starterOutput: "노드 수: 1"
     hint: "insert(root->left, key)는 root->left의 **복사본**을 받습니다. 그 안에서 만든 새 노드의 주소는 반환값으로만 밖에 전달됩니다."
     explanation: "원래 코드는 '노드 수: 1'을 출력하고, 만든 노드 네 개는 아무도 가리키지 않아 누수됩니다. root->left = insert(root->left, key);처럼 반환값을 다시 연결해야 합니다. 이 패턴은 삭제에서도 똑같이 쓰입니다."
     commonMistakes:

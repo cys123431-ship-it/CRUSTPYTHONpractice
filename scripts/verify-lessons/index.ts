@@ -15,6 +15,8 @@
 //   - verification "run": the answer program must exit with status 0; when the
 //     exercise has an `output` field (the output its explanation quotes), the
 //     answer's stdout must equal it
+//   - `starterOutput`: the unfixed starter's stdout, for explanations that
+//     quote what the buggy program prints
 //   - verification "compile": the answer must compile
 // Usage: node --import tsx scripts/verify-lessons/index.ts [dayNumber ...]
 import { writeFileSync } from "node:fs";
@@ -143,6 +145,7 @@ type Exercise = {
   language: Lang;
   verification: string;
   output?: string;
+  starterOutput?: string;
 };
 
 function collectExercises(file: string, exercises: Exercise[]): Job[] {
@@ -179,6 +182,17 @@ function collectExercises(file: string, exercises: Exercise[]): Job[] {
         source: ex.answer,
         stdin: "",
         mode: "compile",
+      });
+    // A debug/modify explanation may quote what the unfixed starter prints.
+    // Only well-defined starters get this field (no undefined behavior).
+    if (ex.starterOutput !== undefined)
+      jobs.push({
+        where: `${where} (starter)`,
+        lang: ex.language,
+        source: ex.starter,
+        stdin: "",
+        mode: "output",
+        expected: ex.starterOutput,
       });
   }
   return jobs;
@@ -315,6 +329,27 @@ try {
       playgroundSource?: string;
     };
     if (only.size && !only.has(meta.dayNumber)) continue;
+    // YAML turns bare 0, 12, true, null into non-strings; the Astro schema
+    // then rejects the lesson at build time. Catch it here with a clear path.
+    const quiz = (meta as { quiz?: { id: string; choices: unknown[] }[] }).quiz;
+    for (const item of quiz ?? [])
+      item.choices.forEach((choice, i) => {
+        if (typeof choice !== "string")
+          failures.push(
+            `${file} ${item.id} choice ${i}: quote ${JSON.stringify(choice)} as a string`,
+          );
+      });
+    for (const ex of meta.exercises ?? [])
+      for (const key of [
+        "answer",
+        "starter",
+        "output",
+        "starterOutput",
+      ] as const)
+        if (ex[key] !== undefined && typeof ex[key] !== "string")
+          failures.push(
+            `${file} ${ex.id} ${key}: quote ${JSON.stringify(ex[key])} as a string`,
+          );
     const jobs = [
       ...collectBody(file, match[2]!),
       ...collectExercises(file, meta.exercises ?? []),

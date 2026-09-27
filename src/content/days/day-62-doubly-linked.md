@@ -382,6 +382,7 @@ exercises:
           return 0;
       }
     output: "2 2 OK"
+    starterOutput: "2 1 BROKEN"
     hint: "새 노드 뒤에 오는 노드(원래 pos->next)의 prev도 새 노드를 가리켜야 합니다. pos->next를 바꾸기 전에 해야 합니다."
     explanation: "원래 코드는 c.prev가 계속 a를 가리켜 '2 1 BROKEN'을 출력합니다. pos->next->prev = node를 pos->next = node보다 먼저 실행해야 합니다. 순서가 바뀌면 pos->next가 이미 새 노드라서 새 노드의 prev를 자기 자신으로 만들게 됩니다."
     commonMistakes:

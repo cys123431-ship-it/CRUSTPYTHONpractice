@@ -359,6 +359,7 @@ exercises:
     language: c
     verification: run
     output: "X"
+    starterOutput: "Xab"
   - id: ex-day58-independent
     title: Rust 계산기에 실행 취소 넣기
     kind: independent
