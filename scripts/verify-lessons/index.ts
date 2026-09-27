@@ -221,9 +221,9 @@ ${r.stderr}`;
     command = [PYTHON, src];
   } else {
     const exe = base + EXE;
-    // Warnings are errors for programs that must work, but not for blocks that
-    // demonstrate a specific compile error: there the named error must appear.
-    const strict = job.mode !== "compile-error";
+    // Always use the course flags, so a warning the course treats as an error
+    // (e.g. a missing & in scanf) can be shown as a compile error. The block's
+    // named message must still appear, which keeps the failure honest.
     const args =
       job.lang === "c"
         ? [
@@ -232,7 +232,7 @@ ${r.stderr}`;
             "-Wall",
             "-Wextra",
             "-pedantic",
-            ...(strict ? ["-Werror"] : []),
+            "-Werror",
             src,
             "-o",
             exe,
@@ -241,7 +241,8 @@ ${r.stderr}`;
         : [
             "rustc",
             "--edition=2024",
-            ...(strict ? ["-D", "warnings"] : []),
+            "-D",
+            "warnings",
             "-C",
             "debuginfo=0",
             src,
