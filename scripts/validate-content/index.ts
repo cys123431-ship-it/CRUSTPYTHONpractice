@@ -53,7 +53,10 @@ for (const file of files) {
         ["천천히 풀어보기", 200],
         ["다른 예제로 다시 이해하기", 140],
       ] as const) {
-        const section = source.split(`## ${heading}\n\n`)[1]?.split("\n## ")[0];
+        // Headings may carry a section number, e.g. "## 4. 천천히 풀어보기".
+        const section = source
+          .split(new RegExp(`^## (?:\\d+\\. )?${heading}\\n\\n`, "m"))[1]
+          ?.split("\n## ")[0];
         if (!section || section.trim().length < minimum)
           failures.push(
             `${file}: '${heading}' needs a worked beginner explanation`,
@@ -84,8 +87,10 @@ for (const file of files) {
     const anchorLanguage = scalar(frontmatter, "anchorLanguage") as Language;
     if (!new Set(["none", "python", "prepared-wasm"]).has(runnerMode))
       failures.push(`${file}: invalid runner mode ${runnerMode}`);
-    if (runnerMode === "python" && anchorLanguage !== "python")
-      failures.push(`${file}: python runner requires Python anchor in V1`);
+    // The Python playground is a practice pad beside the lesson; every lesson
+    // teaches C, Python and Rust, so any anchor may offer it (ADR-013).
+    if (runnerMode === "python" && !/^playgroundSource:/m.test(frontmatter))
+      failures.push(`${file}: python runner requires playgroundSource`);
     if (runnerMode === "prepared-wasm" && anchorLanguage === "python")
       failures.push(`${file}: prepared-wasm must represent C or Rust anchor`);
     days.push({
