@@ -171,6 +171,7 @@ exercises:
       - "inbox를 pop하지 않고 인덱스로 복사해 원소가 두 번 들어감"
     language: rust
     verification: run
+    output: "Some(1) Some(2)"
   - id: ex-day59-modify
     title: Python 두 스택 큐에 peek 추가하기
     kind: modify
@@ -230,6 +231,7 @@ exercises:
       - "peek에서 pop을 호출해 원소를 제거함"
     language: python
     verification: run
+    output: "x x x y"
   - id: ex-day59-debug
     title: C 큐의 dequeue 오류 고치기
     kind: debug
@@ -302,6 +304,7 @@ exercises:
       - "꺼낸 뒤 front가 아니라 rear를 움직임"
     language: c
     verification: run
+    output: "1 2"
   - id: ex-day59-independent
     title: Rust로 라운드 로빈 작업 처리기 만들기
     kind: independent
@@ -345,6 +348,7 @@ exercises:
       - "끝나지 않은 작업을 push_front로 다시 넣어 같은 작업만 계속 처리함"
     language: rust
     verification: run
+    output: "B A C"
 quiz:
   - id: quiz-day59-01
     question: 빈 큐에 1, 2, 3을 차례로 enqueue한 뒤 dequeue를 한 번 하면 무엇이 나오나요?

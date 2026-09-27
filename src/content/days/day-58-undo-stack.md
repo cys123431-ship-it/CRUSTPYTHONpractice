@@ -197,6 +197,7 @@ exercises:
       - "push_str(piece)처럼 &를 빼서 타입 오류를 냄"
     language: rust
     verification: run
+    output: "abcd"
   - id: ex-day58-modify
     title: Python 기록 개수 제한하기
     kind: modify
@@ -265,6 +266,7 @@ exercises:
       - "길이 검사를 기록 추가 전에 해서 LIMIT보다 하나 적게 저장함"
     language: python
     verification: run
+    output: "'12' 0"
   - id: ex-day58-debug
     title: C 편집기의 redo 버그 고치기
     kind: debug
@@ -356,6 +358,7 @@ exercises:
       - "redo 배열의 모든 칸을 memset으로 지워야 한다고 생각함"
     language: c
     verification: run
+    output: "X"
   - id: ex-day58-independent
     title: Rust 계산기에 실행 취소 넣기
     kind: independent
@@ -417,6 +420,7 @@ exercises:
       - "undo에서 history.pop().unwrap()을 써서 기록이 없을 때 panic을 일으킴"
     language: rust
     verification: run
+    output: "5"
 quiz:
   - id: quiz-day58-01
     question: 편집기에서 A, B, C 순서로 작업한 뒤 실행 취소를 한 번 누르면 무엇이 취소되나요?

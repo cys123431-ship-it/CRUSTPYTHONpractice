@@ -161,6 +161,9 @@ exercises:
       - "self.items[self.items.len() - 1]로 접근해 빈 스택에서 panic을 일으킴"
     language: rust
     verification: run
+    output: |-
+      None
+      Some(8)
   - id: ex-day57-modify
     title: Python 괄호 검사기 확장하기
     kind: modify
@@ -203,6 +206,10 @@ exercises:
       - "마지막에 스택이 비었는지 확인하지 않아 ((를 올바르다고 판정함"
     language: python
     verification: run
+    output: |-
+      (a[b]c) True
+      ([)] False
+      {[()]} True
   - id: ex-day57-debug
     title: C push의 순서 오류 고치기
     kind: debug
@@ -266,6 +273,11 @@ exercises:
       - "top == CAPACITY로 검사해 마지막 한 칸을 넘어서 씀"
     language: c
     verification: run
+    output: |-
+      push(1) -> 성공
+      push(2) -> 성공
+      push(3) -> 성공
+      push(4) -> 실패
   - id: ex-day57-independent
     title: Rust 스택으로 단어 순서 뒤집기
     kind: independent
@@ -301,6 +313,7 @@ exercises:
       - "split(' ')를 써서 연속 공백이 있을 때 빈 문자열이 섞임"
     language: rust
     verification: run
+    output: "배웠다 스택을 오늘 나는"
 quiz:
   - id: quiz-day57-01
     question: 빈 스택에 push(1), push(2), push(3)을 한 뒤 pop을 두 번 하면, 두 번째 pop이 반환하는 값은?

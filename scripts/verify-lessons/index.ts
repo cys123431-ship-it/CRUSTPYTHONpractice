@@ -12,7 +12,9 @@
 //
 // Exercises in the frontmatter are also executed:
 //   - predict exercises whose starter is a full program: stdout must equal answer
-//   - verification "run": the answer program must exit with status 0
+//   - verification "run": the answer program must exit with status 0; when the
+//     exercise has an `output` field (the output its explanation quotes), the
+//     answer's stdout must equal it
 //   - verification "compile": the answer must compile
 // Usage: node --import tsx scripts/verify-lessons/index.ts [dayNumber ...]
 import { writeFileSync } from "node:fs";
@@ -140,6 +142,7 @@ type Exercise = {
   answer: string;
   language: Lang;
   verification: string;
+  output?: string;
 };
 
 function collectExercises(file: string, exercises: Exercise[]): Job[] {
@@ -165,7 +168,9 @@ function collectExercises(file: string, exercises: Exercise[]): Job[] {
         lang: ex.language,
         source: ex.answer,
         stdin: "",
-        mode: "exit0",
+        ...(ex.output === undefined
+          ? { mode: "exit0" as const }
+          : { mode: "output" as const, expected: ex.output }),
       });
     else if (ex.verification === "compile")
       jobs.push({
