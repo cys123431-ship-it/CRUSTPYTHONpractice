@@ -299,7 +299,7 @@ exercises:
     verification: run
 quiz:
   - id: quiz-day52-01
-    question: impl Rect 안의 fn new(w u32, h u32) -> Self와 fn area(&self) -> u32의 차이는?
+    question: "impl Rect 안의 fn new(w: u32, h: u32) -> Self와 fn area(&self) -> u32의 차이는?"
     choices:
       - 둘 다 메서드다
       - new는 self가 없는 연관 함수라 Rect::new(...)로, area는 메서드라 r.area()로 부른다
@@ -333,7 +333,7 @@ quiz:
       - 필드 이름을 쓰기 싫어서
       - f64를 쓸 수 없어서
     answerIndex: 1
-    explanation: 새 자료형 패턴이라고 합니다. fn fly(d Meters)에 Feet를 넘기면 컴파일 오류가 됩니다. 실행 비용은 f64와 같습니다. 안의 값은 .0으로 꺼냅니다.
+    explanation: "새 자료형 패턴이라고 합니다. fn fly(d: Meters)에 Feet를 넘기면 컴파일 오류가 됩니다. 실행 비용은 f64와 같습니다. 안의 값은 .0으로 꺼냅니다."
   - id: quiz-day52-05
     question: r.area()를 부를 때 r이 Rect이고 area가 &self를 받으면 컴파일러가 하는 일은?
     choices:
