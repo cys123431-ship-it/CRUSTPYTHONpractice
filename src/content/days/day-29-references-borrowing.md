@@ -25,7 +25,7 @@ concepts:
     address,
     address of,
     dereference,
-    null,
+    null pointer,
     reference,
     aliasing,
     borrowing,

@@ -9,7 +9,14 @@ type WorkerReply =
       stderr: string;
       durationMs: number;
     }
-  | { id: string; type: "error"; message: string; durationMs: number };
+  | {
+      id: string;
+      type: "error";
+      message: string;
+      stdout?: string;
+      stderr?: string;
+      durationMs: number;
+    };
 
 export class PythonRunnerAdapter implements Runner {
   private worker: Worker | undefined;
@@ -60,10 +67,14 @@ export class PythonRunnerAdapter implements Runner {
             diagnostics: [],
           });
         } else if (event.data.type === "error") {
+          // Keep what the program printed before the exception, then the
+          // traceback, as a terminal would show it.
           finish({
             status: "error",
-            stdout: "",
-            stderr: event.data.message,
+            stdout: event.data.stdout ?? "",
+            stderr: [event.data.stderr, event.data.message]
+              .filter(Boolean)
+              .join("\n"),
             durationMs: event.data.durationMs,
             diagnostics: [event.data.message],
           });

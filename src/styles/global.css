@@ -315,6 +315,14 @@ code,
 pre {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
+/* Long inline expressions (e.g. chained Rust calls) wrap on narrow screens
+   instead of widening the page; code blocks keep their own scrolling. */
+:not(pre) > code,
+.lesson-header p,
+.prose p,
+.prose li {
+  overflow-wrap: anywhere;
+}
 pre {
   max-width: 100%;
   overflow: auto;

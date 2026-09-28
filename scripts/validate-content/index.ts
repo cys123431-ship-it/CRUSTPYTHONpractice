@@ -1,5 +1,6 @@
 import { readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
+import yaml from "js-yaml";
 import { validateCurriculum } from "../../src/domain/curriculum/validate";
 import type { DaySummary, Language } from "../../src/domain/curriculum/types";
 
@@ -48,6 +49,18 @@ for (const file of files) {
     const dayNumber = Number(scalar(frontmatter, "dayNumber"));
     if (source.includes("\0"))
       failures.push(`${file}: unexpected NUL byte in lesson`);
+    // Bare YAML words such as `null` or `~` in a list silently become null
+    // and are rejected later by the Astro schema; report them here by path.
+    const findNulls = (value: unknown, path: string): string[] =>
+      value === null || value === undefined
+        ? [path]
+        : typeof value === "object"
+          ? Object.entries(value).flatMap(([key, item]) =>
+              findNulls(item, `${path}.${key}`),
+            )
+          : [];
+    for (const path of findNulls(yaml.load(frontmatter), "frontmatter"))
+      failures.push(`${file}: ${path} is null (quote the value)`);
     if (scalar(frontmatter, "sample") === "false") {
       for (const [heading, minimum] of [
         ["천천히 풀어보기", 200],
