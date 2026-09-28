@@ -139,7 +139,7 @@ exercises:
       print(header.decode("utf-8") + name)
     output: "Hello, 모모"
     hint: 'b"..."는 bytes입니다. 글자(str)와 바이트(bytes)는 서로 다른 자료형이라 바로 더할 수 없습니다.'
-    explanation: "Python 3는 글자열과 바이트열을 엄격히 구별합니다. 바이트는 decode로 글자로, 글자는 encode로 바이트로 바꾼 뒤 같은 자료형끼리 더합니다. 프로그램 안에서는 str로 다루고, 파일·네트워크로 나갈 때만 bytes로 바꾸는 것이 좋은 습관입니다. 순서도 'Hello, ' 뒤에 이름이 오도록 바꿨습니다."
+    explanation: "Python 3에서는 글자열과 바이트열을 엄격히 구별합니다. 바이트는 decode로 글자로, 글자는 encode로 바이트로 바꾼 뒤 같은 자료형끼리 더합니다. 프로그램 안에서는 str로 다루고, 파일·네트워크로 나갈 때만 bytes로 바꾸는 것이 좋은 습관입니다. 순서도 'Hello, ' 뒤에 이름이 오도록 바꿨습니다."
     commonMistakes:
       - 'str(header)로 바꿔 "b''Hello, ''모모"가 출력됨'
       - "name.encode()와 더해 바이트가 출력됨(b'Hello, \\xeb...')"
