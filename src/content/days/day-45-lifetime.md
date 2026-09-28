@@ -231,7 +231,7 @@ quiz:
     answerIndex: 1
     explanation: 수명 표기는 아무것도 늘리거나 줄이지 않습니다. "이 결과는 저 입력보다 오래 살 수 없다"는 약속을 적을 뿐이고, 컴파일러가 모든 호출에서 이 약속이 지켜지는지 검사합니다. 실행할 때는 비용이 없습니다.
   - id: quiz-day45-02
-    question: fn f(x &str, y &str) -> &str 모양(참조 둘, 반환 참조)에 수명 표기가 필요한 이유는?
+    question: "fn f(x: &str, y: &str) -> &str 모양(참조 둘, 반환 참조)에 수명 표기가 필요한 이유는?"
     choices:
       - 필요 없다
       - 결과가 x에서 왔는지 y에서 왔는지 컴파일러가 시그니처만으로 알 수 없기 때문
@@ -240,7 +240,7 @@ quiz:
     answerIndex: 1
     explanation: 생략 규칙은 "참조 입력이 하나면 결과는 그것에서" 또는 "&self가 있으면 결과는 self에서"일 때만 적용됩니다. 입력 참조가 둘이면 어느 쪽인지 적어야 합니다(E0106).
   - id: quiz-day45-03
-    question: struct Excerpt<'a> { title &'a str } 값에 대한 설명으로 옳은 것은?
+    question: "struct Excerpt<'a> { title: &'a str } 값에 대한 설명으로 옳은 것은?"
     choices:
       - title은 복사본이다
       - Excerpt 값은 title이 가리키는 원문보다 오래 살 수 없다
