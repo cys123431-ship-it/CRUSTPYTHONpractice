@@ -267,6 +267,7 @@ ${r.stderr}`;
       env,
     });
     if (job.mode === "compile-error") {
+      if (built.error) return `compiler did not start: ${built.error.message}`;
       if (built.status === 0) return "expected a compile error but it compiled";
       return built.stderr.includes(job.expected!)
         ? undefined
