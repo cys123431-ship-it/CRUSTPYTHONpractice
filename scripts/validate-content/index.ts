@@ -63,6 +63,22 @@ for (const file of files) {
           );
       }
     }
+    // Every lesson teaches all three languages with a runnable program each
+    // (ADR-013); scripts/verify-lessons executes them.
+    for (const [language, pattern] of [
+      ["C", /^```c\n\/\/ 파일: \S+\.c\b/m],
+      ["Python", /^```python\n# 파일: \S+\.py\b/m],
+      ["Rust", /^```rust\n\/\/ 파일: \S+\.rs\b/m],
+    ] as const) {
+      if (
+        !new RegExp(`^## \\d+\\. ${language}(으)?로 구현하기$`, "m").test(
+          source,
+        )
+      )
+        failures.push(`${file}: missing '${language}로 구현하기' section`);
+      if (!pattern.test(source))
+        failures.push(`${file}: needs a runnable ${language} program block`);
+    }
     const expectedDate = new Date(Date.UTC(2026, 9, dayNumber))
       .toISOString()
       .slice(0, 10);

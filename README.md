@@ -10,7 +10,7 @@
 - Python Pyodide Worker 지연 실행, C/Rust prepared demo 구분
 - 반응형 내비게이션, Light/Dark/System 테마, PWA
 - 콘텐츠 DAG 검증, 단위·E2E·접근성·성능 예산 테스트
-- `scripts/curriculum_blueprints.py`의 예제와 설명을 기준으로 89개 수업을 생성하며, 원래 대표 수업 3개는 별도 유지
+- 92개 수업은 모두 손으로 작성하며(ADR-013), 각 수업의 C·Python·Rust 프로그램과 실습은 `lessons:verify`가 실제로 컴파일·실행해 확인
 
 ## 명령
 
@@ -19,6 +19,7 @@ npm install
 npm run dev
 npm run validate
 npm run build
+npm run lessons:verify
 npm run course:verify
 npm run test:e2e
 ```
@@ -29,4 +30,4 @@ npm run test:e2e
 
 ## 최종 프로젝트
 
-`examples/study-log-analyzer`에는 동일 CSV 명세를 처리하는 C17, Python, Rust 2024 CLI와 공통 fixture가 있습니다. `pnpm course:verify`는 각 Day의 원본·변경 예제를 실행하고 세 구현의 출력·오류 사례를 비교합니다. 로컬에 Rust 컴파일러가 없으면 해당 부분은 건너뛰며 CI에서는 반드시 전체를 검증합니다. C/Rust 코드는 웹앱에서 임의 컴파일되지 않으므로 프로젝트 실행은 README의 로컬 명령을 사용하세요.
+`examples/study-log-analyzer`에는 동일 CSV 명세를 처리하는 C17, Python, Rust 2024 CLI와 공통 fixture가 있습니다. `pnpm course:verify`는 세 구현의 출력·오류 사례를 비교하고, `pnpm lessons:verify`는 모든 수업의 예제 프로그램을 GCC·Python·rustc로 실행해 본문의 실행 결과와 비교합니다. 로컬에 Rust 컴파일러가 없으면 capstone 비교의 Rust 부분은 건너뛰며 CI에서는 반드시 전체를 검증합니다. C/Rust 코드는 웹앱에서 임의 컴파일되지 않으므로 프로젝트 실행은 README의 로컬 명령을 사용하세요.
