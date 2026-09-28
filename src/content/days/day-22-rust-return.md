@@ -429,7 +429,7 @@ fn main() {
     println!("거리: {:.3}", distance(0.0, 0.0, 3.0, 4.0));
     println!("{:?} {:?}", safe_div(17, 5), safe_div(1, 0));
 
-    let result = describe(5);               // describe가 돌려준 ()
+    let result = describe(7);               // describe가 돌려준 ()
     println!("describe의 반환값: {result:?}");
 }
 ```
@@ -444,7 +444,7 @@ A B C
 30 이상의 첫 7의 배수: 35
 거리: 5.000
 Some(3) None
-5은 양수
+7은 양수
 describe의 반환값: ()
 ```
 
@@ -459,7 +459,7 @@ describe의 반환값: ()
 | `return None;` / `Some(a / b)`                  | 이른 반환과 마지막 식 반환을 함께 썼습니다.                                                                      |
 | `let y = { ...; a * a + b * b };`               | 함수가 아닌 곳에서도 블록을 값으로 쓸 수 있습니다. 계산에만 쓰는 임시 변수 `a`, `b`가 블록 밖으로 새지 않습니다. |
 | `let nothing = { let _t = 5; };`                | 블록이 문장으로 끝나서 값이 `()`입니다. `{:?}`로 출력하면 `()`로 보입니다.                                       |
-| `let result = describe(5);`                     | 반환 자료형이 없는 함수의 결과는 `()`입니다.                                                                     |
+| `let result = describe(7);`                     | 반환 자료형이 없는 함수의 결과는 `()`입니다.                                                                     |
 
 ## 6. C로 구현하기
 
@@ -558,7 +558,7 @@ def describe(n):
 
 
 print(f"거리: {distance(0, 0, 3, 4):.3f}")
-result = describe(5)                        # return이 없으면 None
+result = describe(7)                        # return이 없으면 None
 print("describe의 반환값:", result)
 print("print의 반환값:", print("print도 None을 돌려준다"))
 ```
@@ -570,7 +570,7 @@ print("print의 반환값:", print("print도 None을 돌려준다"))
 square(5) = 25
 길이 4: 3보다 길다
 거리: 5.000
-5은 양수
+7은 양수
 describe의 반환값: None
 print도 None을 돌려준다
 print의 반환값: None
