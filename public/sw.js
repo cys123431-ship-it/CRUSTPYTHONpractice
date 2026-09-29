@@ -31,8 +31,19 @@ self.addEventListener("fetch", (event) => {
     }).catch(async () => (await caches.match(request)) || (await caches.match("/offline"))));
     return;
   }
-  event.respondWith(caches.match(request).then((cached) => cached || fetch(request).then((response) => {
+  // Build output under /_astro/ has content hashes in its names, so a cached
+  // copy is never stale: serve it cache-first. Other files keep their name
+  // across releases (/pyodide-worker.js, /manifest.webmanifest), so fetch them
+  // first and fall back to the cache only when offline.
+  if (url.pathname.startsWith("/_astro/")) {
+    event.respondWith(caches.match(request).then((cached) => cached || fetch(request).then((response) => {
+      store(response);
+      return response;
+    })));
+    return;
+  }
+  event.respondWith(fetch(request).then((response) => {
     store(response);
     return response;
-  })));
+  }).catch(async () => (await caches.match(request)) || Response.error()));
 });
