@@ -383,6 +383,17 @@ await writeFile(join(tmpdir(), "crp-verify-last.txt"), failures.join("\n\n"));
 if (failures.length) {
   console.error(failures.join("\n\n"));
   console.error(`\n${failures.length} of ${checked} lesson programs failed.`);
+  // In GitHub Actions, also report each failure as an annotation so it is
+  // visible on the run page without opening the raw log.
+  if (process.env.GITHUB_ACTIONS)
+    for (const failure of failures.slice(0, 10))
+      console.log(
+        `::error title=lessons:verify::${failure
+          .slice(0, 1500)
+          .replace(/%/g, "%25")
+          .replace(/\r/g, "%0D")
+          .replace(/\n/g, "%0A")}`,
+      );
   process.exit(1);
 }
 console.log(`Verified ${checked} lesson programs (C, Python, Rust).`);
