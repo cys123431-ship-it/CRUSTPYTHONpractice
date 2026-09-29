@@ -269,7 +269,10 @@ ${r.stderr}`;
     if (job.mode === "compile-error") {
       if (built.error) return `compiler did not start: ${built.error.message}`;
       if (built.status === 0) return "expected a compile error but it compiled";
-      return built.stderr.includes(job.expected!)
+      // GCC quotes names with ‘ ’ in a UTF-8 locale (Linux CI) and with ' '
+      // otherwise (Windows); lessons quote the ASCII form.
+      const plain = built.stderr.replace(/[‘’]/g, "'");
+      return plain.includes(job.expected!)
         ? undefined
         : `compile error lacks ${JSON.stringify(job.expected)}:
 ${built.stderr}`;
@@ -386,7 +389,14 @@ if (failures.length) {
   // In GitHub Actions, also report each failure as an annotation so it is
   // visible on the run page without opening the raw log.
   if (process.env.GITHUB_ACTIONS)
-    for (const failure of failures.slice(0, 10))
+    console.log(
+      `::error title=lessons:verify::${failures.length} of ${checked} failed: ${failures
+        .map((f) => f.split(":")[0])
+        .join(", ")
+        .slice(0, 1500)}`,
+    );
+  if (process.env.GITHUB_ACTIONS)
+    for (const failure of failures.slice(0, 8))
       console.log(
         `::error title=lessons:verify::${failure
           .slice(0, 1500)
